@@ -21,7 +21,7 @@ export default class NavMenu extends Component {
     activateMenu: PropTypes.func.isRequired,
     open: PropTypes.bool,
     user: PropTypes.object,
-    logoutHandler: PropTypes.func.isRequired
+    logoutHandler: PropTypes.func
   }
 
 
@@ -33,7 +33,7 @@ export default class NavMenu extends Component {
     const { activateMenu, user, open, menu: { active, last, items } } = this.props;
     const styles = require('./NavMenu.scss');
     return ( user ?
-      <LeftNav open={open} style={{width: 340}}>
+      <LeftNav open={open} style={{width: 340}} className={styles.fadeIn}>
 
         <img src="https://storage.googleapis.com/sitrep-static-assets/assets/components/sitrep-logo-dark.png" style={{width: '80%', margin: '10px auto', display: 'block'}}/>
         {items ? items.map((menu) => {
@@ -45,10 +45,12 @@ export default class NavMenu extends Component {
             key={menu.Title}>
             {menu.HasBack &&
               <div>
-                <ListItem style={{fontSize: 14}}
+                <ListItem
+                  style={{fontSize: 14}}
                   leftIcon={<i className="material-icons">chevron_left</i>}
                   onTouchTap={() => { activateMenu(last);}}
-                  primaryText="Back"/>
+                  primaryText="Back"
+                  className={styles.backButton} />
                 <Divider />
               </div>}
             {menu.Items.map((item) => {

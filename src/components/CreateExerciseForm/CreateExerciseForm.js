@@ -27,7 +27,6 @@ export default class CreateExerciseForm extends Component {
     pristine: PropTypes.bool.isRequired,
     save: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
-    formKey: PropTypes.string.isRequired,
     values: PropTypes.object.isRequired,
     errors: PropTypes.object
   };
