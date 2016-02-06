@@ -1,5 +1,8 @@
 # SITREP Frontend component
 
+[![Build Status](https://travis-ci.org/fkasper/sitrep-frontend.svg?branch=master)](https://travis-ci.org/fkasper/sitrep-frontend)
+
+
 Component for running frontend parts of SITREP. This project is very much work in progress but should evolve quickly over the next month.
 
 
