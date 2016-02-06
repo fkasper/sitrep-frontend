@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import {renderIntoDocument} from 'react-addons-test-utils';
 import { expect} from 'chai';
 import { CreateExerciseForm } from 'components';
@@ -25,7 +25,7 @@ describe('CreateExerciseForm', () => {
       <CreateExerciseForm/>
     </Provider>
   );
-  const dom = ReactDOM.findDOMNode(renderer);
+  // const dom = ReactDOM.findDOMNode(renderer);
 
   it('should render correctly', () => {
     return expect(renderer).to.be.ok;
