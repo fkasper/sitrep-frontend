@@ -6,3 +6,10 @@
 .backButton {
   opacity: 1;
 }
+
+.navBar {
+  @media(max-width: 768px) {
+    display: none;
+    left: -350px;
+  }
+}

@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import LeftNav from 'material-ui/lib/left-nav';
+import { findDOMNode } from 'react-dom';
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider';
@@ -24,16 +25,57 @@ export default class NavMenu extends Component {
     logoutHandler: PropTypes.func
   }
 
+  componentWillMount() {
+    this.setState({open: false});
+    if (!__SERVER__) {
+      this.updateDimensions();
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions.bind(this));
+  }
+
+  componentIsMounted() {
+    try {
+      findDOMNode(this);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  updateDimensions() {
+    if (this.componentIsMounted()) {
+      const documentElement = document.documentElement;
+      const body = document.getElementsByTagName('body')[0];
+      const width = window.innerWidth || documentElement.clientWidth || body.clientWidth;
+      // height = w.innerHeight|| documentElement.clientHeight|| body.clientHeight;    // const height = windows.innerHeight;
+      if (width <= 768) {
+        this.setState({open: false});
+        console.log('not open, state: ', this.state);
+        return;
+      }
+      this.setState({open: true});
+    }
+    // this.setState({width: window.innerWidth, height: window.innerHeight});
+  }
 
   showPrevMenu = () => {
     this.showMoreMenu(this.props.menu.last);
   }
 
   render() {
-    const { activateMenu, user, open, menu: { active, last, items } } = this.props;
+    const { activateMenu, user, menu: { active, last, items } } = this.props;
+    const { open } = this.state;
+
     const styles = require('./NavMenu.scss');
-    return ( user ?
-      <LeftNav open={open} style={{width: 340}} className={styles.fadeIn}>
+    return ( <div> {user &&
+      <LeftNav open={open} style={{width: 340}} className={styles.navBar}>
 
         <img src="https://storage.googleapis.com/sitrep-static-assets/assets/components/sitrep-logo-dark.png" style={{width: '80%', margin: '10px auto', display: 'block'}}/>
         {items ? items.map((menu) => {
@@ -72,7 +114,7 @@ export default class NavMenu extends Component {
             })}
           </List>);
         }) : <CircularProgress />}
-      </LeftNav> : <div></div>
+      </LeftNav> }</div>
     );
   }
 }
