@@ -9,13 +9,7 @@ function formatUrl(path) {
   if (__DEVELOPMENT__) {
     return `http://${config.apiHost}:${7101}/apis/authentication${adjustedPath}`;
   }
-  // if (__SERVER__) {
-  // Prepend host and port of the API server to the path.
-  return `http://${config.apiHost}:${config.apiPort || 7101}/apis/authentication${adjustedPath}`;
-  // return 'http://' + config.apiHost + ':' + (config.apiPort||7717) + '/apis/authentication' + adjustedPath;
-  // }
-  // return `/apis/authentication${adjustedPath}`;
-  // return 'http://' + config.apiHost + ':7717/apis/authentication' + adjustedPath;
+  return `${config.apiBaseUrl}/apis/authentication${adjustedPath}`;
 }
 
 /*

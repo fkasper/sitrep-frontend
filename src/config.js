@@ -14,6 +14,7 @@ module.exports = Object.assign({
   port: process.env.PORT,
   apiHost: process.env.APIHOST || 'localhost',
   apiPort: process.env.API_PORT || 7101,
+  apiBaseUrl: process.env.APIBASE || 'https://api.sitrep-vatcinc.com',
   app: {
     title: 'SITREP',
     description: 'Training powered by VATC.',
