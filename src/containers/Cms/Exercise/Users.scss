@@ -1,0 +1,48 @@
+.formatting h1, .formatting h2, .formatting h3, .formatting h4 {
+    font-weight: 500;
+    line-height: 1em;
+    padding: .5em 0;
+}
+
+.formatting h3 {
+    font-size: 28px;
+    line-height: 40px;
+}
+
+.padding{
+  padding: 15px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 26px;
+}
+
+.formatting p, .formatting a {
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+
+.formatting p {
+    color: #555;
+    line-height: 1.75em;
+    margin-bottom: 1.75rem;
+    position: relative;
+}
+
+.flexBox {
+  display: flex;
+  @media(max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.flex {
+  flex: 1;
+  @media(max-width: 768px) {
+    margin-bottom: 1.75em;
+  }
+}
