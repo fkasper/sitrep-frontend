@@ -93,8 +93,8 @@ export default class App extends Component {
     return (
       <div className={styles.app}>
         <Helmet {...config.app.head}/>
-        <NavMenu open logoutHandler={this.handleLogout}/>
         <div className={styles.appContent}>
+          <NavMenu open logoutHandler={this.handleLogout}/>
           {this.props.children}
         </div>
 

@@ -66,9 +66,9 @@ export default class Intellipedia extends Component {
     const styles = require('./Intellipedia.scss');
     // require the logo image both from client and server
     return (
-      <div style={{height: '100%'}}>
+      <div style={{height: '100%', flex: 1}}>
       <Helmet title="Intellipedia"/>
-        <div style={{marginLeft: 340, height: '100%'}}>
+        <div style={{height: '100%'}}>
           {(IsAdmin || IsOc) && this.adminToolbar()}
           {article ? this.article() : <div className={styles.noSuchPageFound}>No such page was found</div>}
         </div>

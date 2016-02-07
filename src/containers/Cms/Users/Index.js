@@ -36,7 +36,7 @@ function fetchDataDeferred(getState, dispatch) {
 export default class Widgets extends Component {
   static propTypes = {
     users: PropTypes.array,
-    error: PropTypes.string,
+    error: PropTypes.object,
     loading: PropTypes.bool,
     initializeWithKey: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
@@ -64,7 +64,7 @@ export default class Widgets extends Component {
           <div className="alert alert-danger" role="alert">
             <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
             {' '}
-            {error}
+            {error.message}
           </div>}
           {users && users.length && <div>
             <Table>

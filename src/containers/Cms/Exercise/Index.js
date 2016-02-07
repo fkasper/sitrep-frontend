@@ -52,7 +52,7 @@ class Index extends Component {
             </div>
             <div style={{textAlign: 'center'}}>
               <h2 style={{fontSize: 18, fontWeight: 400, marginBottom: 20}}>
-              Select an Exercise
+              Edit an Exercise
               </h2>
             </div>
             <div className={styles.card + ' ' + styles.card2} style={{position: 'relative'}}>
@@ -60,7 +60,7 @@ class Index extends Component {
               <div className={styles.select}>
               { (exercises && exKeys.length) ? exKeys.map((name) => {
                 return (
-                  <a className={styles.option} onClick={this.storeExId.bind(this, name)}>
+                  <a className={styles.option} key={name} onClick={this.storeExId.bind(this, name)}>
                     <div className={styles.info}>
                       <div className={styles.name}>{exercises[name]}</div>
                     </div>
