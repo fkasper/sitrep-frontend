@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/fkasper/sitrep-frontend.svg?branch=master)](https://travis-ci.org/fkasper/sitrep-frontend)
 
 
-Component for running frontend parts of SITREP. This project is very much work in progress but should evolve quickly over the next month.
+Component for running frontend parts of SITREP. This project is very much work in progress but should evolve quickly over the next month. It uses react.js on both, server and client side. It
 
 
 ## Architecture
@@ -16,6 +16,13 @@ Read more about React: [Here](https://facebook.github.io/react/)
 
 ## Technology
 This project is been built using React.JS, Redux and React-Router to create an astonishing quick user experience. It
+
+## Development
+
+Watch this video to get started:
+
+[![asciicast](https://asciinema.org/a/1m1wkymrdbbsttt3sn03hyzd7.png)](https://asciinema.org/a/1m1wkymrdbbsttt3sn03hyzd7)
+
 
 
 ## License
