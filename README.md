@@ -28,7 +28,7 @@ Watch this video to get started:
 
 
 ## License
-Copyright 2016 VATC, Inc.
+Copyright 2016 XPANDMMI
 
 Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
