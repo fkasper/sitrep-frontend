@@ -9,6 +9,10 @@ const LOGIN_FAIL = 'sitrep-auth/auth/LOGIN_FAIL';
 const LOGOUT = 'sitrep-auth/auth/LOGOUT';
 const LOGOUT_SUCCESS = 'sitrep-auth/auth/LOGOUT_SUCCESS';
 const LOGOUT_FAIL = 'sitrep-auth/auth/LOGOUT_FAIL';
+const CREATE = 'sitrep-auth/auth/CREATE';
+const CREATE_SUCCESS = 'sitrep-auth/auth/CREATE_SUCCESS';
+const CREATE_FAIL = 'sitrep-auth/auth/CREATE_FAIL';
+
 
 const initialState = {
   loaded: false
@@ -70,6 +74,20 @@ export default function reducer(state = initialState, action = {}) {
         loggingOut: false,
         logoutError: action.error
       };
+    case CREATE:
+      return state; // 'saving' flag handled by redux-form
+    case CREATE_SUCCESS:
+      return {
+        ...state,
+        created: action.result,
+        editing: false,
+        saveError: null
+      };
+    case CREATE_FAIL:
+      return {
+        ...state,
+        saveError: action.error
+      };
     default:
       return state;
   }
@@ -109,5 +127,15 @@ export function logout() {
         accept();
       });
     }
+  };
+}
+
+export function createUser(user) {
+  return {
+    types: [CREATE, CREATE_SUCCESS, CREATE_FAIL],
+    id: user.email,
+    promise: (client) => client.post('/users', {
+      data: user
+    })
   };
 }

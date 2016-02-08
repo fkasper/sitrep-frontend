@@ -6,10 +6,12 @@
 .backButton {
   opacity: 1;
 }
-
-.navBar {
-  @media(max-width: 768px) {
+@media(max-width: 768px) {
+  .navBar {
     display: none;
     left: -350px;
   }
+}
+.navinVis{
+  display: none!important;
 }

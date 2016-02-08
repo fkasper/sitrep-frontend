@@ -46,7 +46,7 @@ class LoginSuccess extends Component {
     //   return <div></div>;
     // }
 
-    return (user && <div>
+    return (user && <div style={{flex: 1}}>
       <Helmet title="Select an exercise" />
             <div style={{width: 220, margin: '20px auto'}}>
               <img src="https://storage.googleapis.com/sitrep-static-assets/assets/components/sitrep-logo-dark.png" style={{width: '100%'}} />

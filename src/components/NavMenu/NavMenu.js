@@ -72,7 +72,7 @@ export default class NavMenu extends Component {
     const { activateMenu, user, menu: { active, last, items } } = this.props;
 
     const styles = require('./NavMenu.scss');
-    return ( <div style={{minWidth: 340, maxWidth: 340, flex: 1}} className={styles.navBar}> {user &&
+    return ( <div style={{minWidth: 340, maxWidth: 340, flex: 1}} className={`${styles.navBar} ${user || styles.navinVis}`}> {user &&
       <LeftNav open style={{width: 340}}>
 
         <img src="https://storage.googleapis.com/sitrep-static-assets/assets/components/sitrep-logo-dark.png" style={{width: '80%', margin: '10px auto', display: 'block'}}/>

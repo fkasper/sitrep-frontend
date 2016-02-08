@@ -7,6 +7,7 @@ export Login from './Login/Login';
 export LoginSuccess from './LoginSuccess/LoginSuccess';
 export Survey from './Survey/Survey';
 export NotFound from './NotFound/NotFound';
+export SignUp from './SignUp/SignUp';
 export ChangePassword from './ChangePassword/Change';
 export Intellipedia from './Intellipedia/Intellipedia';
 export CmsUsersIndex from './Cms/Users/Index';

@@ -15,7 +15,9 @@ Read more about React: [Here](https://facebook.github.io/react/)
 
 
 ## Technology
-This project is been built using React.JS, Redux and React-Router to create an astonishing quick user experience. It
+This project is been built using React.JS, Redux and React-Router to create an astonishing quick user experience.
+
+Communication with the server is done using Ajax.
 
 ## Development
 

@@ -14,7 +14,8 @@ import {
     CmsExerciseParameters,
     CmsExerciseUsers,
     CmsExerciseCreate,
-    CmsExerciseIndex
+    CmsExerciseIndex,
+    SignUp
   } from 'containers';
 
 export default (store) => {
@@ -61,6 +62,7 @@ export default (store) => {
       </Route>
 
       { /* Routes */ }
+      <Route path="/auth/:exerciseId/sign-up" component={SignUp}/>
 
       <Route path="/auth/login" component={Login}/>
       <Route path="/auth/change-password" component={ChangePassword}/>
