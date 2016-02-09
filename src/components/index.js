@@ -11,3 +11,4 @@ export CreateUserForm from './CreateUserForm/CreateUserForm';
 export NavMenu from './NavMenu/NavMenu';
 export RequireAccessLevel from './RequireAccessLevel/RequireAccessLevel';
 export IframeLoader from './IframeLoader/IframeLoader';
+export MapChangeForm from './MapChangeForm/MapChangeForm';
