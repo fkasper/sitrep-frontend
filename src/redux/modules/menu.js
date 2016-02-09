@@ -18,7 +18,6 @@ const initialState = {
       { Text: 'Trainer Dashboard', Icon: 'track_changes', Target: '/trainer-dashboard', LinksToSubMenu: false },
       { Text: 'More', Icon: 'perm_data_setting', Target: 'More', LinksToSubMenu: true },
       { Text: 'Global Settings', Icon: 'settings', Target: 'System_Settings', LinksToSubMenu: true },
-      { Text: 'Exercise Settings', Icon: 'settings', Target: 'Exercise_Settings', LinksToSubMenu: true },
     ]},
     { Title: 'More', HasBack: true, Items: [
       { Text: 'Language', Icon: 'language', Target: 'Language', LinksToSubMenu: true },

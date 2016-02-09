@@ -114,6 +114,10 @@ a, .pseudoLink {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     display: flex;
+    flex-direction: row;
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
 }
 .appContent {
 
