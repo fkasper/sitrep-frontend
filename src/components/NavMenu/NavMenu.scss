@@ -1,4 +1,6 @@
-
+.leftNav{
+  flex: 1;
+}
 .fadeIn{
   opacity: 1;
 }
@@ -14,4 +16,11 @@
 }
 .navinVis{
   display: none!important;
+}
+@media(min-width: 768px) {
+  .leftNav {
+    min-width: 340px;
+    max-width: 340px;
+  }
+  //style={{minWidth: 340, maxWidth: 340, flex: 1, display: 'flex'}}
 }

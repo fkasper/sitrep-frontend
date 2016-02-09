@@ -7,6 +7,7 @@ import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import * as menuActions from 'redux/modules/menu';
 import CircularProgress from 'material-ui/lib/circular-progress';
+import AppBar from 'material-ui/lib/app-bar';
 
 @connect(
   state => ({
@@ -26,12 +27,9 @@ export default class NavMenu extends Component {
     settings: PropTypes.object
   }
 
-  // componentWillMount() {
-  //   this.setState({open: true});
-  //   if (!__SERVER__) {
-  //     this.updateDimensions();
-  //   }
-  // }
+  componentWillMount() {
+    this.setState({open: false, docked: false});
+  }
   //
   // componentDidMount() {
   //   window.addEventListener('resize', this.updateDimensions.bind(this));
@@ -72,49 +70,60 @@ export default class NavMenu extends Component {
 
   render() {
     const { activateMenu, settings, user, menu: { active, last, items } } = this.props;
-
+    const { open } = this.state;
     const styles = require('./NavMenu.scss');
-    return ( <div style={{minWidth: 340, maxWidth: 340, flex: 1}} className={`${styles.navBar} ${user || styles.navinVis}`}> {user &&
-      <LeftNav open style={{width: 340}}>
+    return ( <div className={styles.leftNav} > {user &&
+      <div>
+        <div className={`${styles.mobileBar} ${user || styles.navinVis}`}>
+          <AppBar
+            title="SITREP"
+            onLeftIconButtonTouchTap={() => {
+              this.setState({open: ((open) ? false : true), docked: true});
+            }}/>
+        </div>
+        <div className={`${styles.navBar} ${user || styles.navinVis}`} style={{display: (open && 'block')}}>
+        <LeftNav open style={{width: 340}}>
 
-        <img src={settings.logoUrl} style={{width: '80%', margin: '10px auto', display: 'block'}}/>
-        {items ? items.map((menu) => {
-          return (<List
-            style={{
-              display: (active === menu.Title) ? 'block' : 'none'
-            }}
-            className={styles.fadeIn}
-            key={menu.Title}>
-            {menu.HasBack &&
-              <div>
-                <ListItem
-                  style={{fontSize: 14}}
-                  leftIcon={<i className="material-icons">chevron_left</i>}
-                  onTouchTap={() => { activateMenu(last);}}
-                  primaryText="Back"
-                  className={styles.backButton} />
-                <Divider />
-              </div>}
-            {menu.Items.map((item) => {
-              return (<div key={`${menu.Title}_${item.Text}`}>
-                <ListItem
-                  leftIcon={<i className="material-icons">{item.Icon}</i>}
-                  rightIcon={item.LinksToSubMenu ? <i className="material-icons">chevron_right</i> : <i></i>}
-                  containerElement={!item.LinksToSubMenu ? <Link to={item.Target} style={{fontSize: 14}}/> : <a style={{fontSize: 14}}/>}
-                  onTouchTap={ (evnt) => {
-                    return (item.LinksToSubMenu ?
-                      activateMenu(item.Target)
-                    : (
-                      (item.Target === 'logout()') && this.props.logoutHandler(evnt)
-                    )
-                  );}}
-                  primaryText={item.Text}/>
-                <Divider />
-              </div>);
-            })}
-          </List>);
-        }) : <CircularProgress />}
-      </LeftNav> }</div>
+          <img src={settings.logoUrl} style={{width: '80%', margin: '10px auto', display: 'block'}}/>
+          {items ? items.map((menu) => {
+            return (<List
+              style={{
+                display: (active === menu.Title) ? 'block' : 'none'
+              }}
+              className={styles.fadeIn}
+              key={menu.Title}>
+              {menu.HasBack &&
+                <div>
+                  <ListItem
+                    style={{fontSize: 14}}
+                    leftIcon={<i className="material-icons">chevron_left</i>}
+                    onTouchTap={() => { activateMenu(last);}}
+                    primaryText="Back"
+                    className={styles.backButton} />
+                  <Divider />
+                </div>}
+              {menu.Items.map((item) => {
+                return (<div key={`${menu.Title}_${item.Text}`}>
+                  <ListItem
+                    leftIcon={<i className="material-icons">{item.Icon}</i>}
+                    rightIcon={item.LinksToSubMenu ? <i className="material-icons">chevron_right</i> : <i></i>}
+                    containerElement={!item.LinksToSubMenu ? <Link to={item.Target} style={{fontSize: 14}}/> : <a style={{fontSize: 14}}/>}
+                    onTouchTap={ (evnt) => {
+                      return (item.LinksToSubMenu ?
+                        activateMenu(item.Target)
+                      : (
+                        (item.Target === 'logout()') && this.props.logoutHandler(evnt)
+                      )
+                    );}}
+                    primaryText={item.Text}/>
+                  <Divider />
+                </div>);
+              })}
+            </List>);
+          }) : <CircularProgress />}
+        </LeftNav>
+      </div>
+    </div> }</div>
     );
   }
 }
