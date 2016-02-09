@@ -11,7 +11,8 @@ import CircularProgress from 'material-ui/lib/circular-progress';
 @connect(
   state => ({
     menu: state.menu,
-    user: state.auth.user
+    user: state.auth.user,
+    settings: state.permissions.data
   }), {
     ...menuActions
   })
@@ -21,7 +22,8 @@ export default class NavMenu extends Component {
     activateMenu: PropTypes.func.isRequired,
     open: PropTypes.bool,
     user: PropTypes.object,
-    logoutHandler: PropTypes.func
+    logoutHandler: PropTypes.func,
+    settings: PropTypes.object
   }
 
   // componentWillMount() {
@@ -69,13 +71,13 @@ export default class NavMenu extends Component {
   }
 
   render() {
-    const { activateMenu, user, menu: { active, last, items } } = this.props;
+    const { activateMenu, settings, user, menu: { active, last, items } } = this.props;
 
     const styles = require('./NavMenu.scss');
     return ( <div style={{minWidth: 340, maxWidth: 340, flex: 1}} className={`${styles.navBar} ${user || styles.navinVis}`}> {user &&
       <LeftNav open style={{width: 340}}>
 
-        <img src="https://storage.googleapis.com/sitrep-static-assets/assets/components/sitrep-logo-dark.png" style={{width: '80%', margin: '10px auto', display: 'block'}}/>
+        <img src={settings.logoUrl} style={{width: '80%', margin: '10px auto', display: 'block'}}/>
         {items ? items.map((menu) => {
           return (<List
             style={{

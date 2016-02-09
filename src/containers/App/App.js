@@ -18,6 +18,9 @@ import themeDecorator from 'material-ui/lib/styles/theme-decorator';
 import colors from 'material-ui/lib/styles/colors';
 import { NavMenu } from 'components';
 
+/**
+ * fetchData retreives basic user and exercise information from the server.
+ */
 function fetchData(getState, dispatch) {
   const promises = [];
   if (!isInfoLoaded(getState())) {
@@ -65,7 +68,7 @@ export default class App extends Component {
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
       this.setStore(nextProps.user);
-      this.props.pushState(null, '/exercise/select');
+      this.props.pushState(null, '/');
     } else if (this.props.user && !nextProps.user) {
       // logout
       this.props.pushState(null, '/auth/login');

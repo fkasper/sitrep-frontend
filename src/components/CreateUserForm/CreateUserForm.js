@@ -49,32 +49,38 @@ export default class CreateUserForm extends Component {
           type="email"
           placeholder="Email"
           className={styles.input}
+          required
           {...email} />
         <div>
         <input
           type="text"
           placeholder="Name"
           className={styles.input}
+          required
           {...name} />
         <input
           type="text"
           placeholder="Rank"
           className={styles.input}
+          required
           {...rank} />
         <input
           type="text"
           placeholder="Unit"
           className={styles.input}
+          required
           {...unit} />
         <input
           type="text"
           placeholder="Title"
           className={styles.input}
+          required
           {...title} />
         <input
           type="password"
           placeholder="Password"
           className={styles.input}
+          required
           {...encryptedPassword} />
       <RaisedButton
           label="Request Access"

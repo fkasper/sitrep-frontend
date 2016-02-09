@@ -33,7 +33,7 @@ export default class Html extends Component {
           {head.link.toComponent()}
           {head.script.toComponent()}
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-          <link rel="shortcut icon" href="/favicon.png" />
+          <link rel="icon" type="image/png" href="/favicon.png" />
           <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {Object.keys(assets.styles).map((style, key) =>

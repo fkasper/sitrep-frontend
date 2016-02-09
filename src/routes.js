@@ -1,7 +1,7 @@
 import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
-import { isLoaded as isPermissionLoaded, load as loadPermissions } from 'redux/modules/permissions';
+import { isLoaded as isSettingsLoaded, load as loadSettings } from 'redux/modules/permissions';
 import {
     App,
     Login,
@@ -13,12 +13,17 @@ import {
     CmsUsersIndex,
     CmsExerciseParameters,
     CmsExerciseUsers,
-    CmsExerciseCreate,
-    CmsExerciseIndex,
     SignUp
   } from 'containers';
 
 export default (store) => {
+  const loadSettingsIntoStore = (nextState, replaceState, cb) => {
+    if (!isSettingsLoaded(store.getState())) {
+      store.dispatch(loadSettings()).then(() => {
+        cb();
+      });
+    }
+  };
   const requireLogin = (nextState, replaceState, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
@@ -29,10 +34,8 @@ export default (store) => {
       cb();
     }
 
-    if (!isAuthLoaded(store.getState()) || !isPermissionLoaded(store.getState())) {
-      store.dispatch(loadAuth()).then(() => {
-        store.dispatch(loadPermissions()).then(checkAuth);
-      });
+    if (!isAuthLoaded(store.getState())) {
+      store.dispatch(loadAuth()).then(checkAuth);
     } else {
       checkAuth();
     }
@@ -42,7 +45,7 @@ export default (store) => {
    * Please keep routes in alphabetical order
    */
   return (
-    <Route path="/" component={App}>
+    <Route path="/" component={App} onEnter={loadSettingsIntoStore}>
       { /* Home (main) route */ }
 
       { /* Routes requiring login */ }
@@ -50,19 +53,14 @@ export default (store) => {
         <IndexRoute component={Home}/>
         <Route path="/intellipedia" component={Intellipedia}/>
         <Route path="/intellipedia/:subject" component={Intellipedia}/>
-        <Route path="/exercise/select" component={LoginSuccess}/>
-        <Route path="/cms/exercises/create" component={CmsExerciseCreate}/>
-        <Route path="/cms/exercises/maintain/:id" component={CmsExerciseParameters}/>
-        <Route path="/cms/exercises" component={CmsExerciseIndex}/>
+        <Route path="/cms/exercise/maintain" component={CmsExerciseParameters}/>
         <Route path="/cms/users" component={CmsUsersIndex}/>
-        <Route path="/cms/parameters" component={CmsExerciseParameters}/>
         <Route path="/cms/exercise-users" component={CmsExerciseUsers}/>
-        <Route path="/cms/exercise/:exercise" component={LoginSuccess}/>
         <Route path="/cms/user/:email" component={LoginSuccess}/>
       </Route>
 
       { /* Routes */ }
-      <Route path="/auth/:exerciseId/sign-up" component={SignUp}/>
+      <Route path="/auth/sign-up" component={SignUp}/>
 
       <Route path="/auth/login" component={Login}/>
       <Route path="/auth/change-password" component={ChangePassword}/>

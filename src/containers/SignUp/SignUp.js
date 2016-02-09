@@ -5,11 +5,13 @@ import * as authActions from 'redux/modules/auth';
 import { CreateUserForm } from 'components';
 import { pushState } from 'redux-router';
 
+
 @connect(
   state => ({
     user: state.auth.user,
-    error: state.auth.loginError,
-    status: state.auth.created
+    status: state.auth.created,
+    exercise: state.exercises.current,
+    settings: state.permissions.data
   }),
   {...authActions, pushState})
 export default class SignUp extends Component {
@@ -17,11 +19,11 @@ export default class SignUp extends Component {
     user: PropTypes.object,
     login: PropTypes.func,
     logout: PropTypes.func,
-    error: PropTypes.object,
     status: PropTypes.string,
-    pushState: PropTypes.func.isRequired
+    pushState: PropTypes.func.isRequired,
+    exercise: PropTypes.object,
+    settings: PropTypes.object
   }
-
   componentWillMount() {
     this.setState({loading: false});
   }
@@ -34,7 +36,7 @@ export default class SignUp extends Component {
 
 
   render() {
-    const {user} = this.props;
+    const {user, settings} = this.props;
     const {loading} = this.state;
     const styles = require('./Login.scss');
     return (
@@ -43,7 +45,7 @@ export default class SignUp extends Component {
         {!user &&
         <div>
           <div style={{width: 220, margin: '20px auto'}}>
-            <img src="https://storage.googleapis.com/sitrep-static-assets/assets/components/sitrep-logo-dark.png" style={{width: '100%'}} />
+            <img src={settings.logoUrl} style={{width: '100%'}} />
           </div>
           <div style={{textAlign: 'center'}}>
             <h2 style={{fontSize: 18, fontWeight: 400, marginBottom: 20}}>

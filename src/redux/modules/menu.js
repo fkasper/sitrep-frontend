@@ -26,11 +26,7 @@ const initialState = {
     ]},
     { Title: 'System_Settings', HasBack: true, Items: [
       { Text: 'Users', Icon: 'face', Target: '/cms/users', LinksToSubMenu: false },
-      { Text: 'Exercises', Icon: 'settings_input_antenna', Target: '/cms/exercises', LinksToSubMenu: false },
-    ]},
-    { Title: 'Exercise_Settings', HasBack: true, Items: [
-      { Text: 'Users', Icon: 'face', Target: '/cms/exercise-users', LinksToSubMenu: false },
-      { Text: 'Parameters', Icon: 'settings_input_antenna', Target: '/cms/parameters', LinksToSubMenu: false },
+      { Text: 'Exercise', Icon: 'settings_input_antenna', Target: '/cms/exercises', LinksToSubMenu: false },
     ]},
     { Title: 'Language', HasBack: true, Items: []},
   ]

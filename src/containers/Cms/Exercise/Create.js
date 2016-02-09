@@ -57,7 +57,7 @@ export default class Create extends Component {
     // }
     const styles = require('containers/Login/Login.scss');
 
-    return ( user && <div>
+    return ( user && <div style={{flex: 1}}>
         <Helmet title="Create an exercise" />
               <div style={{width: 220, margin: '20px auto'}}>
                 <img src="https://storage.googleapis.com/sitrep-static-assets/assets/components/sitrep-logo-dark.png" style={{width: '100%'}} />
