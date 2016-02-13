@@ -24,11 +24,12 @@ export default function reducer(state = initialState, action = {}) {
         loading: true
       };
     case LOAD_SINGLE_SUCCESS:
+      console.log(action.result);
       return {
         ...state,
         loading: false,
         loaded: true,
-        current: action.result,
+        data: action.result,
         error: null
       };
     case LOAD_SINGLE_FAIL:
@@ -81,7 +82,10 @@ export default function reducer(state = initialState, action = {}) {
     case SAVE_SUCCESS:
       return {
         ...state,
-        data: action.result,
+        data: {
+          ...state.data,
+          [action.id]: action.result
+        },
         editing: false,
         error: null
       };
@@ -99,25 +103,37 @@ export function isLoaded(globalState) {
   return globalState.exercises && globalState.exercises.loaded;
 }
 
+export function setExercise(exercise) {
+  return {
+    types: [LOAD_SINGLE, LOAD_SINGLE_SUCCESS, LOAD_SINGLE_FAIL],
+    promise: () => {
+      Promise.resolve(exercise);
+    }
+  };
+}
+
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get(`/exercises`)
+    promise: (client) => {
+      return client.get(`/exercises`); // .then((action) => setExercise(action.result[0]));
+    }
+
   };
 }
 
 export function loadSingle(id) {
   return {
     types: [LOAD_SINGLE, LOAD_SINGLE_SUCCESS, LOAD_SINGLE_FAIL],
-    promise: (client) => client.get(`/exercises/${id}`)
+    promise: (client) => client.get(`/groups/${id}`)
   };
 }
 
-export function save(ex) {
+export function saveItems(exId, ex) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-    id: ex.id,
-    promise: (client) => client.post('/exercises', {
+    id: exId,
+    promise: (client) => client.put(`/groups/${exId}`, {
       data: ex
     })
   };

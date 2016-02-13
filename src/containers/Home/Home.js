@@ -33,6 +33,8 @@ export default class Home extends Component {
       <div style={{height: '100%', flex: 1}}>
       <Helmet title="Home"/>
         <div style={{height: '100%', position: 'relative'}} className="home">
+        {user && user.globalPermissions && user.globalPermissions.admin &&
+
           <div style={{
             position: 'absolute',
             bottom: 30,
@@ -51,6 +53,7 @@ export default class Home extends Component {
               type="submit" />
 
           </div>
+          }
           <IframeLoader src={settings.mapLocation} style={{width: '100%', height: '100%', border: 0, margin: 0}}/>
           {user && user.globalPermissions && user.globalPermissions.admin &&
             <MapChangeForm

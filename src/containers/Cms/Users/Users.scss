@@ -1,0 +1,33 @@
+.formatting h1, .formatting h2, .formatting h3, .formatting h4 {
+    font-weight: 500;
+    line-height: 1em;
+    padding: .5em 0;
+}
+.formatting h1 {
+    font-size: 28px;
+    line-height: 40px;
+}
+.header{
+  padding: 5px
+}
+
+.flexBox{
+  display: flex;
+  height: 100%;
+}
+
+.flex{
+  flex: 1;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  &:first-child{
+    border-right: 0;
+  }
+  //style={{backgroundColor: '#fff', border: '1px solid #dedede'}}
+}
+
+.leftNav{
+  max-width: 300px;
+  height: 100%;
+  background-color: #fff
+}

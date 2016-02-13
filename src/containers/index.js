@@ -15,3 +15,4 @@ export CmsExerciseParameters from './Cms/Exercise/Parameters';
 export CmsExerciseUsers from './Cms/Exercise/Users';
 export CmsExerciseCreate from './Cms/Exercise/Create';
 export CmsExerciseIndex from './Cms/Exercise/Index';
+export PAI from './PAI/PAI';

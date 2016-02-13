@@ -13,7 +13,8 @@ import {
     CmsUsersIndex,
     CmsExerciseParameters,
     CmsExerciseUsers,
-    SignUp
+    SignUp,
+    PAI
   } from 'containers';
 
 export default (store) => {
@@ -51,6 +52,7 @@ export default (store) => {
       { /* Routes requiring login */ }
       <Route onEnter={requireLogin}>
         <IndexRoute component={Home}/>
+        <Route path="/pai" component={PAI}/>
         <Route path="/intellipedia" component={Intellipedia}/>
         <Route path="/intellipedia/:subject" component={Intellipedia}/>
         <Route path="/cms/exercise/maintain" component={CmsExerciseParameters}/>
@@ -60,7 +62,7 @@ export default (store) => {
       </Route>
 
       { /* Routes */ }
-      <Route path="/auth/sign-up" component={SignUp}/>
+      <Route path="/auth/sign-up/:groupId" component={SignUp}/>
 
       <Route path="/auth/login" component={Login}/>
       <Route path="/auth/change-password" component={ChangePassword}/>

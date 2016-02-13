@@ -11,6 +11,7 @@ import passwd from './password';
 import permissions from './permissions';
 import menu from './menu';
 import users from './users';
+import groups from './groups';
 
 export default combineReducers({
   router: routerStateReducer,
@@ -23,5 +24,6 @@ export default combineReducers({
   likes,
   exercises,
   passwd,
-  users
+  users,
+  groups
 });

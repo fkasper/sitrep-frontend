@@ -1,26 +1,20 @@
 import React, {Component, PropTypes} from 'react';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
 import * as usersActions from 'redux/modules/users';
-import {isLoaded, load as loadUsers} from 'redux/modules/users';
+import {isLoaded as isGroupsLoaded, load as loadGroups} from 'redux/modules/groups';
+
 import {initializeWithKey} from 'redux-form';
 import connectData from 'helpers/connectData';
-
-import Table from 'material-ui/lib/table/table';
-import TableHeaderColumn from 'material-ui/lib/table/table-header-column';
-import TableRow from 'material-ui/lib/table/table-row';
-import TableHeader from 'material-ui/lib/table/table-header';
-import TableRowColumn from 'material-ui/lib/table/table-row-column';
-import TableBody from 'material-ui/lib/table/table-body';
-import IconMenu from 'material-ui/lib/menus/icon-menu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import IconButton from 'material-ui/lib/icon-button';
-import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
-
+import Paper from 'material-ui/lib/paper';
+import List from 'material-ui/lib/lists/list';
+import ListItem from 'material-ui/lib/lists/list-item';
+import Divider from 'material-ui/lib/divider';
+import { SettingsForm } from 'components';
 function fetchDataDeferred(getState, dispatch) {
-  if (!isLoaded(getState())) {
-    return dispatch(loadUsers());
+  if (!isGroupsLoaded(getState())) {
+    return dispatch(loadGroups());
   }
 }
 
@@ -28,19 +22,24 @@ function fetchDataDeferred(getState, dispatch) {
 @connect(
   state => ({
     users: state.users.data,
+    groups: state.groups.data,
     error: state.users.error,
-    loading: state.users.loading,
-
+    loading: state.users.loading
   }),
   {...usersActions, initializeWithKey })
-export default class Widgets extends Component {
+export default class Index extends Component {
   static propTypes = {
     users: PropTypes.array,
+    groups: PropTypes.array,
     error: PropTypes.object,
     loading: PropTypes.bool,
     initializeWithKey: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
     editStart: PropTypes.func.isRequired
+  }
+
+  componentWillMount() {
+    this.setState({active: 0});
   }
 
   render() {
@@ -49,55 +48,53 @@ export default class Widgets extends Component {
     //   return () => editStart(String(widget.id));
     // };
     // const {users, error, editing, loading, load} = this.props;
-    const { users, error } = this.props;
+    const { error, groups } = this.props;
+    const { active } = this.state;
+    const activeGroup = groups[active];
     // let refreshClassName = 'fa fa-refresh';
     // if (loading) {
     //   refreshClassName += ' fa-spin';
     // }
     const styles = require('./Users.scss');
     return (
-      <div className={styles.widgets + ' container'}>
+      <div className={styles.widgets + ' container ' + styles.formatting} style={{flex: 1}}>
         <Helmet title="Users"/>
-        <div style={{marginLeft: 340, height: '100%'}}>
-
+        <Paper zDepth={2} className={styles.header}>
+          <h1>Manage Mappings</h1>
+          <p>Email, Password and Name are always mandatory.</p>
+          <strong>/auth/sign-up/{activeGroup.id}</strong>
+        </Paper>
+        <div>
+        <div className={styles.flexBox}>
+          <div className={`${styles.flex} ${styles.leftNav}`}>
+          <List subheader="Groups">
+            {groups && groups.map((group, index) => (
+              <div key={index}>
+                <ListItem
+                  primaryText={group.name}
+                  onTouchTap={() => { this.setState({active: index}); }}
+                  style={{textAlign: 'center', backgroundColor: (active === index && '#ccc')}}
+                />
+                <Divider />
+              </div>
+            ))}
+          </List>
+          </div>
+          <div className={styles.flex} style={{padding: 15}}>
           {error &&
           <div className="alert alert-danger" role="alert">
             <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
             {' '}
             {error.message}
           </div>}
-          {users && users.length && <div>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHeaderColumn>Email</TableHeaderColumn>
-                  <TableHeaderColumn>Name</TableHeaderColumn>
-                  <TableHeaderColumn>Rank</TableHeaderColumn>
-                  <TableHeaderColumn>Actions</TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users.map((user) => (
-                  <TableRow>
-                    <TableRowColumn>{user.Email}</TableRowColumn>
-                    <TableRowColumn>{user.RealName}</TableRowColumn>
-                    <TableRowColumn>{user.UserRank}</TableRowColumn>
-                    <TableRowColumn>
-                      <IconMenu
-                        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                        anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                        targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                      >
-                        <MenuItem
-                          primaryText="Settings"
-                          containerElement={<Link to={`/cms/user/${user.Email}`} />}/>
-                      </IconMenu>
-                    </TableRowColumn>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>}
+            <SettingsForm
+              formKey={activeGroup.id}
+              key={active}
+              initialValues={activeGroup} />
+          </div>
+        </div>
+
+
         </div>
       </div>
     );

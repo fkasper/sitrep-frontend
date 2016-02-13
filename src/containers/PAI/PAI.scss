@@ -1,0 +1,119 @@
+.formatting h1, .formatting h2, .formatting h3, .formatting h4 {
+    font-weight: 500;
+    line-height: 1em;
+    padding: .5em 0;
+}
+.formatting h1 {
+    font-size: 28px;
+    line-height: 40px;
+}
+.header{
+  padding: 5px
+}
+.cellPad{
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: calc(100% - 70px);
+}
+.cell {
+  flex: 1;
+  padding: 10px;
+  margin: 1px;
+  h3 {
+    display: block;
+  }
+}
+
+.front,
+.back {
+  -webkit-animation-duration: .5s;
+  animation-duration: .5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.paperCell {
+  flex: 1;
+  padding: 2px;
+  max-width: 242px;
+  .front {
+    transition: display .5s ease-in;
+  }
+  &:hover .front {
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+    display: none
+  }
+
+  .front:hover {
+
+  }
+
+  .back {
+    display: none;
+    .description{
+      padding: 10px;
+      text-align: center;
+      font-weight: 500
+    }
+  }
+
+  &:hover .back {
+    display: block;
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+  }
+
+  .back:hover {
+
+  }
+}
+.flexCell{
+  display: flex;
+  padding: 10px 0
+}
+
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

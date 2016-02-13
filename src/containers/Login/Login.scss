@@ -324,3 +324,18 @@ p {
   bottom: -7px;
   margin: -10px 0 12px;
 }
+
+.actions{
+  max-width: 100px
+}
+
+.textField{
+  display: flex;
+}
+.textField *{
+  flex: 1;
+  background: #fff
+}
+.textField button{
+  cursor: pointer;
+}
