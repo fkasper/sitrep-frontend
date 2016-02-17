@@ -2,19 +2,23 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import * as authActions from 'redux/modules/auth';
-
+import { notify } from 'redux/modules/notifications';
 @connect(
   state => ({
     user: state.auth.user,
     error: state.auth.loginError
   }),
-  authActions)
+  {
+    ...authActions,
+    notify
+  })
 export default class Login extends Component {
   static propTypes = {
     user: PropTypes.object,
     login: PropTypes.func,
     logout: PropTypes.func,
-    error: PropTypes.object
+    error: PropTypes.object,
+    notify: PropTypes.func.isRequired
   }
 
   componentWillMount() {
@@ -23,6 +27,7 @@ export default class Login extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.error) {
+      this.props.notify(nextProps.error.message, true, false);
       this.setState({loading: false});
     }
   }
@@ -42,7 +47,7 @@ export default class Login extends Component {
 
 
   render() {
-    const {user, error} = this.props;
+    const {user} = this.props;
     const {loading} = this.state;
     const styles = require('./Login.scss');
     return (
@@ -61,8 +66,6 @@ export default class Login extends Component {
           <div className={styles.card} style={{position: 'relative', opacity: (loading ? 0.3 : 1)}}>
           <div className={styles.boxTop} ></div>
             <form className="login-form form-inline" onSubmit={this.handleSubmit} style={{padding: '40px 40px 0px 40px'}}>
-            {error && <div className={styles.error}>{error.message} </div>}
-
               <div className="form-group">
                 <input type="email" ref="username" placeholder="Email" autoFocus className={styles.input}/>
                 <input type="password" ref="password" placeholder="Password" className={styles.input}/>

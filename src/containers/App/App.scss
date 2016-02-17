@@ -55,16 +55,16 @@ b, strong {
     font-weight: 700;
 }
 
-a, .pseudoLink {
-    -webkit-transition: all 200ms ease-in;
-    -moz-transition: all 200ms ease-in;
-    -o-transition: all 200ms ease-in;
-    transition: all 200ms ease-in;
-    color: #c44524;
-    cursor: pointer;
-    outline: none !important;
-    text-decoration: none !important;
-}
+// a, .pseudoLink {
+//     -webkit-transition: all 200ms ease-in;
+//     -moz-transition: all 200ms ease-in;
+//     -o-transition: all 200ms ease-in;
+//     transition: all 200ms ease-in;
+//     color: #c44524;
+//     cursor: pointer;
+//     outline: none !important;
+//     text-decoration: none !important;
+// }
 
 .app {
 
@@ -115,9 +115,9 @@ a, .pseudoLink {
     -webkit-overflow-scrolling: touch;
     display: flex;
     flex-direction: row;
-    @media (max-width: 768px) {
-      flex-direction: column;
-    }
+    // @media (max-width: 768px) {
+    //   flex-direction: column;
+    // }
 }
 .appContent {
 
@@ -151,21 +151,7 @@ nav .navGroup {
     left: 1.25em;
 }
 
-nav .navGroup a {
-    font-size: 13px;
-    line-height: 22px;
-    font-family: "Roboto",Roboto,Arial,sans-serif;
-    font-weight: 500;
-    color: #808080;
-    display: inline-block;
-    letter-spacing: .3em;
-    line-height: 38px;
-    outline: none;
-    text-indent: .3em;
-    text-transform: uppercase;
-    text-decoration: none;
-    vertical-align: top;
-}
+
 
 nav .navGroup a:not([data-menu]):not([data-contact]) {
     display: none;

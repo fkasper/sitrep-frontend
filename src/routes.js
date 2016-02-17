@@ -14,7 +14,10 @@ import {
     CmsExerciseParameters,
     CmsExerciseUsers,
     SignUp,
-    PAI
+    PAI,
+    BiographiesIndex,
+    BiographiesShow,
+    BiographiesNew
   } from 'containers';
 
 export default (store) => {
@@ -54,6 +57,9 @@ export default (store) => {
         <IndexRoute component={Home}/>
         <Route path="/pai" component={PAI}/>
         <Route path="/intellipedia" component={Intellipedia}/>
+        <Route path="/biographies" component={BiographiesIndex}/>
+        <Route path="/biographies/new" component={BiographiesNew}/>
+        <Route path="/biographies/:id" component={BiographiesShow}/>
         <Route path="/intellipedia/:subject" component={Intellipedia}/>
         <Route path="/cms/exercise/maintain" component={CmsExerciseParameters}/>
         <Route path="/cms/users" component={CmsUsersIndex}/>

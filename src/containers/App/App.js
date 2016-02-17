@@ -16,7 +16,7 @@ import Cookie from 'js-cookie';
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import themeDecorator from 'material-ui/lib/styles/theme-decorator';
 import colors from 'material-ui/lib/styles/colors';
-import { NavMenu } from 'components';
+import { NotificationCenter, NavMenu } from 'components';
 
 /**
  * fetchData retreives basic user and exercise information from the server.
@@ -99,6 +99,7 @@ export default class App extends Component {
         <div className={styles.appContent}>
           <NavMenu open logoutHandler={this.handleLogout}/>
           {this.props.children}
+          <NotificationCenter />
         </div>
 
       </div>

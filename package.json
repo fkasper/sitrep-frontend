@@ -2,7 +2,7 @@
   "name": "sitrep-frontend",
   "description": "SITREP Javascript frontend",
   "author": "Florian Kasper",
-  "license": "Apache v2",
+  "license": "Apache2",
   "version": "0.7.1",
   "repository": {
     "type": "git",

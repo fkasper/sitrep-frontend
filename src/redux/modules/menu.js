@@ -7,28 +7,23 @@ const ACTIVATE_FAIL = 'sitrep-auth/menu/ACTIVATE_FAIL';
 
 const initialState = {
   loaded: false,
+  minimal: false,
   active: 'Home',
   last: null,
   items: [
-    { Title: 'Home', HasBack: false, Items: [
-      { Text: 'Home', Icon: 'home', Target: '/', LinksToSubMenu: false },
-      { Text: 'Intellipedia', Icon: 'info_outline', Target: '/intellipedia', LinksToSubMenu: false },
-      { Text: 'Publicly Available Information', Icon: 'touch_app', Target: '/pai', LinksToSubMenu: false },
-      { Text: 'Biographies', Icon: 'fingerprint', Target: '/biographies', LinksToSubMenu: false },
-      { Text: 'Trainer Dashboard', Icon: 'track_changes', Target: '/trainer-dashboard', LinksToSubMenu: false },
-      { Text: 'More', Icon: 'perm_data_setting', Target: 'More', LinksToSubMenu: true },
-      { Text: 'Global Settings', Icon: 'settings', Target: 'System_Settings', LinksToSubMenu: true },
-    ]},
-    { Title: 'More', HasBack: true, Items: [
-      { Text: 'Language', Icon: 'language', Target: 'Language', LinksToSubMenu: true },
-      { Text: 'Sign Out', Icon: 'cancel', Target: 'logout()', LinksToSubMenu: false },
-    ]},
-    { Title: 'System_Settings', HasBack: true, Items: [
-      { Text: 'Users', Icon: 'face', Target: '/cms/users', LinksToSubMenu: false },
-      { Text: 'Exercise', Icon: 'settings_input_antenna', Target: '/cms/exercises', LinksToSubMenu: false },
-    ]},
-    { Title: 'Language', HasBack: true, Items: []},
-  ]
+    { text: 'Home', icon: 'home', target: '/' },
+    { text: 'Intellipedia', icon: 'info_outline', target: '/intellipedia' },
+    { text: 'Publicly Available Information', icon: 'touch_app', target: '/pai' },
+    { text: 'Biographies', icon: 'fingerprint', target: '/biographies' },
+    { text: 'Trainer Dashboard', icon: 'track_changes', target: '/trainer-dashboard' },
+    { text: 'Change language', icon: 'language', hoverMenu: 'language' },
+    { text: 'Global Settings', icon: 'settings', hoverMenu: 'system', onlyIfHasRole: 'admin' },
+    { text: 'Logout', icon: 'directions_run', target: 'logout()' },
+  ],
+  subMenus: {
+    system: [],
+    language: []
+  }
 };
 
 export default function menu(state = initialState, action = {}) {
@@ -63,7 +58,7 @@ export default function menu(state = initialState, action = {}) {
         last: state.active,
         loading: false,
         loaded: true,
-        active: action.result
+        minimal: action.result
       };
     case ACTIVATE_FAIL:
       return {
@@ -88,12 +83,12 @@ export function load() {
   };
 }
 
-export function activateMenu(item) {
+export function changeMenuMode(state) {
   return {
     types: [ACTIVATE, ACTIVATE_SUCCESS, ACTIVATE_FAIL],
     promise: () => {
       return new Promise((ok) => {
-        ok(item);
+        ok(state);
       });
     }
   };

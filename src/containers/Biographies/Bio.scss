@@ -1,0 +1,28 @@
+.noSuchPageFound{
+  font-size: 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+.formatting h1, .formatting h2, .formatting h3, .formatting h4 {
+    font-weight: 500;
+    line-height: 1em;
+    padding: .5em 0;
+}
+.formatting h1 {
+    font-size: 28px;
+    line-height: 40px;
+}
+.header{
+  padding: 5px
+}
+
+@media(min-width: 768px) {
+  .flexMobile{
+    flex-direction: row;
+  }
+}
+@media(max-width: 768px) {
+  .flexMobile{
+    flex-direction: column;
+  }
+}

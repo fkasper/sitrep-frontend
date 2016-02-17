@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerStateReducer } from 'redux-router';
+// import multireducer from 'multireducer';
 
 import auth from './auth';
 import {reducer as form} from 'redux-form';
@@ -12,6 +13,8 @@ import permissions from './permissions';
 import menu from './menu';
 import users from './users';
 import groups from './groups';
+import biographies from './biographies';
+import notifications from './notifications';
 
 export default combineReducers({
   router: routerStateReducer,
@@ -25,5 +28,10 @@ export default combineReducers({
   exercises,
   passwd,
   users,
-  groups
+  groups,
+  biographies,
+  notifications
+  // specifics: multireducer({
+  //   biographies
+  // })
 });

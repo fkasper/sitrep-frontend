@@ -1,20 +1,45 @@
-const LOAD = 'sitrep-auth/groups/LOAD';
-const LOAD_SUCCESS = 'sitrep-auth/groups/LOAD_SUCCESS';
-const LOAD_FAIL = 'sitrep-auth/groups/LOAD_FAIL';
-const EDIT_START = 'sitrep-auth/groups/EDIT_START';
-const EDIT_STOP = 'sitrep-auth/groups/EDIT_STOP';
-const SAVE = 'sitrep-auth/groups/SAVE';
-const SAVE_SUCCESS = 'sitrep-auth/groups/SAVE_SUCCESS';
-const SAVE_FAIL = 'sitrep-auth/groups/SAVE_FAIL';
+const LOAD = 'sitrep-auth/biographies/LOAD';
+const LOAD_SUCCESS = 'sitrep-auth/biographies/LOAD_SUCCESS';
+const LOAD_FAIL = 'sitrep-auth/biographies/LOAD_FAIL';
+const LOAD_SINGLE = 'sitrep-auth/biographies/LOAD_SINGLE';
+const LOAD_SINGLE_SUCCESS = 'sitrep-auth/biographies/LOAD_SINGLE_SUCCESS';
+const LOAD_SINGLE_FAIL = 'sitrep-auth/biographies/LOAD_SINGLE_FAIL';
+const EDIT_START = 'sitrep-auth/biographies/EDIT_START';
+const EDIT_STOP = 'sitrep-auth/biographies/EDIT_STOP';
+const SAVE = 'sitrep-auth/biographies/SAVE';
+const SAVE_SUCCESS = 'sitrep-auth/biographies/SAVE_SUCCESS';
+const SAVE_FAIL = 'sitrep-auth/biographies/SAVE_FAIL';
 
 const initialState = {
   loaded: false,
+  singleLoaded: false,
   editing: {},
   saveError: {}
 };
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
+    case LOAD_SINGLE:
+      return {
+        ...state,
+        singleLoaded: true
+      };
+    case LOAD_SINGLE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        singleLoaded: true,
+        single: action.result,
+        error: null
+      };
+    case LOAD_SINGLE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        singleLoaded: false,
+        single: null,
+        error: action.error
+      };
     case LOAD:
       return {
         ...state,
@@ -56,7 +81,7 @@ export default function reducer(state = initialState, action = {}) {
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
       const data = [...state.data];
-      data[action.result.id] = action.result;
+      data[action.result.Subject] = action.result;
       return {
         ...state,
         data: data,
@@ -83,22 +108,33 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function isLoaded(globalState) {
-  return globalState.groups && globalState.groups.loaded;
+  return globalState.biographies && globalState.biographies.loaded;
+}
+
+export function isSingleLoaded(globalState) {
+  return globalState.biographies && globalState.biographies.singleLoaded;
 }
 
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/groups') // params not used, just shown as demonstration
+    promise: (client) => client.get(`/biographies`)
   };
 }
 
-export function saveItems(localId, exId, ex) {
+export function loadSingle(id) {
+  return {
+    types: [LOAD_SINGLE, LOAD_SINGLE_SUCCESS, LOAD_SINGLE_FAIL],
+    promise: (client) => client.get(`/biographies/${id}`)
+  };
+}
+
+export function save(widget) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-    id: localId,
-    promise: (client) => client.put(`/groups/${exId}`, {
-      data: ex
+    id: widget.id,
+    promise: (client) => client.put(`/biographies/${widget.id}`, {
+      data: widget
     })
   };
 }

@@ -16,3 +16,6 @@ export CmsExerciseUsers from './Cms/Exercise/Users';
 export CmsExerciseCreate from './Cms/Exercise/Create';
 export CmsExerciseIndex from './Cms/Exercise/Index';
 export PAI from './PAI/PAI';
+export BiographiesIndex from './Biographies/Index';
+export BiographiesShow from './Biographies/Show';
+export BiographiesNew from './Biographies/Index';
