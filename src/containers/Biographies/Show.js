@@ -4,7 +4,7 @@ import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import {isSingleLoaded, loadSingle as loadBiography} from 'redux/modules/biographies';
 import {changeMenuMode} from 'redux/modules/menu';
-
+import colors from 'material-ui/lib/styles/colors';
 import Helmet from 'react-helmet';
 // import RaisedButton from 'material-ui/lib/raised-button';
 // import Add from 'material-ui/lib/svg-icons/content/add';
@@ -72,20 +72,27 @@ export default class Show extends Component {
         minHeight: '100%',
         flex: 1,
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        boxShadow: `inset 0 0 2px`
       },
       gridDouble: {
+        borderRight: `1px solid ${colors.grey700}`,
+        borderLeft: `1px solid ${colors.grey700}`,
+        boxShadow: `inset 0 0 2px`,
         minHeight: '100%',
         flex: 1,
         display: 'flex',
         flexDirection: 'column'
       },
       horizontalGridElement: {
+        borderBottom: `1px solid ${colors.grey700}`,
+        boxShadow: `inset 0 0 2px`,
         flex: 1
       },
       smallImage: {
-        maxWidth: '33%',
-        marginTop: 10,
+        maxWidth: '25%',
+        margin: 2,
+        marginTop: 5,
         display: 'block'
       },
       largeImage: {
@@ -104,10 +111,22 @@ export default class Show extends Component {
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         padding: 5,
-        borderBottom: '1px solid #dedede'
+        borderBottom: '1px solid #dedede',
+        margin: 5
       },
       userDescription: {
         padding: 10
+      },
+      tab: {
+      },
+      fixedTitle: {
+        display: 'block',
+        width: '100%',
+        padding: '9px 0 0 0',
+        textAlign: 'center',
+        fontWeight: 500,
+        textTransform: 'uppercase',
+        fontSize: 13
       }
     };
     return (
@@ -117,7 +136,7 @@ export default class Show extends Component {
         <div style={styles.root} className={css.flexMobile}>
           <div style={styles.gridSingle}>
             <div style={styles.horizontalGridElement}>
-              <Tabs>
+              <Tabs style={styles.tab}>
                 <Tab label="Images" value="images" >
                   <div>
                     {biography && <div style={styles.root} className={css.flexMobile}>
@@ -138,7 +157,7 @@ export default class Show extends Component {
           </div>
           <div style={styles.gridDouble}>
             <Tabs>
-              <Tab label="About" value="center_tags" >
+              <Tab label="About" value="center_tags" style={styles.userDescription}>
               <div style={styles.flexTags}>
                 <div><strong>Name</strong></div>
                 <div>{biography && biography.name}</div>
@@ -156,7 +175,31 @@ export default class Show extends Component {
           <div style={styles.gridSingle}>
             <Tabs>
               <Tab label="EYES" value="right_eyes" >
-              ezes
+                <div style={styles.gridSingle}>
+
+                  <div style={styles.horizontalGridElement}>
+                    <div style={styles.root} className={css.flexMobile}>
+                      <p style={styles.fixedTitle}>Left Hand</p>
+                      <div style={styles.smallImage}><img src={(biography.biometrics && biography.biometrics.left_portrait) || 'https://yt3.ggpht.com/-sMYM2bHyA9o/AAAAAAAAAAI/AAAAAAAAAAA/E42HtKlAI-Y/s88-c-k-no/photo.jpg'} style={styles.imageStyle}/></div>
+                      <div style={styles.smallImage}><img src={(biography.biometrics && biography.biometrics.left_portrait) || 'https://yt3.ggpht.com/-sMYM2bHyA9o/AAAAAAAAAAI/AAAAAAAAAAA/E42HtKlAI-Y/s88-c-k-no/photo.jpg'} style={styles.imageStyle}/></div>
+                      <div style={styles.smallImage}><img src={(biography.biometrics && biography.biometrics.left_portrait) || 'https://yt3.ggpht.com/-sMYM2bHyA9o/AAAAAAAAAAI/AAAAAAAAAAA/E42HtKlAI-Y/s88-c-k-no/photo.jpg'} style={styles.imageStyle}/></div>
+                      <div style={styles.smallImage}><img src={(biography.biometrics && biography.biometrics.left_portrait) || 'https://yt3.ggpht.com/-sMYM2bHyA9o/AAAAAAAAAAI/AAAAAAAAAAA/E42HtKlAI-Y/s88-c-k-no/photo.jpg'} style={styles.imageStyle}/></div>
+                      <div style={styles.smallImage}><img src={(biography.biometrics && biography.biometrics.left_portrait) || 'https://yt3.ggpht.com/-sMYM2bHyA9o/AAAAAAAAAAI/AAAAAAAAAAA/E42HtKlAI-Y/s88-c-k-no/photo.jpg'} style={styles.imageStyle}/></div>
+
+                    </div>
+                  </div>
+                  <div style={styles.horizontalGridElement}>
+                    <div style={styles.root} className={css.flexMobile}>
+                      <p style={styles.fixedTitle}>Left Hand</p>
+                      <div style={styles.smallImage}><img src={(biography.biometrics && biography.biometrics.left_portrait) || 'https://yt3.ggpht.com/-sMYM2bHyA9o/AAAAAAAAAAI/AAAAAAAAAAA/E42HtKlAI-Y/s88-c-k-no/photo.jpg'} style={styles.imageStyle}/></div>
+                      <div style={styles.smallImage}><img src={(biography.biometrics && biography.biometrics.left_portrait) || 'https://yt3.ggpht.com/-sMYM2bHyA9o/AAAAAAAAAAI/AAAAAAAAAAA/E42HtKlAI-Y/s88-c-k-no/photo.jpg'} style={styles.imageStyle}/></div>
+                      <div style={styles.smallImage}><img src={(biography.biometrics && biography.biometrics.left_portrait) || 'https://yt3.ggpht.com/-sMYM2bHyA9o/AAAAAAAAAAI/AAAAAAAAAAA/E42HtKlAI-Y/s88-c-k-no/photo.jpg'} style={styles.imageStyle}/></div>
+                      <div style={styles.smallImage}><img src={(biography.biometrics && biography.biometrics.left_portrait) || 'https://yt3.ggpht.com/-sMYM2bHyA9o/AAAAAAAAAAI/AAAAAAAAAAA/E42HtKlAI-Y/s88-c-k-no/photo.jpg'} style={styles.imageStyle}/></div>
+                      <div style={styles.smallImage}><img src={(biography.biometrics && biography.biometrics.left_portrait) || 'https://yt3.ggpht.com/-sMYM2bHyA9o/AAAAAAAAAAI/AAAAAAAAAAA/E42HtKlAI-Y/s88-c-k-no/photo.jpg'} style={styles.imageStyle}/></div>
+
+                    </div>
+                  </div>
+                </div>
               </Tab>
               <Tab label="FINGERS" value="right_fingers" >
               Fingers

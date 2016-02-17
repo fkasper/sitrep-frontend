@@ -36,9 +36,17 @@ function fetchData(getState, dispatch) {
 }
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: colors.green500,
-    primary2Color: colors.green700,
-    primary3Color: colors.green100,
+    primary1Color: colors.deepOrange500,
+    primary2Color: colors.deepOrange700,
+    primary3Color: colors.deepOrange100,
+    accent1Color: colors.grey700,
+    accent2Color: colors.grey100,
+    accent3Color: colors.grey500,
+    textColor: colors.darkBlack,
+    alternateTextColor: colors.white,
+    canvasColor: colors.white,
+    borderColor: colors.grey300,
+    pickerHeaderColor: colors.cyan500,
   },
 }, {
   avatar: {
