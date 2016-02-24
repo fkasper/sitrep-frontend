@@ -12,7 +12,6 @@ import GridList from 'material-ui/lib/grid-list/grid-list';
 import GridTile from 'material-ui/lib/grid-list/grid-tile';
 import ArrowForward from 'material-ui/lib/svg-icons/navigation/arrow-forward';
 import IconButton from 'material-ui/lib/icon-button';
-import Paper from 'material-ui/lib/paper';
 import {changeMenuMode} from 'redux/modules/menu';
 
 
@@ -64,16 +63,18 @@ export default class Index extends Component {
   render() {
     const { biographies, user: {globalPermissions: { admin } } } = this.props;
     const css = require('./Bio.scss');
+    const bgCenter = require('./bg_center.png');
     // require the logo image both from client and server
     const styles = {
       root: {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
+        backgroundImage: 'url(' + bgCenter + ')'
       },
       gridList: {
-        width: '80%',
-        height: 400,
+        width: '100%',
+        height: 'calc(100% - 89px)',
         overflowY: 'auto',
         marginBottom: 24,
       },
@@ -86,9 +87,9 @@ export default class Index extends Component {
       <Helmet title="Biographies"/>
         <div>
           <div className={css.root + ' ' + css.formatting}>
-            <Paper zDepth={2} className={css.header}>
+            <div className={css.header}>
               <h1>Biographies</h1>
-            </Paper>
+            </div>
           </div>
           <div style={styles.root} className={css.flexMobile}>
 
@@ -99,10 +100,11 @@ export default class Index extends Component {
                 <GridTile
                   key={tile.id}
                   title={tile.name}
+                  className={css.moba}
                   subtitle={<span>details for user: <b>{tile.name}</b></span>}
                   actionIcon={<IconButton onTouchTap={() => this.props.pushState(null, `/biographies/${tile.id}`)}><ArrowForward color="white"/></IconButton>}
                 >
-                  <img src={tile.biometrics.leftImage} />
+                  <img src={tile.biometrics.center_portrait} />
                 </GridTile>
               ))}
             </GridList>

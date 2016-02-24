@@ -13,16 +13,32 @@
     line-height: 40px;
 }
 .header{
-  padding: 5px
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
 }
 
+.moba{
+  min-width:100%;
+  max-width:100%;
+}
+
+.flexMobile{
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around
+}
+
+
+
 @media(min-width: 768px) {
-  .flexMobile{
-    flex-direction: row;
-  }
+
 }
 @media(max-width: 768px) {
-  .flexMobile{
-    flex-direction: column;
+  .flexRoot{
+    flex-direction: row;
+  }
+  .flexGrid{
+    min-width: 100%!important;
+    max-width: 100%!important;
   }
 }
