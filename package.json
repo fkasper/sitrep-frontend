@@ -41,7 +41,8 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
         "PORT": 3000,
-        "APIPORT": 3030
+        "APIPORT": 7101,
+        "API_PROTO": "http"
       }
     },
     "watch-client": {
@@ -57,6 +58,7 @@
     "babel-plugin-typecheck": "^2.0.0",
     "body-parser": "^1.14.1",
     "compression": "^1.6.0",
+    "draft-js": "^0.1.0",
     "express": "^4.13.3",
     "express-session": "^1.12.1",
     "file-loader": "^0.8.5",
@@ -73,6 +75,7 @@
     "lru-memoize": "^1.0.0",
     "map-props": "^1.0.0",
     "material-ui": "^0.14.3",
+    "moment": "^2.11.2",
     "multireducer": "^1.0.2",
     "node-cache": "^3.0.1",
     "piping": "^0.3.0",
