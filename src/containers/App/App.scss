@@ -5,6 +5,7 @@
     box-sizing: border-box;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-tap-highlight-color: transparent;
+    outline: 0!important;
 }
 html, body {
     margin: 0;
@@ -113,8 +114,8 @@ b, strong {
     background: #f8f8f8;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    display: flex;
-    flex-direction: row;
+    // display: flex;
+    // flex-direction: row;
     // @media (max-width: 768px) {
     //   flex-direction: column;
     // }

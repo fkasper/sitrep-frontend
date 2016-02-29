@@ -15,7 +15,7 @@ import {reduxReactRouter, ReduxRouter} from 'redux-router';
 import getRoutes from './routes';
 import makeRouteHooksSafe from './helpers/makeRouteHooksSafe';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-
+import config from './config';
 const client = new ApiClient();
 // Three different types of scroll behavior available.
 // Documented here: https://github.com/rackt/scroll-behavior
@@ -26,6 +26,12 @@ const store = createStore(reduxReactRouter, makeRouteHooksSafe(getRoutes), scrol
 
 
 injectTapEventPlugin();
+
+if (window) {
+  window.CKEDITOR_BASEPATH = `${config.apiProtocol}://${config.apiHost}:${config.apiPort}${config.apiPrefix}/editor/`;
+  window.ALLOYEDITOR_BASEPATH = `${config.apiProtocol}://${config.apiHost}:${config.apiPort}${config.apiPrefix}/editor/`;
+}
+
 const component = (
   <ReduxRouter routes={getRoutes(store)} />
 );

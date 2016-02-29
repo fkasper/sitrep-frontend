@@ -80,19 +80,13 @@ export default function reducer(state = initialState, action = {}) {
     case SAVE:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
-      const data = [...state.data];
-      data[action.result.Subject] = action.result;
+      const data = {
+        ...state.data,
+        ...action.result,
+        id: action.id};
       return {
         ...state,
-        data: data,
-        editing: {
-          ...state.editing,
-          [action.id]: false
-        },
-        saveError: {
-          ...state.saveError,
-          [action.id]: null
-        }
+        single: data,
       };
     case SAVE_FAIL:
       return typeof action.error === 'string' ? {
@@ -129,12 +123,12 @@ export function loadSingle(id) {
   };
 }
 
-export function save(widget) {
+export function save(id, bio) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-    id: widget.id,
-    promise: (client) => client.put(`/biographies/${widget.id}`, {
-      data: widget
+    id: id,
+    promise: (client) => client.put(`/biographies/${id}`, {
+      data: bio
     })
   };
 }

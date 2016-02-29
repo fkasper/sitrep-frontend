@@ -15,7 +15,9 @@ import users from './users';
 import groups from './groups';
 import biographies from './biographies';
 import notifications from './notifications';
-
+import uploads from './uploads';
+import newsstories from './newsstories';
+import contact from './contact';
 export default combineReducers({
   router: routerStateReducer,
   auth,
@@ -30,7 +32,10 @@ export default combineReducers({
   users,
   groups,
   biographies,
-  notifications
+  newsstories,
+  notifications,
+  uploads,
+  contact
   // specifics: multireducer({
   //   biographies
   // })

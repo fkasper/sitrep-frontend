@@ -40,7 +40,27 @@ export default class Index extends Component {
     pushState: PropTypes.func.isRequired
   }
 
+  constructor(params) {
+    super(params);
+
+    this.state = { mobaSize: 0 };
+  }
   componentWillMount() {}
+
+  componentDidMount() {
+    if (window) {
+      window.addEventListener('resize', this.getHeight.bind(this, null));
+      this.getHeight();
+    }
+  }
+
+  componentWillUnmount() {
+    if (window) window.removeEventListener('resize', this.getHeight.bind(this, null));
+  }
+
+  getHeight() {
+    if (window) this.setState({mobaSize: (window.innerWidth > 768) ? 5 : 2});
+  }
 
   adminToolbar() {
     return (<div style={{
@@ -61,6 +81,7 @@ export default class Index extends Component {
   }
 
   render() {
+    const { mobaSize } = this.state;
     const { biographies, user: {globalPermissions: { admin } } } = this.props;
     const css = require('./Bio.scss');
     const bgCenter = require('./bg_center.png');
@@ -95,6 +116,7 @@ export default class Index extends Component {
 
             <GridList
               cellHeight={200}
+              cols={mobaSize}
               style={styles.gridList}>
               {biographies && biographies.map(tile => (
                 <GridTile

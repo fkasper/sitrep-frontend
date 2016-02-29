@@ -5,7 +5,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {pushState} from 'redux-router';
 import * as menuActions from 'redux/modules/menu';
-import IconButton from 'material-ui/lib/icon-button';
+// import IconButton from 'material-ui/lib/icon-button';
 // import Popover from 'material-ui/lib/popover/popover';
 // import PopoverAnimationFromTop from 'material-ui/lib/popover/popover-animation-from-top';
 // import CircularProgress from 'material-ui/lib/circular-progress';
@@ -33,7 +33,20 @@ export default class NavMenu extends Component {
   }
 
   componentWillMount() {
-    this.setState({open: false, docked: false});
+    this.setState({open: false, docked: false, height: 400, ttvis: false});
+  }
+  componentDidMount() {
+    if (window) {
+      window.addEventListener('resize', this.getHeight.bind(this, null));
+      this.getHeight();
+    }
+  }
+  componentWillUnmount() {
+    if (window) window.removeEventListener('resize', this.getHeight.bind(this, null));
+  }
+
+  getHeight() {
+    if (window) this.setState({height: window.innerHeight, width: window.innerWidth});
   }
 
   showPrevMenu = () => {
@@ -56,50 +69,81 @@ export default class NavMenu extends Component {
     }
   }
 
+  showTooltip(tip, evt) {
+    if (!this.props.minimal) return;
+    const target = evt.target;
+    const rect = target.getBoundingClientRect();
+    const calculated = rect.top + (rect.height / 2) - 16;
+    this.setState({ttvis: true, rect: calculated, ttext: tip.text});
+  }
+
+  hideTooltip() {
+    this.setState({ttvis: false});
+  }
+
   render() {
     // const { activateMenu, minimal, settings, user, menu: { active, last, items } } = this.props;
-    const { minimal, user, menu: { items }, settings } = this.props;
-    // const { open, anchorEl } = this.state;
+    const { minimal, user, menu: { items, disabled }, settings } = this.props;
+    const { height, width, ttvis, rect, ttext } = this.state;
+    const internalMinimal = minimal || (width <= 768);
     const styles = require('./NavMenu.scss');
+
     const style = {
       menuWrapper: {
         position: 'relative',
-        zIndex: 1928
+        zIndex: 1928,
+        width: (disabled) ? 0 : 'auto',
+        display: (disabled) ? 'none' : 'block'
       },
       fixedLeft: {
         position: 'absolute',
         left: 0,
-        bottom: 0,
+        bottom: 'auto',
+        height: height,
         top: 0,
         right: 0,
         WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
-        boxShadow: 'rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px',
-        borderRadius: 0
+        // boxShadow: 'rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px',
+        borderRadius: 0,
+        borderRight: '1px solid #ccc',
+        backgroundColor: '#f5f5f5'
+      },
+      body: {
+        boxSizing: 'content-box',
+        bottom: 50,
+        overflowY: 'auto',
+        position: 'absolute',
+        top: 0,
+        width: '100%',
+        borderBottom: '1px solid #ccc'
       },
       menu: {
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: (minimal) ? 'space-around' : 'flex-start',
-        borderBottom: (minimal) ? '0' : '1px solid #dedede'
+        cursor: 'pointer',
+        justifyContent: (internalMinimal) ? 'space-around' : 'flex-start',
+        // borderBottom: (minimal) ? '0' : '1px solid #dedede'
       },
       icon: {
-        fontSize: 40
+        padding: 7,
+        fontSize: 25
       },
       iconBorder: {
-        width: 60,
-        height: 60
+        width: 55,
+        height: 45
       },
       iconMaxBorder: {
-        width: 60,
-        height: 60
+        width: 45,
+        height: 45
       },
       menuText: {
         textAlign: 'right',
-        paddingTop: 20
+        paddingTop: 6,
+        fontSize: 14
       },
       imageStyle: {
         width: '80%',
-        height: 60,
+        height: 40,
         display: 'block',
         margin: '10px 0'
       },
@@ -107,37 +151,36 @@ export default class NavMenu extends Component {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
-        borderBottom: (minimal) ? '0' : '1px solid #dedede',
+        borderBottom: '1px solid #dedede',
       },
+      tooltip: {
+        top: (ttvis) ? rect : -10000,
+        left: (ttvis) ? 60 : -10000,
+        opacity: (ttvis) ? 1 : 0,
+        visibility: (ttvis) ? 'visible' : 'hidden'
+      }
     };
     return (
-      <div className={`${styles.leftNav} ${user || styles.navinVis} ${minimal && styles.minimal}`} style={style.menuWrapper}> {user &&
+      <div className={`${styles.leftNav} ${user || styles.navinVis} ${internalMinimal && styles.minimal}`} style={style.menuWrapper}> {user &&
         <div style={style.fixedLeft}>
-          {minimal || <div style={style.logo}><img src={settings.logoUrl} style={style.imageStyle}/></div>}
-          {items && items.map((menu) => (<div key={menu.text} style={style.menu}>
-            <IconButton
-            tooltip={menu.text}
-            style={minimal ? style.iconBorder : style.iconMaxBorder}
-            iconClassName="material-icons"
-            onTouchTap={this.action.bind(this, menu)}
-            tooltipPosition="bottom-right"
-            iconStyle={style.icon}>{menu.icon}</IconButton>
-            {minimal || <div style={style.menuText}>{menu.text}</div>}
-          </div>))}
+          <div style={style.body}>
+            <div style={style.logo}><img src={settings.logoUrl} style={style.imageStyle}/></div>
+            {items && items.map((menu) => (<div
+              key={menu.text}
+              onMouseEnter={this.showTooltip.bind(this, menu)}
+              onMouseLeave={this.hideTooltip.bind(this, null)}
+              onTouchTap={this.action.bind(this, menu)}
+              style={style.menu} className={styles.menu}>
+              <div
+              style={internalMinimal ? style.iconBorder : style.iconMaxBorder}
+              className="material-icons"
+              style={style.icon}>{menu.icon}</div>
+              {internalMinimal || <div style={style.menuText}>{menu.text}</div>}
+            </div>))}
+          </div>
         </div>
     }
+    <div className={styles.tooltip} style={style.tooltip}>{ttext}</div>
     </div>);
   }
 }
-
-
-// {menu.hoverMenu && <Popover
-//    open={open}
-//    anchorEl={anchorEl}
-//    anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-//    targetOrigin={{horizontal: 'right', vertical: 'top'}}
-//    animation={PopoverAnimationFromTop}>
-//    <div style={style.popover}>
-//       <p></p>
-//    </div>
-//  </Popover>}

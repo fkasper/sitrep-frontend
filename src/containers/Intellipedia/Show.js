@@ -13,7 +13,6 @@ import { pushState } from 'redux-router';
 import { EditableIntellipediaPage } from 'components';
 // import colors from 'material-ui/lib/styles/colors';
 // import Add from 'material-ui/lib/svg-icons/content/add';
-import RaisedButton from 'material-ui/lib/raised-button';
 
 
 // import GridList from 'material-ui/lib/grid-list/grid-list';
@@ -30,6 +29,10 @@ function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(state)) {
     promises.push(dispatch(loadArticles()));
   }
+  if (typeof state.router.params.storyId !== 'undefined') {
+    promises.push(dispatch(loadArticle(state.router.params.storyId)));
+  }
+
   return Promise.all(promises);
 }
 
@@ -43,7 +46,7 @@ function fetchDataDeferred(getState, dispatch) {
   }),
   {updateSettings, pushState, loadArticle}
 )
-export default class Intellipedia extends Component {
+export default class Show extends Component {
   static propTypes = {
     user: PropTypes.object,
     articles: PropTypes.array,
@@ -59,19 +62,19 @@ export default class Intellipedia extends Component {
     this.touchTimer = null;
   }
 
-  componentWillMount() {
-    this.loadHomepage(this.props.settings.intellipediaDefaultPageId);
-  }
+  // componentWillMount() {
+  //   this.loadHomepage(this.props.settings.intellipediaDefaultPageId);
+  // }
+  //
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.settings && (nextProps.settings.intellipediaDefaultPageId !== this.props.settings.intellipediaDefaultPageId)) {
+  //     this.loadHomepage(nextProps.settings.intellipediaDefaultPageId);
+  //   }
+  // }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.settings && (nextProps.settings.intellipediaDefaultPageId !== this.props.settings.intellipediaDefaultPageId)) {
-      this.loadHomepage(nextProps.settings.intellipediaDefaultPageId);
-    }
-  }
-
-  loadHomepage(articleId) {
-    this.props.loadArticle(articleId);
-  }
+  // loadHomepage(articleId) {
+  //   this.props.loadArticle(articleId);
+  // }
 
   longTouchStart(articleId) {
     if (this.props.user && this.props.user.globalPermissions.admin) {
@@ -101,46 +104,32 @@ export default class Intellipedia extends Component {
 
   render() {
     // const { article, user: {globalPermissions: { admin } } } = this.props;
-    const { articles, article, settings, user: {globalPermissions: { admin } } } = this.props;
+    const { articles, article, settings } = this.props;
     const css = require('./Intellipedia.scss');
     // require the logo image both from client and server
     return (
       <div style={{height: '100%'}}>
       <Helmet title="Intellipedia"/>
         <div style={{overflowY: 'auto'}} className={css.formatting}>
-          <div className={css.header}>
-            <h1>Intellipedia</h1>
-          </div>
           <div className={css.townsList}>
-          {articles && articles.length ? <div>
-            {articles.map((art) => <div className={css.town}
-              onMouseDown={this.longTouchStart.bind(this, art.id)}
-              onMouseUp={this.longTouchEnd.bind(this, art.id)}
-              onTouchStart={this.longTouchStart.bind(this, art.id)}
-              onTouchEnd={this.longTouchEnd.bind(this, art.id)}
-              onTouchTap={() => this.props.pushState(null, `/intellipedia/${art.id}`)}>
-              <div className={css.townImage} style={{backgroundImage: `url(${art.metadata.preview})`}}></div>
-              <div className={css.townName}>{art.metadata && art.metadata.title}</div>
-              </div>)
-            }
-            {admin && <div>ADMIN MENU FITS HERE</div>}
-            { settings && settings.intellipediaDefaultPageId && article && article.content &&
-              <div className={css.formatting} style={{padding: 10}}>
-                <h1><EditableIntellipediaPage formKey={article.id} type="text" initialValues={article} sKey="metadata.title" /></h1>
-                <EditableIntellipediaPage formKey={article.id} type="textblock" initialValues={article} sKey="content" />
-              </div>
-            }
-          </div> : <div>
-            <div>Nothing to see here (no pages are available right now)</div>
-            <div style={{margin: '0 auto', width: 88}}><RaisedButton
-              label="Add"
-              labelPosition="after"
-              secondary
-              onTouchTap={() => this.props.pushState(null, `/intellipedia/new`)}
-              type="submit" /></div>
-          </div>}
+          {articles && articles.length ? articles.map((art) => <div className={css.town}
+            onMouseDown={this.longTouchStart.bind(this, art.id)}
+            onMouseUp={this.longTouchEnd.bind(this, art.id)}
+            onTouchStart={this.longTouchStart.bind(this, art.id)}
+            onTouchEnd={this.longTouchEnd.bind(this, art.id)}
+            onTouchTap={() => this.props.pushState(null, `/intellipedia/${art.id}`)}
+            >
+            <div className={css.townImage} style={{backgroundImage: `url(${art.metadata.preview})`}}></div>
+            <div className={css.townName}>{art.metadata && art.metadata.title}</div>
+          </div>) : <div>Nothing to see here (no pages are available right now)</div>}
+          </div>
+          {/* admin && <div>ADMIN MENU FITS HERE</div> */}
+          { (settings && settings.intellipediaDefaultPageId && article && article.content) ? <div className={css.formatting} style={{padding: 10}}>
+            <h1><EditableIntellipediaPage formKey={article.id} type="text" initialValues={article} sKey="metadata.title" /></h1>
+            <EditableIntellipediaPage formKey={article.id} type="textblock" initialValues={article} sKey="content" />
+          </div> : <div>Loading</div>}
+          <div></div>
         </div>
-      </div>
       </div>
     );
   }

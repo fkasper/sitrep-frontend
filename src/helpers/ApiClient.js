@@ -21,7 +21,7 @@ function formatUrl(path) {
 class _ApiClient {
   constructor(req) {
     methods.forEach((method) =>
-      this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
+      this[method] = (path, { params, data, file } = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path));
 
         if (params) {
@@ -43,6 +43,13 @@ class _ApiClient {
           request.set('cookie', req.get('cookie'));
         }
 
+        if (file) {
+          // request.type('multipart/form-data');
+          request.set('X-File-Name', file.name);
+          request.set('X-File-Preview', file.preview);
+          request.set('X-File-LastModified', file.lastModified);
+          request.send(file);
+        }
 
         if (data) {
           request.send(data);

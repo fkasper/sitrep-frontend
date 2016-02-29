@@ -36,9 +36,9 @@ function fetchData(getState, dispatch) {
 }
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: colors.deepOrange500,
-    primary2Color: colors.deepOrange700,
-    primary3Color: colors.deepOrange100,
+    primary1Color: colors.orange500,
+    primary2Color: colors.orange700,
+    primary3Color: colors.orange100,
     accent1Color: colors.grey700,
     accent2Color: colors.grey100,
     accent3Color: colors.grey500,
@@ -58,7 +58,7 @@ const muiTheme = getMuiTheme({
 @themeDecorator(muiTheme)
 @connectData(fetchData)
 @connect(
-  state => ({user: state.auth.user}),
+  state => ({user: state.auth.user, disabled: state.menu.disabled}),
   {logout, pushState})
 export default class App extends Component {
   static propTypes = {
@@ -66,6 +66,7 @@ export default class App extends Component {
     user: PropTypes.object,
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
     error: PropTypes.object
   };
 
@@ -100,12 +101,12 @@ export default class App extends Component {
 
   render() {
     const styles = require('./App.scss');
-
+    const {disabled} = this.props;
     return (
       <div className={styles.app}>
         <Helmet {...config.app.head}/>
-        <div className={styles.appContent}>
-          <NavMenu open logoutHandler={this.handleLogout}/>
+        <NavMenu open logoutHandler={this.handleLogout}/>
+        <div className={styles.appContent} style={{marginLeft: (disabled ? 0 : 55)}}>
           {this.props.children}
           <NotificationCenter />
         </div>

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
-import {isSingleLoaded, loadSingle as loadBiography} from 'redux/modules/biographies';
+import {loadSingle as loadBiography} from 'redux/modules/biographies';
 import {changeMenuMode} from 'redux/modules/menu';
 // import colors from 'material-ui/lib/styles/colors';
 import Helmet from 'react-helmet';
@@ -17,13 +17,13 @@ import Edit from 'material-ui/lib/svg-icons/editor/mode-edit';
 // import Paper from 'material-ui/lib/paper';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
-import { IframeLoader, BioEditForm } from 'components';
+import { IframeLoader, BioEditForm, Editor } from 'components';
 
 function fetchDataDeferred(getState, dispatch) {
   const state = getState();
   const promises = [];
   promises.push(dispatch(changeMenuMode(true)));
-  if (!isSingleLoaded(state) && typeof state.router.params.id !== 'undefined') {
+  if (typeof state.router.params.id !== 'undefined') {
     promises.push(dispatch(loadBiography(state.router.params.id)));
   }
   return Promise.all(promises);
@@ -61,7 +61,7 @@ export default class Show extends Component {
     return (
       <div style={{height: '100%', flex: 1, position: 'relative'}}>
       <Helmet title={`Biography: ${biography && biography.name}`}/>
-      {user && <div style={styles.rootBlock}>
+      {user && biography && <div style={styles.rootBlock}>
         {(editing ? <BioEditForm formKey={'map'} onEditingDone={() => this.setState({editing: false}) } sKey={biography && biography.id} initialValues={biography} /> : <div style={{height: '100%'}}>
         {biography && <div style={styles.root} className={css.flexMobile + ' ' + css.flexRoot}>
           <div style={styles.gridSingle} className={css.flexGrid}>
@@ -98,6 +98,8 @@ export default class Show extends Component {
                 </div>)}
               </Tab>
               <Tab label="Overview" value="center_overview" >
+                <Editor stateOnly value={biography.description} onChange={() => {}}/>
+
                 <p style={styles.userDescription}>{biography && biography.description}</p>
               </Tab>
             </Tabs>

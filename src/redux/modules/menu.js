@@ -23,7 +23,8 @@ const initialState = {
   subMenus: {
     system: [],
     language: []
-  }
+  },
+  disabled: false
 };
 
 export default function menu(state = initialState, action = {}) {
@@ -57,6 +58,7 @@ export default function menu(state = initialState, action = {}) {
         ...state,
         last: state.active,
         loading: false,
+        disabled: action.disabled,
         loaded: true,
         minimal: action.result
       };
@@ -83,9 +85,10 @@ export function load() {
   };
 }
 
-export function changeMenuMode(state) {
+export function changeMenuMode(state, disabled) {
   return {
     types: [ACTIVATE, ACTIVATE_SUCCESS, ACTIVATE_FAIL],
+    disabled: disabled,
     promise: () => {
       return new Promise((ok) => {
         ok(state);

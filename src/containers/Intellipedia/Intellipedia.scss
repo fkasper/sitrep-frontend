@@ -3,3 +3,70 @@
   text-align: center;
   margin-top: 40px;
 }
+.noSuchPageFound{
+  font-size: 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+.formatting h1, .formatting h2, .formatting h3, .formatting h4 {
+    font-weight: 500;
+    line-height: 1em;
+    padding: .5em 0;
+}
+.formatting h1 {
+    font-size: 28px;
+    line-height: 40px;
+}
+.header{
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.townsList{
+  padding: 5px;
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  margin-left: 0;
+  overflow-x: auto;
+}
+
+.town {
+  min-width: 12.5%;
+  @media(max-width: 768px) {
+    &:first-child {
+      // margin-left: 117px
+    }
+    min-width: 23%;
+  }
+
+  cursor: pointer;
+}
+
+.town:hover .townImage {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, .2), 0 2px 20px rgba(0, 0, 0, .45);
+}
+
+.town:hover .townName {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.townImage{
+  display: block;
+  margin: 0 auto;
+  height: 64px;
+  width: 64px;
+  border-radius: 10px;
+  background-size: contain;
+  transition: box-shadow .5s cubic-bezier(0.49, -0.01, 0.42, 0.81), transform .5s cubic-bezier(0.49, -0.01, 0.42, 0.81);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .1), 0 1px 10px rgba(0, 0, 0, .35);
+}
+
+.townName{
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  transition: font-weight .5s cubic-bezier(0.49, -0.01, 0.42, 0.81), font-size .5s cubic-bezier(0.49, -0.01, 0.42, 0.81);
+}

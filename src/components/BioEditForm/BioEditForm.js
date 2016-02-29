@@ -6,7 +6,7 @@ import widgetValidation from './widgetValidation';
 import * as biographiesActions from 'redux/modules/biographies';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
-import {UploadBlob } from 'components';
+import {UploadBlob, Editor } from 'components';
 // import TextField from 'material-ui/lib/text-field';
 import Save from 'material-ui/lib/svg-icons/content/save';
 // import Add from 'material-ui/lib/svg-icons/content/add';
@@ -57,7 +57,7 @@ export default class BioEditForm extends Component {
 
   render() {
     // const { , values, key, handleSubmit, invalid, fields: {fields}, formKey, saveError: { [formKey]: saveError } } = this.props;
-    const { sKey, values, invalid, onEditingDone, handleSubmit, pristine, save, fields: {geoZoom, geoArea, biometrics, fields, name}, submitting } = this.props;
+    const { sKey, values, invalid, onEditingDone, handleSubmit, pristine, save, fields: {description, geoZoom, geoArea, biometrics, fields, name}, submitting } = this.props;
     const css = require('containers/Biographies/Bio.scss');
     const styles = require('containers/Biographies/Biographies.js');
     const csStyles = require('containers/Login/Login.scss');
@@ -70,9 +70,9 @@ export default class BioEditForm extends Component {
               <Tab label="Images" value="images" >
                 <div>
                   {biometrics && <div style={styles.root} className={css.flexMobile}>
-                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="left_portrait" />
-                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="center_portrait" />
-                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="right_portrait" />
+                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="64px" dimensionsH="64px" events={biometrics} fileKey="left_portrait" />
+                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="128px" dimensionsH="128px" events={biometrics} fileKey="center_portrait" />
+                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="64px" dimensionsH="64px" events={biometrics} fileKey="right_portrait" />
                   </div>}
                 </div>
               </Tab>
@@ -144,8 +144,7 @@ export default class BioEditForm extends Component {
               </div>)}
             </Tab>
             <Tab label="Overview" value="center_overview" >
-              {/* <Editor {...description} dangerouslySetInnerHTML={{__html: description.value}} /> */}
-              <p style={styles.userDescription}>{biometrics && biometrics.description}</p>
+              <Editor {...description} />
             </Tab>
           </Tabs>
           <div style={{
@@ -184,21 +183,21 @@ export default class BioEditForm extends Component {
                 <div style={styles.horizontalGridElement}>
                   <div style={styles.root} className={css.flexMobile}>
                     <p style={styles.fixedTitle}>Left Hand</p>
-                      <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="one_left" />
-                      <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="two_left" />
-                      <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="three_left" />
-                      <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="four_left" />
-                      <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="five_left" />
+                      <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="64px" dimensionsH="64px" events={biometrics} fileKey="one_left" />
+                      <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="64px" dimensionsH="64px" events={biometrics} fileKey="two_left" />
+                      <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="64px" dimensionsH="64px" events={biometrics} fileKey="three_left" />
+                      <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="64px" dimensionsH="64px" events={biometrics} fileKey="four_left" />
+                      <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="64px" dimensionsH="64px" events={biometrics} fileKey="five_left" />
                   </div>
                 </div>
                 <div style={styles.horizontalGridElement}>
                   <div style={styles.root} className={css.flexMobile}>
                     <p style={styles.fixedTitle}>Right Hand</p>
-                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="one_right" />
-                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="two_right" />
-                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="three_right" />
-                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="four_right" />
-                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="five_right" />
+                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="64px" dimensionsH="64px" events={biometrics} fileKey="one_right" />
+                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="64px" dimensionsH="64px" events={biometrics} fileKey="two_right" />
+                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="64px" dimensionsH="64px" events={biometrics} fileKey="three_right" />
+                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="64px" dimensionsH="64px" events={biometrics} fileKey="four_right" />
+                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="64px" dimensionsH="64px" events={biometrics} fileKey="five_right" />
                   </div>
                 </div>
               </div>
@@ -209,13 +208,13 @@ export default class BioEditForm extends Component {
                 <div style={styles.horizontalGridElement}>
                   <div style={styles.root} className={css.flexMobile}>
                     <p style={styles.fixedTitle}>Left Eye</p>
-                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="left_eye_image" />
+                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="128px" dimensionsH="128px" events={biometrics} fileKey="left_eye_image" />
                   </div>
                 </div>
                 <div style={styles.horizontalGridElement}>
                   <div style={styles.root} className={css.flexMobile}>
                     <p style={styles.fixedTitle}>Right Eye</p>
-                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" events={biometrics} fileKey="right_eye_image" />
+                    <UploadBlob accept=".jpg,.png,.jpeg,.gif" dimensionsW="128px" dimensionsH="128px" events={biometrics} fileKey="right_eye_image" />
                   </div>
                 </div>
               </div>

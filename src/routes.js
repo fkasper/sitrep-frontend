@@ -17,7 +17,16 @@ import {
     PAI,
     BiographiesIndex,
     BiographiesShow,
-    BiographiesNew
+    BiographiesNew,
+    NewsSiteIndex,
+    NewsSiteWrapper,
+    NewsSiteShow,
+    NewsSiteSettings,
+    NewsSiteArchive,
+    NewsSiteContact,
+    NewsSiteAbout,
+    IntellipediaShow,
+    IntellipediaNew
   } from 'containers';
 
 export default (store) => {
@@ -32,8 +41,13 @@ export default (store) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
       if (!user) {
+        // replaceState(null, `/auth/login`);
         // oops, not logged in, so can't be here!
-        replaceState(null, '/auth/login');
+        // if (window) {
+        replaceState(null, `/auth/login`);
+        // } else {
+        //   replaceState(null, `/auth/login`);
+        // }
       }
       cb();
     }
@@ -60,10 +74,26 @@ export default (store) => {
         <Route path="/biographies" component={BiographiesIndex}/>
         <Route path="/biographies/new" component={BiographiesNew}/>
         <Route path="/biographies/:id" component={BiographiesShow}/>
-        <Route path="/intellipedia/:subject" component={Intellipedia}/>
+        <Route path="/intellipedia/new" component={IntellipediaNew} />
+        <Route path="/intellipedia/:storyId" component={IntellipediaShow} />
+        <Route path="/intellipedia" component={Intellipedia} />
         <Route path="/cms/exercise/maintain" component={CmsExerciseParameters}/>
         <Route path="/cms/users" component={CmsUsersIndex}/>
         <Route path="/cms/exercise-users" component={CmsExerciseUsers}/>
+        <Route path="/cms/user/:email" component={LoginSuccess}/>
+
+        <Route path="/news-site/:siteId/" component={NewsSiteWrapper}>
+          { /* News Sites (configured in config) */ }
+          <Route path="archive(/:categoryName)" component={NewsSiteArchive}/>
+          <Route path="search" component={NewsSiteIndex}/>
+          <Route path="settings" component={NewsSiteSettings}/>
+          <Route path="contact" component={NewsSiteContact}/>
+          <Route path="about" component={NewsSiteAbout} />
+          <Route path=":storyId" component={NewsSiteShow}/>
+          <IndexRoute component={NewsSiteIndex}/>
+        </Route>
+
+
         <Route path="/cms/user/:email" component={LoginSuccess}/>
       </Route>
 
