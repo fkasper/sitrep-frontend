@@ -172,10 +172,8 @@ export default class NavMenu extends Component {
               onTouchTap={this.action.bind(this, menu)}
               style={style.menu} className={styles.menu}>
               <div
-              style={internalMinimal ? style.iconBorder : style.iconMaxBorder}
-              className="material-icons"
-              style={style.icon}>{menu.icon}</div>
-              {internalMinimal || <div style={style.menuText}>{menu.text}</div>}
+              className="material-icons" style={style.icon}>{menu && menu.icon}</div>
+              {internalMinimal || <div style={style.menuText}>{menu && menu.text}</div>}
             </div>))}
           </div>
         </div>
