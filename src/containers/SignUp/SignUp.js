@@ -4,14 +4,29 @@ import Helmet from 'react-helmet';
 import * as authActions from 'redux/modules/auth';
 import { CreateUserForm } from 'components';
 import { pushState } from 'redux-router';
+import { changeMenuMode } from 'redux/modules/menu';
+import connectData from 'helpers/connectData';
+import {loadSingle as loadGroup} from 'redux/modules/groups';
 
+function fetchDataDeferred(getState, dispatch) {
+  const promises = [];
+  const state = getState();
+  promises.push(dispatch(changeMenuMode(true, true)));
 
+  if (typeof state.router.params.groupId !== 'undefined') {
+    promises.push(dispatch(loadGroup(state.router.params.groupId)));
+  }
+  return Promise.all(promises);
+}
+
+@connectData(null, fetchDataDeferred)
 @connect(
   state => ({
     user: state.auth.user,
     status: state.auth.created,
     exercise: state.exercises.current,
-    settings: state.permissions.data
+    settings: state.permissions.data,
+    group: state.groups.single
   }),
   {...authActions, pushState})
 export default class SignUp extends Component {
@@ -22,7 +37,8 @@ export default class SignUp extends Component {
     status: PropTypes.string,
     pushState: PropTypes.func.isRequired,
     exercise: PropTypes.object,
-    settings: PropTypes.object
+    settings: PropTypes.object,
+    group: PropTypes.object
   }
   componentWillMount() {
     this.setState({loading: false});
@@ -54,7 +70,8 @@ export default class SignUp extends Component {
           </div>
           <div className={styles.card} style={{position: 'relative', opacity: (loading ? 0.3 : 1)}}>
           <div className={styles.boxTop} ></div>
-            <CreateUserForm formKey={'user'} key={'user'} initialValues={{}} />
+            {this.props.group &&
+              <CreateUserForm formKey={'user'} key={'user'} initialValues={{fields: this.props.group.fields}} />}
           </div>
         </div>
         }

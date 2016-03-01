@@ -15,13 +15,12 @@ import RaisedButton from 'material-ui/lib/raised-button';
 )
 @reduxForm({
   form: 'user',
-  fields: ['email', 'name', 'rank', 'unit', 'title', 'encryptedPassword'],
+  fields: ['email', 'name', 'encryptedPassword', 'fields'],
   validate: widgetValidation
 })
 export default class CreateUserForm extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
-    editStop: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     invalid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
@@ -33,17 +32,26 @@ export default class CreateUserForm extends Component {
 
 
   render() {
-    const { submitting, pristine, createUser, values, handleSubmit, invalid, fields: {email, name, rank, unit, title, encryptedPassword}, saveError } = this.props;
+    const { submitting, pristine, createUser, values, handleSubmit, invalid, fields: {email, name, fields, encryptedPassword}, saveError } = this.props;
     const styles = require('containers/Login/Login.scss');
+
     return (
-      <form onSubmit={handleSubmit(() => createUser(values)
-                              .then(result => {
-                                if (result && typeof result.error === 'object') {
-                                  return Promise.reject(result.error);
-                                }
-                              })
-                            )}
-                            className={submitting ? styles.saving : ''} style={{padding: '40px 40px 0px 40px'}}>
+      <form onSubmit={handleSubmit(() => {
+        createUser({
+          fields: values.fields,
+          encryptedPassword: values.encryptedPassword,
+          jwtEncryptionKey: '',
+          exercises: [],
+          globalPermissions: {},
+          userSettings: {},
+          realName: values.name,
+          email: values.email
+        }).then(result => {
+          if (result && typeof result.error === 'object') {
+            return Promise.reject(result.error);
+          }});
+      })}
+        className={submitting ? styles.saving : ''} style={{padding: '40px 40px 0px 40px'}}>
         {saveError && <div className={styles.error}>{saveError.message} </div>}
         <input
           type="email"
@@ -59,31 +67,28 @@ export default class CreateUserForm extends Component {
           required
           {...name} />
         <input
-          type="text"
-          placeholder="Rank"
-          className={styles.input}
-          required
-          {...rank} />
-        <input
-          type="text"
-          placeholder="Unit"
-          className={styles.input}
-          required
-          {...unit} />
-        <input
-          type="text"
-          placeholder="Title"
-          className={styles.input}
-          required
-          {...title} />
-        <input
           type="password"
           placeholder="Password"
           className={styles.input}
           required
           {...encryptedPassword} />
+        {fields && fields.initialValue && fields.initialValue.length && fields.initialValue.map((field) => <input
+          type="text"
+          key={field}
+          placeholder={field}
+          className={styles.input}
+          required
+          onChange={(evt) => {
+            const val = evt.target.value;
+            // update value at index
+            // const index =
+            fields.onChange({value: {
+              ...fields.value,
+              [field]: val
+            }});
+          }} />)}
       <RaisedButton
-          label="Request Access"
+          label="Sign up"
           labelPosition="after"
           secondary
           icon={<Save />}

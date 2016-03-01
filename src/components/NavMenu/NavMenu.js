@@ -165,7 +165,7 @@ export default class NavMenu extends Component {
         <div style={style.fixedLeft}>
           <div style={style.body}>
             <div style={style.logo}><img src={settings.logoUrl} style={style.imageStyle}/></div>
-            {items && items.map((menu) => (<div
+            {items && items.map((menu) => ((menu.onlyIfHasRole && !user.globalPermissions[menu.onlyIfHasRole]) ? <div></div> : <div
               key={menu.text}
               onMouseEnter={this.showTooltip.bind(this, menu)}
               onMouseLeave={this.hideTooltip.bind(this, null)}

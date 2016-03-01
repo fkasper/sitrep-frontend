@@ -132,12 +132,12 @@ export default class Intellipedia extends Component {
             }
           </div> : <div>
             <div>Nothing to see here (no pages are available right now)</div>
-            <div style={{margin: '0 auto', width: 88}}><RaisedButton
+            {admin && <div style={{margin: '0 auto', width: 88}}><RaisedButton
               label="Add"
               labelPosition="after"
               secondary
               onTouchTap={() => this.props.pushState(null, `/intellipedia/new`)}
-              type="submit" /></div>
+              type="submit" /></div>}
           </div>}
         </div>
       </div>

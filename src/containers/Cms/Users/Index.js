@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 // import { Link } from 'react-router';
 import * as usersActions from 'redux/modules/users';
 import {isLoaded as isGroupsLoaded, load as loadGroups} from 'redux/modules/groups';
+import {changeMenuMode} from 'redux/modules/menu';
 
 import {initializeWithKey} from 'redux-form';
 import connectData from 'helpers/connectData';
@@ -13,9 +14,13 @@ import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider';
 import { SettingsForm } from 'components';
 function fetchDataDeferred(getState, dispatch) {
+  const promises = [];
+  promises.push(dispatch(changeMenuMode(true, false)));
+
   if (!isGroupsLoaded(getState())) {
-    return dispatch(loadGroups());
+    promises.push(dispatch(loadGroups()));
   }
+  return Promise.all(promises);
 }
 
 @connectData(null, fetchDataDeferred)
@@ -57,7 +62,7 @@ export default class Index extends Component {
     // }
     const styles = require('./Users.scss');
     return (
-      <div className={styles.widgets + ' container ' + styles.formatting} style={{flex: 1}}>
+      <div className={styles.widgets + ' container ' + styles.formatting}>
         <Helmet title="Users"/>
         <Paper zDepth={2} className={styles.header}>
           <h1>Manage Mappings</h1>

@@ -6,7 +6,9 @@ const EDIT_STOP = 'sitrep-auth/groups/EDIT_STOP';
 const SAVE = 'sitrep-auth/groups/SAVE';
 const SAVE_SUCCESS = 'sitrep-auth/groups/SAVE_SUCCESS';
 const SAVE_FAIL = 'sitrep-auth/groups/SAVE_FAIL';
-
+const LOAD_SINGLE = 'sitrep-auth/groups/LOAD_SINGLE';
+const LOAD_SINGLE_SUCCESS = 'sitrep-auth/groups/LOAD_SINGLE_SUCCESS';
+const LOAD_SINGLE_FAIL = 'sitrep-auth/groups/LOAD_SINGLE_FAIL';
 const initialState = {
   loaded: false,
   editing: {},
@@ -15,6 +17,28 @@ const initialState = {
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
+    case LOAD_SINGLE:
+      return {
+        ...state,
+        single: null,
+        singleLoaded: true
+      };
+    case LOAD_SINGLE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        singleLoaded: true,
+        single: action.result,
+        error: null
+      };
+    case LOAD_SINGLE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        singleLoaded: false,
+        single: null,
+        error: action.error
+      };
     case LOAD:
       return {
         ...state,
@@ -92,6 +116,14 @@ export function load() {
     promise: (client) => client.get('/groups') // params not used, just shown as demonstration
   };
 }
+
+export function loadSingle(id) {
+  return {
+    types: [LOAD_SINGLE, LOAD_SINGLE_SUCCESS, LOAD_SINGLE_FAIL],
+    promise: (client) => client.get(`/groups/${id}`)
+  };
+}
+
 
 export function saveItems(localId, exId, ex) {
   return {

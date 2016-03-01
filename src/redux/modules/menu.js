@@ -15,9 +15,9 @@ const initialState = {
     { text: 'Intellipedia', icon: 'info_outline', target: '/intellipedia' },
     { text: 'Publicly Available Information', icon: 'touch_app', target: '/pai' },
     { text: 'Biographies', icon: 'fingerprint', target: '/biographies' },
-    { text: 'Trainer Dashboard', icon: 'track_changes', target: '/trainer-dashboard' },
-    { text: 'Change language', icon: 'language', hoverMenu: 'language' },
-    { text: 'Global Settings', icon: 'settings', hoverMenu: 'system', onlyIfHasRole: 'admin' },
+    { text: 'Trainer Dashboard', icon: 'track_changes', target: '/trainer-dashboard', onlyIfHasRole: 'admin' },
+    // { text: 'Change language', icon: 'language', hoverMenu: 'language' },
+    { text: 'Global Settings', icon: 'settings', target: '/cms/users', onlyIfHasRole: 'admin' },
     { text: 'Logout', icon: 'directions_run', target: 'logout()' },
   ],
   subMenus: {

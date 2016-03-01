@@ -30,7 +30,7 @@ export default class Home extends Component {
     const { open } = this.state;
     const { settings, user } = this.props;
     return (
-      <div style={{height: '100%', flex: 1}}>
+      <div style={{height: '100%'}}>
       <Helmet title="Home"/>
         <div style={{height: '100%', position: 'relative'}} className="home">
         {user && user.globalPermissions && user.globalPermissions.admin &&
@@ -54,7 +54,9 @@ export default class Home extends Component {
 
           </div>
           }
-          <IframeLoader src={settings.mapLocation} style={{width: '100%', height: '100%', border: 0, margin: 0}}/>
+          {settings.maLocation ?
+            <IframeLoader src={settings.mapLocation} style={{width: '100%', height: '100%', border: 0, margin: 0}}/>
+          : <div>The Map is not configured.</div>}
           {user && user.globalPermissions && user.globalPermissions.admin &&
             <MapChangeForm
               open={open}
