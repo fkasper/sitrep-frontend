@@ -54,7 +54,7 @@ export default class Home extends Component {
 
           </div>
           }
-          {settings.maLocation ?
+          {settings.mapLocation ?
             <IframeLoader src={settings.mapLocation} style={{width: '100%', height: '100%', border: 0, margin: 0}}/>
           : <div>The Map is not configured.</div>}
           {user && user.globalPermissions && user.globalPermissions.admin &&
