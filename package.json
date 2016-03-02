@@ -68,6 +68,7 @@
     "i18next": "^2.0.24",
     "i18next-browser-languagedetector": "0.0.14",
     "i18next-xhr-backend": "^0.3.0",
+    "immutable": "^3.7.6",
     "invariant": "^2.2.0",
     "js-cookie": "^2.1.0",
     "less": "^2.5.3",

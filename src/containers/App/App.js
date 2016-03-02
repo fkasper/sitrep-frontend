@@ -101,12 +101,13 @@ export default class App extends Component {
 
   render() {
     const styles = require('./App.scss');
+    const bgCenter = require('containers/Biographies/bg_center.png');
     const {disabled} = this.props;
     return (
       <div className={styles.app}>
         <Helmet {...config.app.head}/>
         <NavMenu open logoutHandler={this.handleLogout}/>
-        <div className={styles.appContent} style={{marginLeft: (disabled ? 0 : 55)}}>
+        <div className={styles.appContent} style={{marginLeft: (disabled ? 0 : 55), backgroundImage: `url(${bgCenter})`}}>
           {this.props.children}
           <NotificationCenter />
         </div>

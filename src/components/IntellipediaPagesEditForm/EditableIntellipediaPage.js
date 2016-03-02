@@ -83,7 +83,6 @@ export default class EditableIntellipediaPage extends Component {
         {editing ? <div><input type="text"
                 className={csStyles.ipb}
                 onChange={change}
-                onChange={change}
                 value={fieldValue}
               />
           <i className={'material-icons'} style={{verticalAlign: 'sub'}} onTouchTap={handleSubmit(() => save(formKey, values)

@@ -3,6 +3,15 @@ import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import * as authActions from 'redux/modules/auth';
 import { notify } from 'redux/modules/notifications';
+import {changeMenuMode} from 'redux/modules/menu';
+import connectData from 'helpers/connectData';
+
+function fetchDataDeferred(getState, dispatch) {
+  const promises = [];
+  promises.push(dispatch(changeMenuMode(true, true)));
+  return Promise.all(promises);
+}
+@connectData(null, fetchDataDeferred)
 @connect(
   state => ({
     user: state.auth.user,
@@ -50,11 +59,13 @@ export default class Login extends Component {
     const {user} = this.props;
     const {loading} = this.state;
     const styles = require('./Login.scss');
+    const bgCenter = require('containers/Biographies/bg_center.png');
+
     return (
-      <div className={styles.loginPage + ' container'}>
+      <div className={styles.loginPage + ' container'} style={{backgroundImage: `url(${bgCenter})`}}>
         <Helmet title="Login"/>
         {!user &&
-        <div>
+        <div style={{backgroundImage: `url(${bgCenter})`}}>
           <div style={{width: 220, margin: '20px auto'}}>
             <img src="https://storage.googleapis.com/sitrep-static-assets/assets/components/sitrep-logo-dark.png" style={{width: '100%'}} />
           </div>

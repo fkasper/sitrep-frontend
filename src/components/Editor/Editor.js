@@ -7,7 +7,7 @@ import InlineStyleControls from './InlineStyleControls';
 // import FlatButton from 'material-ui/lib/flat-button';
 import { insertMedia } from './insertMedia';
 import MediaSelect from './MediaSelect';
-import config from '../../config';
+// import config from '../../config';
 
 import {
   convertFromRaw,
@@ -87,7 +87,7 @@ class MediaComponent extends Component {
     const styles = require('./Style.js');
     if (this.props.blockProps.viewMode) {
       return (<figure style={(data && data.css)}>
-              <img className={css.image} src={`${config.apiProtocol}://${config.apiHost}:${config.apiPort}${config.apiPrefix}/uploads/${data && data.content}`} />
+              <img className={css.image} src={`${data && data.content}`} />
               <div className={css.caption}>{data && data.caption}</div>
             </figure>);
     }
@@ -115,7 +115,7 @@ class MediaComponent extends Component {
             </div>
             </div>
           </div>
-          <img className={css.image} src={`${config.apiProtocol}://${config.apiHost}:${config.apiPort}${config.apiPrefix}/uploads/${internalImage || (data && data.content)}`} />
+          <img className={css.image} src={`${internalImage || (data && data.content)}`} />
           <div className={`${css.editCaption} ${css.caption}`}>{data.caption || <span>change caption</span>}</div>
         </figure>
       : <div>

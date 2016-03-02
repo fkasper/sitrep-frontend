@@ -1,13 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { MapChangeForm } from 'components';
 import Helmet from 'react-helmet';
-import Pencil from 'material-ui/lib/svg-icons/editor/mode-edit';
 // import RaisedButton from 'material-ui/lib/raised-button';
 import Paper from 'material-ui/lib/paper';
 import {load as loadPAI, isLoaded as isPAILoaded} from 'redux/modules/pai';
 import { pushState } from 'redux-router';
 import { connect } from 'react-redux';
-import IconButton from 'material-ui/lib/icon-button';
 import {changeMenuMode} from 'redux/modules/menu';
 import connectData from 'helpers/connectData';
 
@@ -32,7 +29,8 @@ export default class Pai extends Component {
   static propTypes = {
     user: PropTypes.object,
     pushState: PropTypes.func.isRequired,
-    settings: PropTypes.object
+    settings: PropTypes.object,
+    pai: PropTypes.array
   }
 
   componentWillMount() {
@@ -42,10 +40,19 @@ export default class Pai extends Component {
 
   render() {
     // require the logo image both from client and server
-    const { open } = this.state;
-    const { settings, user } = this.props;
+    const { pai } = this.props;
     const styles = require('./PAI.scss');
     const inputStyles = require('containers/Login/Login.scss');
+    const validPAI = {};
+    if (pai && pai.length) {
+      pai.map((info) => {
+        if (!validPAI[info.categoryName]) {
+          validPAI[info.categoryName] = [];
+        }
+        validPAI[info.categoryName].push(info);
+      });
+    }
+    const validPAIKeys = Object.keys(validPAI);
     return (
       <div style={{height: '100%', flex: 1}}>
       <Helmet title="Publicly Available Information"/>
@@ -65,46 +72,25 @@ export default class Pai extends Component {
             <h1>Publicly Available Information</h1>
           </Paper>
           <div className={styles.cellPad}>
-            <Paper zDepth={2} className={styles.cell}>
+            {validPAI && validPAIKeys.length && validPAIKeys.map((key) => <Paper zDepth={2} className={styles.cell}>
               <div>
-                <h3>News <IconButton tooltip={"edit mode"}><Pencil /></IconButton></h3>
+                <h3>{key}</h3>
               </div>
               <div className={styles.flexCell}>
-                <div className={styles.paperCell}>
+                {validPAI[key].map((cell) =><div className={styles.paperCell}>
                   <div className={styles.front}>
-                    <img src="http://sitrep-vatcinc.com/api/v2/img/ASTV_logo" style={{
+                    <img src={cell.image} style={{
                       width: '100%'
                     }} />
                   </div>
                   <div className={styles.back}>
-                    <p className={styles.description}>Atropian State Television</p>
-                    <a className={inputStyles.signInButton} style={{width: '80%', margin: '0 auto'}}>Visit</a>
+                    <p className={styles.description}>{cell.backTitle}</p>
+                    <a className={inputStyles.signInButton} href={cell.target} target="_blank" style={{width: '80%', margin: '0 auto'}}>Visit</a>
                   </div>
-                </div>
-                <div className={styles.paperCell}>
-                  <img src="http://sitrep-vatcinc.com/assets/gallery/arns_tile.jpg" style={{
-                    width: '100%'
-                  }} />
-                </div>
+                </div>)}
               </div>
-            </Paper>
+            </Paper>)}
           </div>
-          {user && user.globalPermissions && user.globalPermissions.admin &&
-            <MapChangeForm
-              open={open}
-              formKey={'map'}
-              key={'map'}
-              initialValues={settings}
-              onChange={() => { this.setState({open: false}); }}/>
-          }
-          {user && user.globalPermissions && (user.globalPermissions.admin || user.globalPermissions.oc) &&
-            <MapChangeForm
-              open={open}
-              formKey={'map'}
-              key={'map'}
-              initialValues={settings}
-              onChange={() => { this.setState({open: false}); }}/>
-          }
         </div>
       </div>
     );
