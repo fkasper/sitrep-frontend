@@ -4,14 +4,29 @@ import Helmet from 'react-helmet';
 import Pencil from 'material-ui/lib/svg-icons/editor/mode-edit';
 // import RaisedButton from 'material-ui/lib/raised-button';
 import Paper from 'material-ui/lib/paper';
+import {load as loadPAI, isLoaded as isPAILoaded} from 'redux/modules/pai';
 import { pushState } from 'redux-router';
 import { connect } from 'react-redux';
 import IconButton from 'material-ui/lib/icon-button';
+import {changeMenuMode} from 'redux/modules/menu';
+import connectData from 'helpers/connectData';
 
+function fetchDataDeferred(getState, dispatch) {
+  const promises = [];
+  promises.push(dispatch(changeMenuMode(true, false)));
+
+  if (!isPAILoaded(getState())) {
+    promises.push(dispatch(loadPAI()));
+  }
+  return Promise.all(promises);
+}
+
+@connectData(null, fetchDataDeferred)
 @connect(
   state => ({
     user: state.auth.user,
-    settings: state.permissions.data
+    settings: state.permissions.data,
+    pai: state.pai.data
   }), {pushState})
 export default class Pai extends Component {
   static propTypes = {

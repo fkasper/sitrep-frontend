@@ -29,12 +29,14 @@ function fetchDataDeferred(getState, dispatch) {
     users: state.users.data,
     groups: state.groups.data,
     error: state.users.error,
+    user: state.auth.user,
     loading: state.users.loading
   }),
   {...usersActions, initializeWithKey })
 export default class Index extends Component {
   static propTypes = {
     users: PropTypes.array,
+    user: PropTypes.object,
     groups: PropTypes.array,
     error: PropTypes.object,
     loading: PropTypes.bool,
@@ -53,7 +55,7 @@ export default class Index extends Component {
     //   return () => editStart(String(widget.id));
     // };
     // const {users, error, editing, loading, load} = this.props;
-    const { error, groups } = this.props;
+    const { error, groups, user: { globalPermissions: { admin } } } = this.props;
     const { active } = this.state;
     const activeGroup = groups[active];
     // let refreshClassName = 'fa fa-refresh';
@@ -64,6 +66,8 @@ export default class Index extends Component {
     return (
       <div className={styles.widgets + ' container ' + styles.formatting}>
         <Helmet title="Users"/>
+        {admin ?
+        <div>
         <Paper zDepth={2} className={styles.header}>
           <h1>Manage Mappings</h1>
           <p>Email, Password and Name are always mandatory.</p>
@@ -97,10 +101,7 @@ export default class Index extends Component {
               key={active}
               initialValues={activeGroup} />
           </div>
-        </div>
-
-
-        </div>
+        </div> </div></div> : <div>You are not an admin, sorry</div>}
       </div>
     );
   }

@@ -18,6 +18,8 @@ import notifications from './notifications';
 import uploads from './uploads';
 import newsstories from './newsstories';
 import contact from './contact';
+import pai from './pai';
+
 export default combineReducers({
   router: routerStateReducer,
   auth,
@@ -35,7 +37,8 @@ export default combineReducers({
   newsstories,
   notifications,
   uploads,
-  contact
+  contact,
+  pai
   // specifics: multireducer({
   //   biographies
   // })
