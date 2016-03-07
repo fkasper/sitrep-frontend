@@ -12,10 +12,10 @@ const environment = {
 module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
   port: process.env.PORT,
-  apiHost: process.env.APIHOST || 'localhost',
-  apiPort: process.env.API_PORT || 7101,
+  apiHost: process.env.APIHOST || '130.211.5.144',
+  apiPort: process.env.API_PORT || 8080,
   apiProtocol: process.env.API_PROTO || 'http',
-  apiBaseUrl: process.env.APIBASE || 'http://192.168.178.21:7101',
+  apiBaseUrl: process.env.APIBASE || 'http://130.211.5.144:8080',
   apiPrefix: '/apis/authentication',
   app: {
     title: 'SITREP',

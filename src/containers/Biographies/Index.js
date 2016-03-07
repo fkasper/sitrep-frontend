@@ -73,7 +73,7 @@ export default class Index extends Component {
       <RaisedButton
         label="Add Biography"
         labelPosition="after"
-        primary
+        secondary
         icon={<Add />}
         onTouchTap={() => this.props.pushState(null, '/biographies/new')}
         type="submit" />{ '  ' }

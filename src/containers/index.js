@@ -20,7 +20,7 @@ export CmsExerciseIndex from './Cms/Exercise/Index';
 export PAI from './PAI/PAI';
 export BiographiesIndex from './Biographies/Index';
 export BiographiesShow from './Biographies/Show';
-export BiographiesNew from './Biographies/Index';
+export BiographiesNew from './Biographies/New';
 export NewsSiteIndex from './NewsSite/SiteIndex';
 export NewsSiteShow from './NewsSite/SiteShow';
 export NewsSiteArchive from './NewsSite/SiteArchive';

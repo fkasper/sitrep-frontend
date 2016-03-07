@@ -3,11 +3,16 @@ import { IframeLoader, MapChangeForm } from 'components';
 import Helmet from 'react-helmet';
 import Map from 'material-ui/lib/svg-icons/maps/map';
 import RaisedButton from 'material-ui/lib/raised-button';
-
-
+import {changeMenuMode} from 'redux/modules/menu';
+import connectData from 'helpers/connectData';
 import { pushState } from 'redux-router';
 import { connect } from 'react-redux';
 
+function fetchDataDeferred(getState, dispatch) {
+  return dispatch(changeMenuMode(true, false));
+}
+
+@connectData(null, fetchDataDeferred)
 @connect(
   state => ({
     user: state.auth.user,

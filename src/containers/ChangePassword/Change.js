@@ -40,16 +40,12 @@ class Change extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const oldPassword = this.refs.oldPassword;
-    const newPassword = this.refs.newPassword;
-    const confirmPassword = this.refs.confirmPassword;
+    const email = this.refs.email;
     this.blurAnimation();
     this.handleNewPasswdUpdate().then(() => {
-      this.props.change(newPassword.value, confirmPassword.value, oldPassword.value);
+      this.props.change(email.value);
       this.setState({localError: null, loading: false});
-      oldPassword.value = '';
-      newPassword.value = '';
-      confirmPassword.value = '';
+      email.value = '';
     }).catch((msg)=>{
       this.setState({localError: msg, loading: false});
     });
@@ -60,22 +56,12 @@ class Change extends Component {
 
   handleNewPasswdUpdate = () => {
     return new Promise((accept, reject) => {
-      const oldPassword = this.refs.oldPassword;
-      const newPassword = this.refs.newPassword;
-      const confirmPassword = this.refs.confirmPassword;
-      if (oldPassword.value === '') {
+      const email = this.refs.email;
+      if (email.value === '') {
         reject('You have to enter your old password');
         return;
       }
-      if (newPassword.value === '') {
-        reject('Please enter a new password');
-        return;
-      }
-      if (newPassword.value !== confirmPassword.value) {
-        reject('Passwords do not match');
-      } else {
-        accept();
-      }
+      accept();
     });
   }
 
@@ -84,12 +70,12 @@ class Change extends Component {
   }
 
   render() {
-    const {user, error} = this.props;
+    const {error} = this.props;
     const { localError, loading } = this.state;
     const styles = require('../Login/Login.scss');
 
 
-    return (user && <div>
+    return (<div>
       <Helmet title="Change your Password" />
             <div style={{width: 220, margin: '20px auto'}}>
               <img src="https://storage.googleapis.com/sitrep-static-assets/assets/components/sitrep-logo-dark.png" style={{width: '100%'}} />
@@ -105,10 +91,7 @@ class Change extends Component {
               {((error) || localError) && <div className={styles.error}>{(error ? error.error : null) || localError} </div>}
 
                 <div className="form-group">
-                  <input type="password" ref="oldPassword" placeholder="Old Password" className={styles.input}/>
-                  <input type="password" ref="newPassword" placeholder="New Password" className={styles.input}/>
-                  <input type="password" ref="confirmPassword" placeholder="Confirm" className={styles.input}/>
-
+                  <input type="email" ref="email" placeholder="Your email address" className={styles.input}/>
                 </div>
                 <button className={styles.signInButton} onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Log In
                 </button>

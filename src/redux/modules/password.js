@@ -36,15 +36,9 @@ export function isLoaded(globalState) {
   return globalState.passwd && globalState.passwd.loaded;
 }
 
-export function change(newPw, confirmation, old) {
+export function change(email) {
   return {
     types: [CHANGE, CHANGE_SUCCESS, CHANGE_FAIL],
-    promise: (client) => client.post('/change-password', {
-      data: {
-        new_password: newPw,
-        new_password_confirmation: confirmation,
-        old_password: old
-      }
-    })
+    promise: (client) => client.get(`/reset-password/${email}`)
   };
 }

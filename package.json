@@ -41,7 +41,7 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
         "PORT": 3000,
-        "APIPORT": 7101,
+        "APIPORT": 8080,
         "API_PROTO": "http"
       }
     },

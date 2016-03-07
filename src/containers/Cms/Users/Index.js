@@ -57,7 +57,6 @@ export default class Index extends Component {
     // const {users, error, editing, loading, load} = this.props;
     const { error, groups, user: { globalPermissions: { admin } } } = this.props;
     const { active } = this.state;
-    const activeGroup = groups[active];
     // let refreshClassName = 'fa fa-refresh';
     // if (loading) {
     //   refreshClassName += ' fa-spin';
@@ -66,12 +65,12 @@ export default class Index extends Component {
     return (
       <div className={styles.widgets + ' container ' + styles.formatting}>
         <Helmet title="Users"/>
-        {admin ?
+        {admin && groups ?
         <div>
         <Paper zDepth={2} className={styles.header}>
           <h1>Manage Mappings</h1>
           <p>Email, Password and Name are always mandatory.</p>
-          <strong>/auth/sign-up/{activeGroup.id}</strong>
+          <strong>/auth/sign-up/{groups[active].id}</strong>
         </Paper>
         <div>
         <div className={styles.flexBox}>
@@ -97,9 +96,9 @@ export default class Index extends Component {
             {error.message}
           </div>}
             <SettingsForm
-              formKey={activeGroup.id}
+              formKey={groups[active].id}
               key={active}
-              initialValues={activeGroup} />
+              initialValues={groups[active]} />
           </div>
         </div> </div></div> : <div>You are not an admin, sorry</div>}
       </div>

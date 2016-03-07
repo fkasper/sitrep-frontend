@@ -5,6 +5,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {pushState} from 'redux-router';
 import * as menuActions from 'redux/modules/menu';
+import { notify } from 'redux/modules/notifications';
 // import IconButton from 'material-ui/lib/icon-button';
 // import Popover from 'material-ui/lib/popover/popover';
 // import PopoverAnimationFromTop from 'material-ui/lib/popover/popover-animation-from-top';
@@ -19,7 +20,8 @@ import * as menuActions from 'redux/modules/menu';
     minimal: state.menu.minimal
   }), {
     ...menuActions,
-    pushState
+    pushState,
+    notify
   })
 export default class NavMenu extends Component {
   static propTypes = {
@@ -29,7 +31,8 @@ export default class NavMenu extends Component {
     user: PropTypes.object,
     logoutHandler: PropTypes.func,
     settings: PropTypes.object,
-    minimal: PropTypes.bool
+    minimal: PropTypes.bool,
+    notify: PropTypes.func.isRequired
   }
 
   componentWillMount() {
@@ -60,7 +63,10 @@ export default class NavMenu extends Component {
   action(menu, evnt) {
     if (menu.target) {
       if (menu.target === 'logout()') {
-        this.props.logoutHandler(evnt);
+        if (this.props && this.props.logoutHandler) {
+          this.props.logoutHandler(evnt);
+          this.props.notify('You have successfully logged out!', true, false);
+        }
       } else {
         this.props.pushState(null, menu.target);
       }
@@ -165,8 +171,8 @@ export default class NavMenu extends Component {
         <div style={style.fixedLeft}>
           <div style={style.body}>
             <div style={style.logo}><img src={settings.logoUrl} style={style.imageStyle}/></div>
-            {items && items.map((menu) => ((menu.onlyIfHasRole && !user.globalPermissions[menu.onlyIfHasRole]) ? <div></div> : <div
-              key={menu.text}
+            {items && items.map((menu, index) => ((menu.onlyIfHasRole && ((user.globalPermissions && !user.globalPermissions[menu.onlyIfHasRole]) || !user.globalPermissions)) ? <div key={index}></div> : <div
+              key={index}
               onMouseEnter={this.showTooltip.bind(this, menu)}
               onMouseLeave={this.hideTooltip.bind(this, null)}
               onTouchTap={this.action.bind(this, menu)}

@@ -17,6 +17,7 @@ import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import themeDecorator from 'material-ui/lib/styles/theme-decorator';
 import colors from 'material-ui/lib/styles/colors';
 import { NotificationCenter, NavMenu } from 'components';
+import { notify } from 'redux/modules/notifications';
 
 /**
  * fetchData retreives basic user and exercise information from the server.
@@ -59,7 +60,7 @@ const muiTheme = getMuiTheme({
 @connectData(fetchData)
 @connect(
   state => ({user: state.auth.user, disabled: state.menu.disabled}),
-  {logout, pushState})
+  {logout, pushState, notify})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
@@ -67,7 +68,8 @@ export default class App extends Component {
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    error: PropTypes.object
+    error: PropTypes.object,
+    notify: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -77,6 +79,7 @@ export default class App extends Component {
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
       this.setStore(nextProps.user);
+      this.props.notify('You have successfully signed in!', true, false);
       this.props.pushState(null, '/');
     } else if (this.props.user && !nextProps.user) {
       // logout

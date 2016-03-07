@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import { notify } from 'redux/modules/notifications';
 import { uploadFile } from 'redux/modules/uploads';
 import Dropzone from 'react-dropzone';
-import config from '../../config';
+import CircularProgress from 'material-ui/lib/circular-progress';
 
 // @connect(state => ({ time: state.info.data.time }))
 @connect(
@@ -27,9 +27,14 @@ export default class RequireAccessLevel extends Component {
     dimensionsH: PropTypes.string
   }
 
+  constructor(props) {
+    super(props);
+    this.state = { loading: false };
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.success) {
-      this.props.notify('image successfully uploaded', true, false);
+      this.props.notify('image was successfully uploaded', true, false);
     }
     if (nextProps.error) {
       this.props.notify(nextProps.error.message, true, false);
@@ -38,12 +43,14 @@ export default class RequireAccessLevel extends Component {
 
   onDrop(_$, fileSrc) {
     const { events: { onChange, value }, fileKey } = this.props;
-    this.props.notify('uploading your image', true, false);
+    this.props.notify('uploading image', true, false);
+    this.setState({loading: true, preview: fileSrc[0].preview});
     this.props.uploadFile(fileSrc).then((action) => {
+      this.setState({loading: false});
       const syntheticEvent = {
         value: {
           ...value,
-          [fileKey]: action.result && `${config.apiProtocol}://${config.apiHost}:${config.apiPort}${config.apiPrefix}/uploads/${action.result.url}`
+          [fileKey]: action.result && `${action.result.absRedirectTarget}`
         }
       };
       onChange(syntheticEvent);
@@ -54,6 +61,8 @@ export default class RequireAccessLevel extends Component {
     const styles = require('containers/Biographies/Biographies.js');
     const placeholder = require('containers/Biographies/placeholder.png');
     const { accept, dimensionsH, dimensionsW, fileKey, events: { value } } = this.props;
+    const { loading, preview } = this.state;
+
     let defaultValue = placeholder;
     if (value && value[fileKey]) {
       defaultValue = value[fileKey];
@@ -63,10 +72,14 @@ export default class RequireAccessLevel extends Component {
       ...styles.image,
       width: dimensionsW,
       height: dimensionsH,
-      backgroundImage: 'url(' + ( defaultValue || placeholder) + ')'
+      position: 'relative',
+      backgroundImage: loading || 'url(' + ( preview || defaultValue || placeholder) + ')'
     };
     return (<div style={{ width: dimensionsW, height: dimensionsH}}>
-      <Dropzone onDrop={this.onDrop.bind(this, null)} style={style} accept={accept} />
+      <Dropzone onDrop={this.onDrop.bind(this, null)} style={style} accept={accept}>
+        {(loading) && <img src={preview} style={{maxWidth: '100%', maxHeight: '100%'}} />}
+        {(loading) && <div style={{position: 'absolute', top: 20, left: 20}}><CircularProgress /></div>}
+      </Dropzone>
     </div>);
   }
 }

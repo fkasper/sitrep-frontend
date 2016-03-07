@@ -46,6 +46,7 @@ export default class BioEditForm extends Component {
     invalid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
     save: PropTypes.func.isRequired,
+    create: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
     saveError: PropTypes.object,
     sKey: PropTypes.string.isRequired,
@@ -57,7 +58,7 @@ export default class BioEditForm extends Component {
 
   render() {
     // const { , values, key, handleSubmit, invalid, fields: {fields}, formKey, saveError: { [formKey]: saveError } } = this.props;
-    const { sKey, values, invalid, onEditingDone, handleSubmit, pristine, save, fields: {description, geoZoom, geoArea, biometrics, fields, name}, submitting } = this.props;
+    const { sKey, values, invalid, onEditingDone, handleSubmit, pristine, create, save, fields: {description, geoZoom, geoArea, biometrics, fields, name}, submitting } = this.props;
     const css = require('containers/Biographies/Bio.scss');
     const styles = require('containers/Biographies/Biographies.js');
     const csStyles = require('containers/Login/Login.scss');
@@ -161,16 +162,25 @@ export default class BioEditForm extends Component {
               labelPosition="after"
               secondary
               icon={<Save />}
-              onTouchTap={handleSubmit(() => save(sKey, values)
-                            .then(result => {
-                              if (result && typeof result.error === 'object') {
-                                return Promise.reject(result.error);
-                              } else if (result) {
-                                onEditingDone();
-                              }
-                            })
-                          )}
-              disabled={pristine || invalid || submitting}
+              onTouchTap={handleSubmit(() => {
+                if (sKey === '') {
+                  create(values).then(result => {
+                    if (result && typeof result.error === 'object') {
+                      return Promise.reject(result.error);
+                    } else if (result) {
+                      onEditingDone(result);
+                    }
+                  });
+                } else {
+                  save(sKey, values).then(result => {
+                    if (result && typeof result.error === 'object') {
+                      return Promise.reject(result.error);
+                    } else if (result) {
+                      onEditingDone(result);
+                    }
+                  });
+                }
+              })} disabled={pristine || invalid || submitting}
               type="submit" />
 
           </div>

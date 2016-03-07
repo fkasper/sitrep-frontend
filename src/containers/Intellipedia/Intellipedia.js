@@ -3,10 +3,6 @@ import {connect} from 'react-redux';
 import connectData from 'helpers/connectData';
 import {isLoaded, load as loadArticles, loadSingle as loadArticle} from 'redux/modules/intellipedia';
 import Helmet from 'react-helmet';
-// import RaisedButton from 'material-ui/lib/raised-button';
-// import Add from 'material-ui/lib/svg-icons/content/add';
-// import Edit from 'material-ui/lib/svg-icons/editor/mode-edit';
-// import { IntellipediaPagesEditForm } from 'components';
 import {changeMenuMode} from 'redux/modules/menu';
 import { updateSettings } from 'redux/modules/permissions';
 import { pushState } from 'redux-router';
@@ -109,9 +105,15 @@ export default class Intellipedia extends Component {
       <Helmet title="Intellipedia"/>
         <div style={{overflowY: 'auto'}} className={css.formatting}>
           <div className={css.header}>
-            <h1>Intellipedia</h1>
+            <h1>Intellipedia</h1>{admin && <RaisedButton
+              label="New"
+              secondary
+              onTouchTap={() => this.props.pushState(null, `/intellipedia/new`)}
+              type="submit" />}
           </div>
+
           <div className={css.townsList}>
+
           {articles && articles.length ? <div>
             {articles.map((art) => <div className={css.town}
               onMouseDown={this.longTouchStart.bind(this, art.id)}
@@ -123,7 +125,7 @@ export default class Intellipedia extends Component {
               <div className={css.townName}>{art.metadata && art.metadata.title}</div>
               </div>)
             }
-            {admin && <div>ADMIN MENU FITS HERE</div>}
+
             { settings && settings.intellipediaDefaultPageId && article && article.content &&
               <div className={css.formatting} style={{padding: 10}}>
                 <h1><EditableIntellipediaPage formKey={article.id} type="text" initialValues={article} sKey="metadata.title" /></h1>
@@ -132,12 +134,6 @@ export default class Intellipedia extends Component {
             }
           </div> : <div>
             <div>Nothing to see here (no pages are available right now)</div>
-            {admin && <div style={{margin: '0 auto', width: 88}}><RaisedButton
-              label="Add"
-              labelPosition="after"
-              secondary
-              onTouchTap={() => this.props.pushState(null, `/intellipedia/new`)}
-              type="submit" /></div>}
           </div>}
         </div>
       </div>

@@ -10,6 +10,10 @@ const SAVE = 'sitrep-auth/biographies/SAVE';
 const SAVE_SUCCESS = 'sitrep-auth/biographies/SAVE_SUCCESS';
 const SAVE_FAIL = 'sitrep-auth/biographies/SAVE_FAIL';
 
+const CREATE = 'sitrep-auth/biographies/CREATE';
+const CREATE_SUCCESS = 'sitrep-auth/biographies/CREATE_SUCCESS';
+const CREATE_FAIL = 'sitrep-auth/biographies/CREATE_FAIL';
+
 const initialState = {
   loaded: false,
   singleLoaded: false,
@@ -77,6 +81,19 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: false
         }
       };
+    case CREATE:
+      return state; // 'saving' flag handled by redux-form
+    case CREATE_SUCCESS:
+      return {
+        ...state,
+        id: action.result.id,
+        single: action.bio,
+      };
+    case CREATE_FAIL:
+      return {
+        ...state,
+        saveError: action.error
+      };
     case SAVE:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
@@ -122,7 +139,15 @@ export function loadSingle(id) {
     promise: (client) => client.get(`/biographies/${id}`)
   };
 }
-
+export function create(bio) {
+  return {
+    types: [CREATE, CREATE_SUCCESS, CREATE_FAIL],
+    bio,
+    promise: (client) => client.post(`/biographies`, {
+      data: bio
+    })
+  };
+}
 export function save(id, bio) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
