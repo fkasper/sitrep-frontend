@@ -8,6 +8,7 @@ import {changeMenuMode} from 'redux/modules/menu';
 import connectData from 'helpers/connectData';
 import CircularProgress from 'material-ui/lib/circular-progress';
 import FlatButton from 'material-ui/lib/flat-button';
+import { PAIForm } from 'components';
 
 function fetchDataDeferred(getState, dispatch) {
   const promises = [];
@@ -40,10 +41,15 @@ export default class Pai extends Component {
     this.setState({open: false});
   }
 
+  addSiteDialog(diag) {
+    this.setState({open: true, diagLabel: diag});
+  }
+
 
   render() {
     // require the logo image both from client and server
     const { pai, loading, user, user: { globalPermissions: { admin } } } = this.props;
+    const { open, diagLabel } = this.state;
     const styles = require('./PAI.scss');
     const inputStyles = require('containers/Login/Login.scss');
     const validPAI = {};
@@ -55,21 +61,14 @@ export default class Pai extends Component {
         validPAI[info.categoryName].push(info);
       });
     }
+
     const validPAIKeys = Object.keys(validPAI);
     return (
       <div style={{height: '100%', flex: 1}}>
       <Helmet title="Publicly Available Information"/>
         <div style={{height: '100%', position: 'relative'}} className={styles.formatting}>
-          <div style={{
-            position: 'absolute',
-            bottom: 30,
-            left: 20,
-            zIndex: 921,
-            color: '#fff',
-            verticalAlign: 'middle'
-          }}>
-
-
+          <div>
+            <PAIForm isOpen={open} label={diagLabel} onClose={() => this.setState({open: false})} />
           </div>
           <div zDepth={2} className={styles.header}>
             <h1>Publicly Available Information</h1>
