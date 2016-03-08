@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
 // import RaisedButton from 'material-ui/lib/raised-button';
-import Paper from 'material-ui/lib/paper';
 import {load as loadPAI, isLoaded as isPAILoaded} from 'redux/modules/pai';
 import { pushState } from 'redux-router';
 import { connect } from 'react-redux';
 import {changeMenuMode} from 'redux/modules/menu';
 import connectData from 'helpers/connectData';
 import CircularProgress from 'material-ui/lib/circular-progress';
+import FlatButton from 'material-ui/lib/flat-button';
 
 function fetchDataDeferred(getState, dispatch) {
   const promises = [];
@@ -43,7 +43,7 @@ export default class Pai extends Component {
 
   render() {
     // require the logo image both from client and server
-    const { pai, loading } = this.props;
+    const { pai, loading, user, user: { globalPermissions: { admin } } } = this.props;
     const styles = require('./PAI.scss');
     const inputStyles = require('containers/Login/Login.scss');
     const validPAI = {};
@@ -71,12 +71,22 @@ export default class Pai extends Component {
 
 
           </div>
-          <Paper zDepth={2} className={styles.header}>
+          <div zDepth={2} className={styles.header}>
             <h1>Publicly Available Information</h1>
-          </Paper>
+          </div>
+          {user && admin && <FlatButton
+            label="Add News Site"
+            secondary
+            onTouchTap={() => this.addSiteDialog('News Sites')}
+            type="submit" />}
+          {user && admin && <FlatButton
+            label="Add Social Site"
+            secondary
+            onTouchTap={() => this.addSiteDialog('Social Sites')}
+            type="submit" />}
           <div className={styles.cellPad}>
           {loading && <CircularProgress /> }
-            {validPAI && validPAIKeys.length && validPAIKeys.map((key) => <Paper zDepth={2} className={styles.cell}>
+            {validPAI && validPAIKeys.length && validPAIKeys.map((key) => <div zDepth={2} className={styles.cell}>
               <div>
                 <h3>{key}</h3>
               </div>
@@ -93,7 +103,7 @@ export default class Pai extends Component {
                   </div>
                 </div>)}
               </div>
-            </Paper>)}
+            </div>)}
           </div>
         </div>
       </div>

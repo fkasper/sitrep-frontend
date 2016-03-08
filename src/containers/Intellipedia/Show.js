@@ -111,7 +111,7 @@ export default class Show extends Component {
       <div style={{height: '100%'}}>
       <Helmet title="Intellipedia"/>
         <div style={{overflowY: 'auto'}} className={css.formatting}>
-          <div className={css.townsList}>
+          <div className={css.townsList} style={{display: 'flex', justifyContent: 'space-around'}}>
           {articles && articles.length ? articles.map((art) => <div className={css.town}
             onMouseDown={this.longTouchStart.bind(this, art.id)}
             onMouseUp={this.longTouchEnd.bind(this, art.id)}

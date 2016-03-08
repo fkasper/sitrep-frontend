@@ -8,15 +8,18 @@
     line-height: 40px;
 }
 .header{
+  border-bottom: 1px solid #ccc;
   padding: 5px
 }
 .cellPad{
+  border-top: 1px solid #ccc;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   max-height: calc(100% - 70px);
 }
 .cell {
+  border-bottom: 1px solid #ccc;
   flex: 1;
   padding: 10px;
   margin: 1px;

@@ -27,11 +27,6 @@ const store = createStore(reduxReactRouter, makeRouteHooksSafe(getRoutes), scrol
 
 injectTapEventPlugin();
 
-if (window) {
-  window.CKEDITOR_BASEPATH = `${config.apiProtocol}://${config.apiHost}:${config.apiPort}${config.apiPrefix}/editor/`;
-  window.ALLOYEDITOR_BASEPATH = `${config.apiProtocol}://${config.apiHost}:${config.apiPort}${config.apiPrefix}/editor/`;
-}
-
 const component = (
   <ReduxRouter routes={getRoutes(store)} />
 );

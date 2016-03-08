@@ -99,7 +99,7 @@ export default class BioEditForm extends Component {
         </div>
         <div style={styles.gridDouble}>
           <Tabs>
-            <Tab label="About" value="center_tags" style={styles.userDescription}>
+            <Tab label="Characteristics" value="center_tags" style={styles.userDescription}>
               <div style={styles.flexTags}>
                 <div><strong style={{verticalAlign: 'bottom'}}>Name</strong></div>
                 <div><input type="text"
@@ -144,7 +144,7 @@ export default class BioEditForm extends Component {
               <div>{biometrics.fields[fieldObj]}</div>
               </div>)}
             </Tab>
-            <Tab label="Overview" value="center_overview" >
+            <Tab label="Biography" value="center_overview" >
               <Editor {...description} />
             </Tab>
           </Tabs>

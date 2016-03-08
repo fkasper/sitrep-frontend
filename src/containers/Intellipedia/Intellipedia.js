@@ -9,7 +9,7 @@ import { pushState } from 'redux-router';
 import { EditableIntellipediaPage } from 'components';
 // import colors from 'material-ui/lib/styles/colors';
 // import Add from 'material-ui/lib/svg-icons/content/add';
-import RaisedButton from 'material-ui/lib/raised-button';
+import FlatButton from 'material-ui/lib/flat-button';
 
 
 // import GridList from 'material-ui/lib/grid-list/grid-list';
@@ -105,13 +105,12 @@ export default class Intellipedia extends Component {
       <Helmet title="Intellipedia"/>
         <div style={{overflowY: 'auto'}} className={css.formatting}>
           <div className={css.header}>
-            <h1>Intellipedia</h1>{admin && <RaisedButton
-              label="New"
+            <h1>Intellipedia{admin && <FlatButton
+              label="Create Page"
               secondary
               onTouchTap={() => this.props.pushState(null, `/intellipedia/new`)}
-              type="submit" />}
+              type="submit" />}</h1>
           </div>
-
           <div className={css.townsList}>
 
           {articles && articles.length ? <div style={{display: 'flex', justifyContent: 'space-around'}}>
