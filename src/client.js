@@ -15,7 +15,6 @@ import {reduxReactRouter, ReduxRouter} from 'redux-router';
 import getRoutes from './routes';
 import makeRouteHooksSafe from './helpers/makeRouteHooksSafe';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import config from './config';
 const client = new ApiClient();
 // Three different types of scroll behavior available.
 // Documented here: https://github.com/rackt/scroll-behavior

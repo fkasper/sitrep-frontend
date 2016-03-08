@@ -12,10 +12,10 @@ const environment = {
 module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
   port: process.env.PORT,
-  apiHost: process.env.APIHOST || '130.211.5.144',
-  apiPort: process.env.API_PORT || 8080,
+  apiHost: process.env.APIHOST || 'demo-apis.sitrep-vatcinc.com',
+  apiPort: process.env.API_PORT || 80,
   apiProtocol: process.env.API_PROTO || 'http',
-  apiBaseUrl: process.env.APIBASE || 'http://130.211.5.144:8080',
+  apiBaseUrl: process.env.APIBASE || 'http://demo-apis.sitrep-vatcinc.com',
   apiPrefix: '/apis/authentication',
   app: {
     title: 'SITREP',
@@ -29,11 +29,7 @@ module.exports = Object.assign({
         {property: 'og:locale', content: 'en_US'},
         {property: 'og:title', content: 'SITREP'},
         {property: 'og:description', content: 'All the modern best practices in one example.'},
-        {property: 'og:card', content: 'summary'},
-        {property: 'og:title', content: 'React Redux Example'},
-        {property: 'og:image', content: 'https://react-redux.herokuapp.com/logo.jpg'},
-        {property: 'og:image:width', content: '200'},
-        {property: 'og:image:height', content: '200'}
+        {property: 'og:card', content: 'summary'}
       ]
     }
   },
