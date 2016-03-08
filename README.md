@@ -3,32 +3,28 @@
 [![Build Status](https://travis-ci.org/fkasper/sitrep-frontend.svg?branch=master)](https://travis-ci.org/fkasper/sitrep-frontend)
 
 
-Component for running frontend parts of SITREP. This project is very much work in progress but should evolve quickly over the next month. It uses react.js on both, server and client side. It
+Component for running frontend parts of SITREP.
+
+SITREP - Simulated Intelligence Training Environment Platform
+
+## Installation
 
 
-## Architecture
-For an Architecture this project focuses most on creating a rich-user experience frontend, that communicates with a configurable backend service, using a documented JSON-REST-API.
+## Running
 
-Read more about Redux: [Here](https://github.com/rackt/redux)
+### GCE - Google Compute Engine on Google Cloud Platform
 
-Read more about React: [Here](https://facebook.github.io/react/)
+### Standalone
 
 
-## Technology
-This project is been built using React.JS, Redux and React-Router to create an astonishing quick user experience.
+## Testing
 
-Communication with the server is done using Ajax.
 
-## Development
-
-Watch this video to get started:
-
-[![asciicast](https://asciinema.org/a/1m1wkymrdbbsttt3sn03hyzd7.png)](https://asciinema.org/a/1m1wkymrdbbsttt3sn03hyzd7)
-
+## Deployment
 
 
 ## License
-Copyright 2016 XPANDMMI
+Copyright 2016 VATC, Inc.
 
 Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 

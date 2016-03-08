@@ -6,6 +6,7 @@ import {isLoaded, load as loadBiographies} from 'redux/modules/biographies';
 import Helmet from 'react-helmet';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Add from 'material-ui/lib/svg-icons/content/add';
+import CircularProgress from 'material-ui/lib/circular-progress';
 
 
 import GridList from 'material-ui/lib/grid-list/grid-list';
@@ -29,7 +30,8 @@ function fetchDataDeferred(getState, dispatch) {
 @connect(
   state => ({
     user: state.auth.user,
-    biographies: state.biographies.data
+    biographies: state.biographies.data,
+    loading: state.biographies.loading
   }),
   {pushState}
 )
@@ -37,7 +39,8 @@ export default class Index extends Component {
   static propTypes = {
     user: PropTypes.object,
     biographies: PropTypes.array,
-    pushState: PropTypes.func.isRequired
+    pushState: PropTypes.func.isRequired,
+    loading: PropTypes.bool
   }
 
   constructor(params) {
@@ -82,7 +85,7 @@ export default class Index extends Component {
 
   render() {
     const { mobaSize } = this.state;
-    const { biographies, user: {globalPermissions: { admin } } } = this.props;
+    const { loading, biographies, user: {globalPermissions: { admin } } } = this.props;
     const css = require('./Bio.scss');
     const bgCenter = require('./bg_center.png');
     // require the logo image both from client and server
@@ -113,7 +116,7 @@ export default class Index extends Component {
             </div>
           </div>
           <div style={styles.root} className={css.flexMobile}>
-
+          {loading && <CircularProgress />}
             <GridList
               cellHeight={200}
               cols={mobaSize}

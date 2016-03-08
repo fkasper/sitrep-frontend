@@ -114,28 +114,28 @@ export default class Intellipedia extends Component {
 
           <div className={css.townsList}>
 
-          {articles && articles.length ? <div>
+          {articles && articles.length ? <div style={{display: 'flex', justifyContent: 'space-around'}}>
             {articles.map((art) => <div className={css.town}
               onMouseDown={this.longTouchStart.bind(this, art.id)}
               onMouseUp={this.longTouchEnd.bind(this, art.id)}
               onTouchStart={this.longTouchStart.bind(this, art.id)}
               onTouchEnd={this.longTouchEnd.bind(this, art.id)}
               onTouchTap={() => this.props.pushState(null, `/intellipedia/${art.id}`)}>
-              <div className={css.townImage} style={{backgroundImage: `url(${art.metadata.preview})`}}></div>
+              <div className={css.townImage} style={{backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundImage: `url(${art.metadata.preview})`}}></div>
               <div className={css.townName}>{art.metadata && art.metadata.title}</div>
               </div>)
-            }
-
-            { settings && settings.intellipediaDefaultPageId && article && article.content &&
-              <div className={css.formatting} style={{padding: 10}}>
-                <h1><EditableIntellipediaPage formKey={article.id} type="text" initialValues={article} sKey="metadata.title" /></h1>
-                <EditableIntellipediaPage formKey={article.id} type="textblock" initialValues={article} sKey="content" />
-              </div>
             }
           </div> : <div>
             <div>Nothing to see here (no pages are available right now)</div>
           </div>}
+
         </div>
+        { settings && settings.intellipediaDefaultPageId && article && article.content &&
+          <div className={css.formatting} style={{padding: 10}}>
+            <h1><EditableIntellipediaPage formKey={article.id} type="text" initialValues={article} sKey="metadata.title" /></h1>
+            <EditableIntellipediaPage formKey={article.id} type="textblock" initialValues={article} sKey="content" />
+          </div>
+        }
       </div>
       </div>
     );
