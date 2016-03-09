@@ -55,28 +55,16 @@ export default function reducer(state = initialState, action = {}) {
     case SAVE:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
-      const data = [...state.data];
-      data[action.result.id - 1] = action.result;
       return {
         ...state,
-        data: data,
-        editing: {
-          ...state.editing,
-          [action.id]: false
-        },
-        saveError: {
-          ...state.saveError,
-          [action.id]: null
-        }
+        editing: false,
+        saveError: null
       };
     case SAVE_FAIL:
-      return typeof action.error === 'string' ? {
+      return {
         ...state,
-        saveError: {
-          ...state.saveError,
-          [action.id]: action.error
-        }
-      } : state;
+        saveError: action.error
+      };
     default:
       return state;
   }
@@ -89,16 +77,16 @@ export function isLoaded(globalState) {
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/user-list') // params not used, just shown as demonstration
+    promise: (client) => client.get('/users/list') // params not used, just shown as demonstration
   };
 }
 
-export function save(widget) {
+export function save(id, user) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-    id: widget.Email,
-    promise: (client) => client.post(`/users/${widget.Email}`, {
-      data: widget
+    id: id,
+    promise: (client) => client.put(`/users/${id}`, {
+      data: user
     })
   };
 }

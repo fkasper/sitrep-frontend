@@ -22,3 +22,4 @@ export EditableNewsStoryElement from './EditNewsStoriesForm/EditableNewsStoryEle
 export ContactForm from './ContactForm/ContactForm';
 export EditableIntellipediaPage from './IntellipediaPagesEditForm/EditableIntellipediaPage';
 export PAIForm from './PAIForm/PAIForm';
+export UsersEditForm from './CreateUserForm/UsersEditForm';

@@ -66,7 +66,6 @@ export default class SiteSettings extends Component {
             <div><input type="text"
                     className={csStyles.ipb}
                     onBlur={(ev) => this.props.updateSettings(this.settingsKey(item.name), ev.target.value)}
-                    onChange={(ev) => this.props.updateSettings(this.settingsKey(item.name), ev.target.value)}
                     placeholder={item.label}
                     value={settings[this.settingsKey(item.name)]}
                   /></div>

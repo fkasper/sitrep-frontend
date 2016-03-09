@@ -4,10 +4,14 @@ import {connect} from 'react-redux';
 // import { Link } from 'react-router';
 import {isLoaded as isUsersLoaded, load as loadUsers} from 'redux/modules/users';
 import connectData from 'helpers/connectData';
+import {changeMenuMode} from 'redux/modules/menu';
+import Divider from 'material-ui/lib/divider';
+import ActionGrade from 'material-ui/lib/svg-icons/hardware/keyboard-arrow-right';
+
 // import Paper from 'material-ui/lib/paper';
-// import Avatar from 'material-ui/lib/avatar';
-// import List from 'material-ui/lib/lists/list';
-// import ListItem from 'material-ui/lib/lists/list-item';
+import Avatar from 'material-ui/lib/avatar';
+import List from 'material-ui/lib/lists/list';
+import ListItem from 'material-ui/lib/lists/list-item';
 // import Add from 'material-ui/lib/svg-icons/content/add';
 // import Remove from 'material-ui/lib/svg-icons/content/remove';
 // import AutoComplete from 'material-ui/lib/auto-complete';
@@ -16,8 +20,8 @@ import connectData from 'helpers/connectData';
 // import MenuItem from 'material-ui/lib/menus/menu-item';
 // import IconButton from 'material-ui/lib/icon-button';
 // import Colors from 'material-ui/lib/styles/colors';
-// // import { SettingsForm } from 'components';
-// // import Divider from 'material-ui/lib/divider';
+import { UsersEditForm } from 'components';
+import CircularProgress from 'material-ui/lib/circular-progress';
 //
 // // import Table from 'material-ui/lib/table/table';
 // // import TableHeaderColumn from 'material-ui/lib/table/table-header-column';
@@ -32,6 +36,7 @@ import connectData from 'helpers/connectData';
 
 function fetchDataDeferred(getState, dispatch) {
   const promises = [];
+  promises.push(dispatch(changeMenuMode(true, false)));
   if (!isUsersLoaded(getState())) {
     promises.push(dispatch(loadUsers()));
   }
@@ -41,24 +46,58 @@ function fetchDataDeferred(getState, dispatch) {
 @connectData(null, fetchDataDeferred)
 @connect(
   state => ({
-    error: state.exercises.error,
-    loading: state.exercises.loading,
+    error: state.users.error,
+    loading: state.users.loading,
     users: state.users.data
   }))
-export default class Parameters extends Component {
+export default class Users extends Component {
   static propTypes = {
     error: PropTypes.string,
     loading: PropTypes.bool,
-    initializeWithKey: PropTypes.func.isRequired,
-    load: PropTypes.func.isRequired,
-    editStart: PropTypes.func.isRequired,
     users: PropTypes.array
+  }
+  constructor(props) {
+    super(props);
+    this.state = { active: ''};
   }
 
   render() {
+    const { users, loading } = this.props;
+    const { active } = this.state;
+    const styles = require('containers/PAI/PAI.scss');
     return (<div>
       <Helmet title="User Management Console" />
-      test
+      <div className={styles.formatting}>
+        <div className={styles.header}>
+          <h1>User Management Console</h1>
+        </div>
+        <div className={styles.flex}>
+          <div className={styles.flexItem} style={{borderRight: '1px solid #ccc'}}>
+            {loading && <CircularProgress />}
+            {users && users.length &&
+            <List subheader="Users">
+              {users.map((user, index) => (
+                <div key={index}>
+                  <ListItem
+                    primaryText={user.email}
+                    onTouchTap={() => { this.setState({active: index}); }}
+                    rightIcon={<ActionGrade />}
+                    leftAvatar={<Avatar>{user.email[0]}</Avatar>}
+                    style={{backgroundColor: (active === index && '#ccc')}}
+                  />
+                  <Divider />
+                </div>
+              ))}
+            </List>}
+          </div>
+          <div className={styles.flexItem} style={{padding: 10}}>
+            {active === '' && <div>Please select an item from the list</div>}
+            {active !== '' && users && users.length && <div>
+              <UsersEditForm formKey={users[active].email} initialValues={users[active]}/>
+            </div>}
+          </div>
+        </div>
+      </div>
     </div>);
     // const handleEdit = (widget) => {
     //   const {editStart} = this.props; // eslint-disable-line no-shadow
