@@ -130,12 +130,15 @@
   .flexItem {
     &:first-child {
       width: 30%;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
     }
     &:last-child {
-      width: 70%
-    }
-    @media (max-width: 768px) {
-      width: 100%;
+      width: 70%;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 }
