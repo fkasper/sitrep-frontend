@@ -32,6 +32,7 @@ export default class Editor extends Component {
   componentWillReceiveProps(nextProps) {
     this.editorState(nextProps);
   }
+  
   onChangeEventTrigger() {
     if (this._editor) {
       let data = this._editor.getData();
