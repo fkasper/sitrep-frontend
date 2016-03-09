@@ -81,7 +81,7 @@ export default (store) => {
         <Route path="/intellipedia" component={Intellipedia} />
         <Route path="/cms/exercise/maintain" component={CmsExerciseParameters}/>
         <Route path="/cms/users" component={CmsUsersIndex}/>
-        <Route path="/cms/exercise-users" component={CmsExerciseUsers}/>
+        <Route path="/cms/user-management" component={CmsExerciseUsers}/>
         <Route path="/cms/user/:email" component={LoginSuccess}/>
 
         <Route path="/news-site/:siteId/" component={NewsSiteWrapper}>

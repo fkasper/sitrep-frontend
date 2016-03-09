@@ -65,7 +65,9 @@ export default class Index extends Component {
     return (
       <div className={styles.widgets + ' container ' + styles.formatting}>
         <Helmet title="Users"/>
-        {admin && groups ?
+        {!groups && <div>Loading</div> }
+        {!admin && <div>Not an admin oO. You are not supposed to access this page.</div> }
+        {admin && groups &&
         <div>
         <Paper zDepth={2} className={styles.header}>
           <h1>Manage Mappings</h1>
@@ -100,7 +102,7 @@ export default class Index extends Component {
               key={active}
               initialValues={groups[active]} />
           </div>
-        </div> </div></div> : <div>You are not an admin, sorry</div>}
+        </div> </div></div> }
       </div>
     );
   }
