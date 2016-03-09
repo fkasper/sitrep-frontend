@@ -28,3 +28,7 @@ export NewsSiteWrapper from './NewsSite/SiteWrapper';
 export NewsSiteSettings from './NewsSite/SiteSettings';
 export NewsSiteContact from './NewsSite/SiteContact';
 export NewsSiteAbout from './NewsSite/SiteAbout';
+
+export ExerciseSupportText from './Cms/Exercise/Support';
+
+export IndexDashboard from './Cms/Dashboard/IndexDashboard';

@@ -81,20 +81,6 @@ export default class Intellipedia extends Component {
     clearTimeout(this.touchTimer);
   }
 
-  // adminSetDefault() {
-  //   const { settings } = this.props;
-  //   const csStyles = require('containers/Login/Login.scss');
-  //
-  //   return (<div><div style={{padding: 5, fontSize: 14, textTransform: 'uppercase'}}>Set the default Page ID (only text right now)</div>
-  //   <div><input type="text"
-  //           className={csStyles.ipb}
-  //           onBlur={(ev) => this.props.updateSettings('intellipediaDefaultPageId', ev.target.value)}
-  //           onChange={(ev) => this.props.updateSettings('intellipediaDefaultPageId', ev.target.value)}
-  //           placeholder={"Set the default Page ID"}
-  //           value={settings.intellipediaDefaultPageId}
-  //         /></div></div>);
-  // }
-
   render() {
     // const { article, user: {globalPermissions: { admin } } } = this.props;
     const { articles, article, settings, user: {globalPermissions: { admin } } } = this.props;
@@ -112,7 +98,6 @@ export default class Intellipedia extends Component {
               type="submit" />}</h1>
           </div>
           <div className={css.townsList}>
-
           {articles && articles.length ? <div style={{display: 'flex', justifyContent: 'space-around'}}>
             {articles.map((art) => <div className={css.town}
               onMouseDown={this.longTouchStart.bind(this, art.id)}

@@ -26,7 +26,9 @@ import {
     NewsSiteContact,
     NewsSiteAbout,
     IntellipediaShow,
-    IntellipediaNew
+    IndexDashboard,
+    IntellipediaNew,
+    ExerciseSupportText
   } from 'containers';
 
 export default (store) => {
@@ -95,6 +97,8 @@ export default (store) => {
 
 
         <Route path="/cms/user/:email" component={LoginSuccess}/>
+        <Route path="/trainer-dashboard" component={IndexDashboard} />
+        <Route path="/exercise-support" component={ExerciseSupportText} />
       </Route>
 
       { /* Routes */ }

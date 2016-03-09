@@ -119,7 +119,7 @@ export default class Show extends Component {
             onTouchEnd={this.longTouchEnd.bind(this, art.id)}
             onTouchTap={() => this.props.pushState(null, `/intellipedia/${art.id}`)}
             >
-            <div className={css.townImage} style={{backgroundImage: `url(${art.metadata.preview})`}}></div>
+            <div className={css.townImage} style={{backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundImage: `url(${art.metadata.preview})`}}></div>
             <div className={css.townName}>{art.metadata && art.metadata.title}</div>
           </div>) : <div>Nothing to see here (no pages are available right now)</div>}
           </div>

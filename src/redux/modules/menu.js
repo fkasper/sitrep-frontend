@@ -15,9 +15,11 @@ const initialState = {
     { text: 'Intellipedia', icon: 'info_outline', target: '/intellipedia' },
     { text: 'Publicly Available Information', icon: 'touch_app', target: '/pai' },
     { text: 'Biographies', icon: 'fingerprint', target: '/biographies' },
-    { text: 'Trainer Dashboard', icon: 'track_changes', target: '/trainer-dashboard', onlyIfHasRole: 'admin' },
+    { text: 'Trainer Dashboard', icon: 'track_changes', target: '/trainer-dashboard', onlyIfHasRole: ['trainer', 'admin', 'superadmin'] },
     // { text: 'Change language', icon: 'language', hoverMenu: 'language' },
-    { text: 'Global Settings', icon: 'settings', target: '/cms/users', onlyIfHasRole: 'admin' },
+    { text: 'Form Settings', icon: 'loyalty', target: '/cms/users', onlyIfHasRole: ['admin', 'superadmin'] },
+    { text: 'User Management', icon: 'perm_contact_calendar', target: '/cms/user-management', onlyIfHasRole: ['admin', 'superadmin'] },
+    { text: 'Exercise Management', icon: 'settings_system_daydream', target: '/cms/exercise-management', onlyIfHasRole: ['admin', 'superadmin'] },
     { text: 'Logout', icon: 'directions_run', target: 'logout()' },
   ],
   subMenus: {

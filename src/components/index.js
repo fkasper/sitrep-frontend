@@ -20,6 +20,5 @@ export IntellipediaPagesEditForm from './IntellipediaPagesEditForm/IntellipediaP
 export Editor from './Editor/Editor';
 export EditableNewsStoryElement from './EditNewsStoriesForm/EditableNewsStoryElement';
 export ContactForm from './ContactForm/ContactForm';
-export AboutForm from './AboutForm';
 export EditableIntellipediaPage from './IntellipediaPagesEditForm/EditableIntellipediaPage';
 export PAIForm from './PAIForm/PAIForm';

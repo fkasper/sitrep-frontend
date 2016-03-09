@@ -89,11 +89,11 @@ export default class NavMenu extends Component {
 
   render() {
     // const { activateMenu, minimal, settings, user, menu: { active, last, items } } = this.props;
-    const { minimal, user, menu: { items, disabled }, settings } = this.props;
+    const { minimal, user, menu: { items, disabled } } = this.props;
     const { height, width, ttvis, rect, ttext } = this.state;
     const internalMinimal = minimal || (width <= 768);
     const styles = require('./NavMenu.scss');
-
+    const logoEmbed = require('./logo.png');
     const style = {
       menuWrapper: {
         position: 'relative',
@@ -122,6 +122,16 @@ export default class NavMenu extends Component {
         top: 0,
         width: '100%',
         borderBottom: '1px solid #ccc'
+      },
+      support: {
+        boxSizing: 'content-box',
+        bottom: 0,
+        position: 'absolute',
+        height: 50,
+        width: '100%',
+        display: 'flex',
+        cursor: 'pointer',
+        justifyContent: 'space-around'
       },
       menu: {
         display: 'flex',
@@ -166,12 +176,12 @@ export default class NavMenu extends Component {
         visibility: (ttvis) ? 'visible' : 'hidden'
       }
     };
+    const findOne = (haystack, arr) => arr.some( (vol) => haystack.indexOf(vol) >= 0);
     return (
       <div className={`${styles.leftNav} ${user || styles.navinVis} ${internalMinimal && styles.minimal}`} style={style.menuWrapper}> {user &&
         <div style={style.fixedLeft}>
           <div style={style.body}>
-            <div style={style.logo}><img src={settings.logoUrl} style={style.imageStyle}/></div>
-            {items && items.map((menu, index) => ((menu.onlyIfHasRole && ((user.globalPermissions && !user.globalPermissions[menu.onlyIfHasRole]) || !user.globalPermissions)) ? <div key={index}></div> : <div
+            {items && items.map((menu, index) => ((menu.onlyIfHasRole && (user.globalPermissions && user.globalPermissions.length && !findOne(menu.onlyIfHasRole, user.globalPermissions)) || !user.globalPermissions) ? <div key={index}></div> : <div
               key={index}
               onMouseEnter={this.showTooltip.bind(this, menu)}
               onMouseLeave={this.hideTooltip.bind(this, null)}
@@ -182,6 +192,7 @@ export default class NavMenu extends Component {
               {internalMinimal || <div style={style.menuText}>{menu && menu.text}</div>}
             </div>))}
           </div>
+          <div style={style.support} onTouchTap={() => this.props.pushState(null, '/exercise-support')}><img src={logoEmbed} style={{maxWidth: '80%', maxHeight: '80%', display: 'block', marginTop: 5}}/></div>
         </div>
     }
     <div className={styles.tooltip} style={style.tooltip}>{ttext}</div>

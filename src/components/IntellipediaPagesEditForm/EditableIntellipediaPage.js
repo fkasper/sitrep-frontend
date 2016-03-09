@@ -7,7 +7,7 @@ import { Editor } from 'components';
 // import TextField from 'material-ui/lib/text-field';
 import Save from 'material-ui/lib/svg-icons/content/save';
 
-import RaisedButton from 'material-ui/lib/raised-button';
+import RaisedButton from 'material-ui/lib/flat-button';
 
 @connect(
   state => ({

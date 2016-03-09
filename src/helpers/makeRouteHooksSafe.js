@@ -1,5 +1,7 @@
 import { createRoutes } from 'react-router/lib/RouteUtils';
 
+import ApiClient from 'helpers/ApiClient';
+
 // Wrap the hooks so they don't fire if they're called before
 // the store is initialised. This only happens when doing the first
 // client render of a route that has an onEnter hook
@@ -12,6 +14,7 @@ function makeHooksSafe(routes, store) {
 
   if (onEnter) {
     routes.onEnter = function safeOnEnter(...args) {
+      console.log(new ApiClient().get('/me'));
       try {
         store.getState();
       } catch (err) {
