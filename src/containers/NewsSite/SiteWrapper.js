@@ -5,9 +5,10 @@ import connectData from 'helpers/connectData';
 import {changeMenuMode} from 'redux/modules/menu';
 import { updateSettings } from 'redux/modules/permissions';
 import { loadSearch } from 'redux/modules/search';
-// import {Link} from 'react-router';
+import {Link} from 'react-router';
 import {UploadBlob} from 'components';
 import moment from 'moment';
+import Draggable from 'react-draggable'; // Both at the same time
 
 function fetchDataDeferred(getState, dispatch) {
   getState();
@@ -55,6 +56,15 @@ export default class SiteWrapper extends Component {
     const key = 'newsSite' + siteId + 'logoUrl';
     this.props.updateSettings(key, location.value.logo);
   }
+  onStop(evt, evt2) {
+    const { params: { siteId } } = this.props;
+    const key = 'newsSite' + siteId + 'logoPosX';
+    this.props.updateSettings(key, evt2.layerX.toString());
+  }
+
+  onStart() {
+    console.log('onStart');
+  }
 
   settingsKey(item) {
     const { params: { siteId } } = this.props;
@@ -80,9 +90,9 @@ export default class SiteWrapper extends Component {
   }
   generateUUID() {
     let da = new Date().getTime();
-    if (window.performance && typeof window.performance.now === 'function') {
-      da += performance.now(); // use high-precision timer if available
-    }
+    // if (window && window.performance && typeof window.performance.now === 'function') {
+    //   da += performance.now(); // use high-precision timer if available
+    // }
     const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (cs) => {
       const ar = (da + Math.random() * 16) % 16 | 0;
       da = Math.floor(da / 16);
@@ -130,6 +140,7 @@ export default class SiteWrapper extends Component {
     const { menuMobaOpen, searching } = this.state;
     const css = require('./Style.scss');
     const styles = require('./Style.js');
+    const drags = {onStart: this.onStart, onStop: this.onStop.bind(this, null)};
     const menuItems = [
       {title: 'Home', link: ''},
       {title: 'Archive', link: 'archive'},
@@ -146,7 +157,7 @@ export default class SiteWrapper extends Component {
             {(user && user.globalPermissions.admin) && <a href="#" onTouchTap={this.changeLink.bind(this, 'settings')} style={styles.socialLink}><i className="material-icons">settings_applications</i></a>}
           </div>
 
-          {this.setting('pageSearchEnabled', 'n') === 'y' &&
+          {this.setting('pageSearchEnabled', 'false') === 'true' &&
             <div style={{position: 'relative'}}>
               <input type="text" placeholder="Search here..." style={styles.search} onChange={this.search.bind(this, null)} className={css.searchBar} />
               {searching && <div>
@@ -162,14 +173,18 @@ export default class SiteWrapper extends Component {
 
         <div style={styles.flexLayoutWrapper} className={css.changeWidthMobile}>
 
-          <div style={styles.logo}>
-            {(user && user.globalPermissions.admin) ? <UploadBlob
-              accept=".jpg,.png,.jpeg,.gif"
-              dimensionsW={183}
-              dimensionsH={30}
-              events={{onChange: this.onLogoChange.bind(this, null), value: { logo: settings['newsSite' + siteId + 'logoUrl'] }}}
-              fileKey="logo" /> : <img src={`${settings['newsSite' + siteId + 'logoUrl']}`} alt="logo"/>}
-          </div>
+            <div style={{...styles.logo, minWidth: 183, minHeight: 30}}>
+              {(user && user.globalPermissions.admin) ? <Draggable bounds="parent" axis="x" {...drags}>
+              <div>
+              <UploadBlob
+                accept=".jpg,.png,.jpeg,.gif"
+                dimensionsW={'183px'}
+                dimensionsH={'30px'}
+                events={{onChange: this.onLogoChange.bind(this, null), value: { logo: settings['newsSite' + siteId + 'logoUrl'] }}}
+                fileKey="logo" />
+                </div>
+              </Draggable> : <img src={`${settings['newsSite' + siteId + 'logoUrl']}`} alt="logo"/>}
+            </div>
           <div style={styles.menuBar}>
             <ul style={{...styles.menu}}>
               <li
@@ -179,10 +194,10 @@ export default class SiteWrapper extends Component {
                 <i style={{color: this.setting('menuBarTextColor', 'rgba(255, 255, 255, 0.6)')}} className="material-icons" >menu</i>
               </li>
               {menuItems && menuItems.map((item) => <li style={{...styles.menuItem, backgroundColor: this.setting('menuBarColor', '#555') }} className={`${css.hoverLinkMenu} ${(menuMobaOpen) && css.open}`} key={item.title}>
-                <a onTouchTap={this.changeLink.bind(this, item.link)} href="#" style={{...styles.menuLink, color: this.setting('menuBarTextColor', 'rgba(255, 255, 255, 0.6)')}}>{item.title}</a>
+                <Link to={`/news-site/${siteId}/${item.link}`} style={{...styles.menuLink, color: this.setting('menuBarTextColor', 'rgba(255, 255, 255, 0.6)')}}>{item.title}</Link>
               </li>)}
               {user && user.globalPermissions.admin && <li style={{...styles.menuItem, ...styles.adminMenuItem}} className={css.hoverLinkMenu}>
-                <a onTouchTap={() => this.props.pushState(null, `/news-site/${this.generateUUID()}/`)} href="#" style={styles.menuLink}>Generate New Site</a>
+                <Link to={`/news-site/${this.generateUUID()}/`} style={{...styles.menuLink}}>Generate News Site</Link>
               </li>}
 
             </ul>

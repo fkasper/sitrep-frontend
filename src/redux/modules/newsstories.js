@@ -1,9 +1,14 @@
 const LOAD = 'sitrep-auth/newsstories/LOAD';
 const LOAD_SUCCESS = 'sitrep-auth/newsstories/LOAD_SUCCESS';
 const LOAD_FAIL = 'sitrep-auth/newsstories/LOAD_FAIL';
+
 const LOAD_SINGLE = 'sitrep-auth/newsstories/LOAD_SINGLE';
 const LOAD_SINGLE_SUCCESS = 'sitrep-auth/newsstories/LOAD_SINGLE_SUCCESS';
 const LOAD_SINGLE_FAIL = 'sitrep-auth/newsstories/LOAD_SINGLE_FAIL';
+const LOAD_TRENDS = 'sitrep-auth/newsstories/LOAD_TRENDS';
+const LOAD_TRENDS_SUCCESS = 'sitrep-auth/newsstories/LOAD_TRENDS_SUCCESS';
+const LOAD_TRENDS_FAIL = 'sitrep-auth/newsstories/LOAD_TRENDS_FAIL';
+
 const EDIT_START = 'sitrep-auth/newsstories/EDIT_START';
 const EDIT_STOP = 'sitrep-auth/newsstories/EDIT_STOP';
 const SAVE = 'sitrep-auth/newsstories/SAVE';
@@ -24,6 +29,27 @@ const initialState = {
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
+    case LOAD_TRENDS:
+      return {
+        ...state,
+        trendsLoaded: true
+      };
+    case LOAD_TRENDS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        trendsLoaded: true,
+        trends: action.result.hits.hits,
+        error: null
+      };
+    case LOAD_TRENDS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        trendsLoaded: false,
+        single: null,
+        error: action.error
+      };
     case LOAD_SINGLE:
       return {
         ...state,
@@ -86,8 +112,7 @@ export default function reducer(state = initialState, action = {}) {
       return state; // 'saving' flag handled by redux-form
     case TRENDING_SUCCESS:
       return {
-        ...state,
-        data: action.result,
+        ...state
       };
     case TRENDING_FAIL:
       return state;
@@ -153,6 +178,26 @@ export function loadSingle(chId, id) {
   };
 }
 
+export function loadTrending(chId) {
+  return {
+    types: [LOAD_TRENDS, LOAD_TRENDS_SUCCESS, LOAD_TRENDS_FAIL],
+    promise: (client) => client.post(`/exercise-data/trends/_search/?scroll=10m`, {
+      data: {
+        query: {
+          match: {
+            channel: chId
+          }
+        },
+        sort: [
+          {
+            priority: 'desc'
+          }
+        ]
+      }
+    })
+  };
+}
+
 export function save(chId, id, bio) {
   if (!id) {
     return {
@@ -171,15 +216,44 @@ export function save(chId, id, bio) {
   };
 }
 
-export function switchTrending(chId, newStory, oldStory) {
+export function updateTrendingStory(id, updateValues) {
   return {
     types: [TRENDING, TRENDING_SUCCESS, TRENDING_FAIL],
-    promise: (client) => client.put(`/apis/authentication/news-sites/${chId}/trending/${newStory.id}/${oldStory.id}`, {
+    promise: (client) => client.post(`/exercise-data/trends/${id}/_update`, {
       data: {
-        oldS: oldStory,
-        newS: newStory
+        doc: updateValues,
+        doc_as_upsert: true
       }
     })
+  };
+}
+
+export function switchTrending(chId, newStory, oldStory) {
+  let priority = 0;
+  if (!oldStory) {
+    priority = 1;
+  } else {
+    priority = oldStory._source.priority + 1;
+  }
+  return {
+    types: [TRENDING, TRENDING_SUCCESS, TRENDING_FAIL],
+    promise: (client) => {
+      const promises = [];
+      promises.push(client.post(`/exercise-data/trends/${newStory._id ? newStory._id : newStory.id}/_update`, {
+        data: {
+          doc: {
+            priority: priority,
+            hidden: false,
+            title: newStory._source ? newStory._source.title : newStory.title,
+            channel: chId,
+            timestamp: (newStory._source ? newStory._source.timestamp : newStory.scheduledPostDate * 1000)
+            // previewImage: newStory.preview
+          },
+          doc_as_upsert: true
+        }
+      }));
+      return Promise.all(promises);
+    }
   };
 }
 

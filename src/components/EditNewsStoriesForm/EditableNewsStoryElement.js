@@ -42,6 +42,7 @@ export default class EditableNewsStoryElement extends Component {
     handleSubmit: PropTypes.func.isRequired,
     invalid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
+    updateTrendingStory: PropTypes.func.isRequired,
     save: PropTypes.func.isRequired,
     user: PropTypes.object,
     submitting: PropTypes.bool.isRequired,

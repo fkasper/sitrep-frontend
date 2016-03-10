@@ -101,7 +101,7 @@ export default class EditableIntellipediaPage extends Component {
         }
       </div>);
     }
-
+    console.log(fields[sKey]);
     if (fields[sKey]) {
       if (type === 'text') {
         if (!admin) return (<div>{fields[sKey].value}</div>);
