@@ -77,7 +77,7 @@ export function isLoaded(globalState) {
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/users/list') // params not used, just shown as demonstration
+    promise: (client) => client.get('/apis/authentication/users/list') // params not used, just shown as demonstration
   };
 }
 
@@ -85,7 +85,7 @@ export function save(id, user) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     id: id,
-    promise: (client) => client.put(`/users/${id}`, {
+    promise: (client) => client.put(`/apis/authentication/users/${id}`, {
       data: user
     })
   };

@@ -134,14 +134,14 @@ export function isLoaded(globalState) {
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get(`/publicly-available-information`) // params not used, just shown as demonstration
+    promise: (client) => client.get(`/apis/authentication/publicly-available-information`) // params not used, just shown as demonstration
   };
 }
 
 export function loadSingle(id) {
   return {
     types: [LOAD_SINGLE, LOAD_SINGLE_SUCCESS, LOAD_SINGLE_FAIL],
-    promise: (client) => client.get(`/publicly-available-information/${id}`)
+    promise: (client) => client.get(`/apis/authentication/publicly-available-information/${id}`)
   };
 }
 
@@ -149,7 +149,7 @@ export function create(page) {
   return {
     types: [CREATE, CREATE_SUCCESS, CREATE_FAIL],
     raw: page,
-    promise: (client) => client.post(`/publicly-available-information`, {
+    promise: (client) => client.post(`/apis/authentication/publicly-available-information`, {
       data: page
     })
   };
@@ -158,7 +158,7 @@ export function save(id, page) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     id: id,
-    promise: (client) => client.put(`/publicly-available-information/${id}`, {
+    promise: (client) => client.put(`/apis/authentication/publicly-available-information/${id}`, {
       data: page
     })
   };

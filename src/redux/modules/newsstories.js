@@ -142,14 +142,14 @@ export function isSingleLoaded(globalState) {
 export function load(chId) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get(`/news-sites/${chId}`)
+    promise: (client) => client.get(`/apis/authentication/news-sites/${chId}`)
   };
 }
 
 export function loadSingle(chId, id) {
   return {
     types: [LOAD_SINGLE, LOAD_SINGLE_SUCCESS, LOAD_SINGLE_FAIL],
-    promise: (client) => client.get(`/news-sites/${chId}/stories/${id}`)
+    promise: (client) => client.get(`/apis/authentication/news-sites/${chId}/stories/${id}`)
   };
 }
 
@@ -157,7 +157,7 @@ export function save(chId, id, bio) {
   if (!id) {
     return {
       types: [CREATE, CREATE_SUCCESS, CREATE_FAIL],
-      promise: (client) => client.post(`/news-sites/${chId}`, {
+      promise: (client) => client.post(`/apis/authentication/news-sites/${chId}`, {
         data: bio
       })
     };
@@ -165,7 +165,7 @@ export function save(chId, id, bio) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     id: id,
-    promise: (client) => client.put(`/news-sites/${chId}/stories/${id}`, {
+    promise: (client) => client.put(`/apis/authentication/news-sites/${chId}/stories/${id}`, {
       data: bio
     })
   };
@@ -174,7 +174,7 @@ export function save(chId, id, bio) {
 export function switchTrending(chId, newStory, oldStory) {
   return {
     types: [TRENDING, TRENDING_SUCCESS, TRENDING_FAIL],
-    promise: (client) => client.put(`/news-sites/${chId}/trending/${newStory.id}/${oldStory.id}`, {
+    promise: (client) => client.put(`/apis/authentication/news-sites/${chId}/trending/${newStory.id}/${oldStory.id}`, {
       data: {
         oldS: oldStory,
         newS: newStory

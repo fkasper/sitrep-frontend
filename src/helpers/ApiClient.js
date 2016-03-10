@@ -8,9 +8,9 @@ function formatUrl(path) {
   const adjustedPath = path[0] !== '/' ? '/' + path : path;
   if (__DEVELOPMENT__) {
     // return `http://${config.apiHost}:${7101}/apis/authentication${adjustedPath}`;
-    return `http://130.211.5.144/apis/authentication${adjustedPath}`;
+    return `http://demo-apis.sitrep-vatcinc.com${adjustedPath}`;
   }
-  return `${config.apiBaseUrl}/apis/authentication${adjustedPath}`;
+  return `${config.apiBaseUrl}${adjustedPath}`;
 }
 
 /*

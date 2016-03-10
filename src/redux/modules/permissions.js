@@ -60,14 +60,14 @@ export function isLoaded(globalState) {
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/settings')
+    promise: (client) => client.get('/apis/authentication/settings')
   };
 }
 
 export function updateSettings(key, value) {
   return {
     types: [UPDATE, UPDATE_SUCCESS, UPDATE_FAIL],
-    promise: (client) => client.post('/settings', {
+    promise: (client) => client.post('/apis/authentication/settings', {
       data: {
         key: key,
         value: value

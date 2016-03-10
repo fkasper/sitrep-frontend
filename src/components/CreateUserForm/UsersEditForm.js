@@ -9,6 +9,7 @@ import Save from 'material-ui/lib/svg-icons/content/save';
 // import Add from 'material-ui/lib/svg-icons/content/add';
 import PermissionCheckbox from './PermissionCheckbox';
 import RaisedButton from 'material-ui/lib/raised-button';
+import { notify } from 'redux/modules/notifications';
 
 @connect(
   state => ({
@@ -16,7 +17,7 @@ import RaisedButton from 'material-ui/lib/raised-button';
     saving: state.users.saving,
     settings: state.permissions.data
   }),
-  dispatch => bindActionCreators(usersActions, dispatch),
+  dispatch => bindActionCreators({...usersActions, notify}, dispatch)
 )
 @reduxForm({
   form: 'user',
@@ -35,6 +36,7 @@ export default class UsersEditForm extends Component {
     fields: PropTypes.object.isRequired,
     editStop: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     invalid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
     save: PropTypes.func.isRequired,
@@ -82,6 +84,7 @@ export default class UsersEditForm extends Component {
                               if (result && typeof result.error === 'object') {
                                 return Promise.reject(result.error);
                               }
+                              this.props.notify('Saved!', true, false);
                             })
                           )}
               disabled={pristine || invalid || submitting}

@@ -116,7 +116,7 @@ export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      return client.get(`/exercises`); // .then((action) => setExercise(action.result[0]));
+      return client.get(`/apis/authentication/exercises`); // .then((action) => setExercise(action.result[0]));
     }
 
   };
@@ -125,7 +125,7 @@ export function load() {
 export function loadSingle(id) {
   return {
     types: [LOAD_SINGLE, LOAD_SINGLE_SUCCESS, LOAD_SINGLE_FAIL],
-    promise: (client) => client.get(`/groups/${id}`)
+    promise: (client) => client.get(`/apis/authentication/groups/${id}`)
   };
 }
 
@@ -133,7 +133,7 @@ export function saveItems(exId, ex) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     id: exId,
-    promise: (client) => client.put(`/groups/${exId}`, {
+    promise: (client) => client.put(`/apis/authentication/groups/${exId}`, {
       data: ex
     })
   };

@@ -100,14 +100,14 @@ export function isLoaded(globalState) {
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/me')
+    promise: (client) => client.get('/apis/authentication/me')
   };
 }
 
 export function login(name, password) {
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-    promise: (client) => client.post('/login', {
+    promise: (client) => client.post('/apis/authentication/login', {
       data: {
         username: name,
         password: password,
@@ -134,7 +134,7 @@ export function createUser(user) {
   return {
     types: [CREATE, CREATE_SUCCESS, CREATE_FAIL],
     id: user.email,
-    promise: (client) => client.post('/users', {
+    promise: (client) => client.post('/apis/authentication/users', {
       data: user
     })
   };

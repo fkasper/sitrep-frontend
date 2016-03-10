@@ -75,7 +75,7 @@ export function uploadFile(files) {
   console.log(file);
   return {
     types: [UPLOAD, UPLOAD_DONE, UPLOAD_FAIL],
-    promise: (client) => client.post('/uploads', {
+    promise: (client) => client.post('/apis/authentication/uploads', {
       file: file
     })
   };
@@ -84,6 +84,6 @@ export function uploadFile(files) {
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get(`/uploads`)
+    promise: (client) => client.get(`/apis/authentication/uploads`)
   };
 }

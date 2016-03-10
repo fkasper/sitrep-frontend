@@ -39,7 +39,7 @@ export function save(id, bio) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     id: id,
-    promise: (client) => client.post(`/contact`, {
+    promise: (client) => client.post(`/apis/authentication/contact`, {
       data: bio
     })
   };

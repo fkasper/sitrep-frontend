@@ -145,14 +145,6 @@ export default class EditableIntellipediaPage extends Component {
                     label="Save"
                     labelPosition="after"
                     secondary
-                    style={{
-                      position: 'fixed',
-                      bottom: 60,
-                      right: 20,
-                      zIndex: 921,
-                      color: '#fff',
-                      verticalAlign: 'middle'
-                    }}
                     icon={<Save />}
                     onTouchTap={handleSubmit(() => save(formKey, values)
                                   .then(result => {

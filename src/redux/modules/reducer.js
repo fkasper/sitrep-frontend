@@ -19,9 +19,13 @@ import uploads from './uploads';
 import newsstories from './newsstories';
 import contact from './contact';
 import pai from './pai';
+import analytics from './analytics';
+import search from './search';
 
 export default combineReducers({
   router: routerStateReducer,
+  analytics,
+  search,
   auth,
   permissions,
   intellipedia,

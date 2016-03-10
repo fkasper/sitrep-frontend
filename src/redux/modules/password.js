@@ -39,6 +39,6 @@ export function isLoaded(globalState) {
 export function change(email) {
   return {
     types: [CHANGE, CHANGE_SUCCESS, CHANGE_FAIL],
-    promise: (client) => client.get(`/reset-password/${email}`)
+    promise: (client) => client.get(`/apis/authentication/reset-password/${email}`)
   };
 }

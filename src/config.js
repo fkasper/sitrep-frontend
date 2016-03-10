@@ -16,7 +16,7 @@ module.exports = Object.assign({
   apiPort: process.env.API_PORT || 80,
   apiProtocol: process.env.API_PROTO || 'http',
   apiBaseUrl: process.env.APIBASE || 'http://demo-apis.sitrep-vatcinc.com',
-  apiPrefix: '/apis/authentication',
+  apiPrefix: '',
   app: {
     title: 'SITREP',
     description: 'Training powered by VATC.',

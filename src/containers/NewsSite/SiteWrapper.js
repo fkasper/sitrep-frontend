@@ -4,6 +4,7 @@ import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import {changeMenuMode} from 'redux/modules/menu';
 import { updateSettings } from 'redux/modules/permissions';
+import { loadSearch } from 'redux/modules/search';
 // import {Link} from 'react-router';
 import {UploadBlob} from 'components';
 import moment from 'moment';
@@ -19,8 +20,10 @@ function fetchDataDeferred(getState, dispatch) {
     biography: state.biographies.single,
     settings: state.permissions.data,
     params: state.router.params,
+    search: state.search.data,
+    loading: state.search.loading
   }),
-  {updateSettings, pushState}
+  {updateSettings, pushState, loadSearch}
 )
 export default class SiteWrapper extends Component {
   static propTypes = {
@@ -28,14 +31,23 @@ export default class SiteWrapper extends Component {
     biography: PropTypes.object,
     pushState: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
+    loadSearch: PropTypes.func.isRequired,
     settings: PropTypes.object,
+    search: PropTypes.object,
+    loading: PropTypes.bool,
     children: PropTypes.node.isRequired,
     params: PropTypes.object
   }
 
   constructor(params) {
     super(params);
-    this.state = {menuMobaOpen: false};
+    this.state = {menuMobaOpen: false, searching: false};
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.search && nextProps.search) {
+      console.log(nextProps.search);
+    }
   }
 
   onLogoChange(none, location) {
@@ -63,6 +75,7 @@ export default class SiteWrapper extends Component {
     const { params: { siteId } } = this.props;
     this.props.pushState(null, `/news-site/${siteId}/${target}`);
     event.preventDefault();
+    this.setState({searching: false});
     return false;
   }
   generateUUID() {
@@ -77,9 +90,44 @@ export default class SiteWrapper extends Component {
     });
     return uuid;
   }
+  search(__, evnt) {
+    const { params: { siteId } } = this.props;
+    const val = evnt.target.value;
+
+    if (this._search) {
+      clearTimeout(this._search);
+    }
+    this._search = setTimeout(() => {
+      this.props.loadSearch(siteId, {
+        query: {
+          bool: {
+            must: [
+              {
+                match: {
+                  'info.queryType': 'newsStory'
+                }
+              },
+              {
+                multi_match: {
+                  query: val,
+                  fields: ['meta.title']
+                }
+              }
+            ]
+          }
+        }
+      });
+    }, 200);
+    this.setState({searching: true});
+  }
+
+  closeSearch() {
+    this.setState({searching: false});
+  }
+
   render() {
-    const { settings, user, params: { siteId } } = this.props;
-    const { menuMobaOpen } = this.state;
+    const { settings, user, params: { siteId }, loading, search } = this.props;
+    const { menuMobaOpen, searching } = this.state;
     const css = require('./Style.scss');
     const styles = require('./Style.js');
     const menuItems = [
@@ -98,7 +146,16 @@ export default class SiteWrapper extends Component {
             {(user && user.globalPermissions.admin) && <a href="#" onTouchTap={this.changeLink.bind(this, 'settings')} style={styles.socialLink}><i className="material-icons">settings_applications</i></a>}
           </div>
 
-          {this.setting('pageSearchEnabled', 'n') === 'y' && <div><input type="text" placeholder="Search here..." style={styles.search} className={css.searchBar} /></div>}
+          {this.setting('pageSearchEnabled', 'n') === 'y' &&
+            <div style={{position: 'relative'}}>
+              <input type="text" placeholder="Search here..." style={styles.search} onChange={this.search.bind(this, null)} className={css.searchBar} />
+              {searching && <div>
+                {loading && <div>loading</div>}
+                { !loading && <div style={{background: '#fff', border: '1px solid #ccc', height: 200, width: '100%', overflowY: 'auto'}}> {(search && search[siteId] && search[siteId].length ? <div style={{fontSize: 10, padding: 10, fontWeight: '500'}}>
+                {search[siteId].map((result, index) => <div onTouchTap={this.changeLink.bind(this, result._id)} key={index} style={{borderBottom: '1px solid #ccc', cursor: 'pointer'}}>{result._source.meta.title}</div>)}
+                </div> : <div>no results</div>)} </div>}
+              </div>}
+            </div>}
         </div>
       </div>
       <div style={{...styles.flexWrapper}}>
