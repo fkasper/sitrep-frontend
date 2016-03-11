@@ -9,9 +9,7 @@ export Survey from './Survey/Survey';
 export NotFound from './NotFound/NotFound';
 export SignUp from './SignUp/SignUp';
 export ChangePassword from './ChangePassword/Change';
-export Intellipedia from './Intellipedia/Intellipedia';
-export IntellipediaShow from './Intellipedia/Show';
-export IntellipediaNew from './Intellipedia/New';
+
 export CmsUsersIndex from './Cms/Users/Index';
 export CmsExerciseParameters from './Cms/Exercise/Parameters';
 export CmsExerciseUsers from './Cms/Exercise/Users';
@@ -32,3 +30,8 @@ export NewsSiteAbout from './NewsSite/SiteAbout';
 export ExerciseSupportText from './Cms/Exercise/Support';
 
 export IndexDashboard from './Cms/Dashboard/IndexDashboard';
+
+export IntellipediaWrapper from './Intellipedia/Wrapper';
+export Intellipedia from './Intellipedia/Intellipedia';
+export IntellipediaShow from './Intellipedia/Show';
+export IntellipediaNew from './Intellipedia/New';

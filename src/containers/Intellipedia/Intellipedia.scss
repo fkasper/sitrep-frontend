@@ -32,6 +32,8 @@
 
 .town {
   min-width: 12.5%;
+  text-decoration: none;
+  color: inherit;
   @media(max-width: 768px) {
     &:first-child {
       // margin-left: 117px
@@ -66,5 +68,6 @@
   text-align: center;
   font-size: 11px;
   font-weight: 600;
+  margin-top: 5px;
   transition: font-weight .5s cubic-bezier(0.49, -0.01, 0.42, 0.81), font-size .5s cubic-bezier(0.49, -0.01, 0.42, 0.81);
 }

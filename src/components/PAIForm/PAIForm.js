@@ -47,6 +47,19 @@ export default class PAIForm extends Component {
     settings: PropTypes.object
   };
 
+  generateUUID() {
+    let da = new Date().getTime();
+    // if (window && window.performance && typeof window.performance.now === 'function') {
+    //   da += performance.now(); // use high-precision timer if available
+    // }
+    const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (cs) => {
+      const ar = (da + Math.random() * 16) % 16 | 0;
+      da = Math.floor(da / 16);
+      return (cs === 'x' ? ar : (ar & 0x3 | 0x8)).toString(16);
+    });
+    return uuid;
+  }
+
   render() {
     const { isOpen, label, create, submitting, pristine, handleSubmit, invalid, values, fields: { image, title, target, backTitle } } = this.props;
     const actions = [
@@ -72,7 +85,9 @@ export default class PAIForm extends Component {
       disabled={pristine || invalid || submitting} />
     ];
     const csStyles = require('containers/Login/Login.scss');
-
+    if (label === 'News Sites') {
+      target.value = `/news-site/${this.generateUUID()}/`;
+    }
     // const { , values, key, handleSubmit, invalid, fields: {fields}, formKey, saveError: { [formKey]: saveError } } = this.props;
     return (<Dialog
       title={`Add site to category ${label}`}
