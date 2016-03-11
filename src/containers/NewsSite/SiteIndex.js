@@ -265,7 +265,7 @@ export default class SiteIndex extends Component {
     // const { settings, biography, user, user: {globalPermissions: { admin } } } = this.props;
     return (<div>
       <Helmet title={this.setting('pageTitle', 'News Site')} />
-      {this.setting('newsStyle', 'new') === 'new' ? this.newLayout() : this.alternativeLayout() }
+      {this.setting('newsStyle', 'false') === 'false' ? this.newLayout() : this.alternativeLayout() }
     </div>);
     // const { stories, params: { siteId }, trends } = this.props;
     // const { dragging } = this.state;

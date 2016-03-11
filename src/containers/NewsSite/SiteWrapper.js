@@ -59,10 +59,11 @@ export default class SiteWrapper extends Component {
   onStop(evt, evt2) {
     const { params: { siteId } } = this.props;
     const key = 'newsSite' + siteId + 'logoPosX';
-    this.props.updateSettings(key, evt2.layerX.toString());
+    this.props.updateSettings(key, (evt2.offsetX - 100).toString());
   }
 
   onStart() {
+    this.setState({dragSet: true});
     console.log('onStart');
   }
 
@@ -137,10 +138,10 @@ export default class SiteWrapper extends Component {
 
   render() {
     const { settings, user, params: { siteId }, loading, search } = this.props;
-    const { menuMobaOpen, searching } = this.state;
+    const { menuMobaOpen, searching, dragSet } = this.state;
     const css = require('./Style.scss');
     const styles = require('./Style.js');
-    const drags = {onStart: this.onStart, onStop: this.onStop.bind(this, null)};
+    const drags = {onStart: this.onStart.bind(this, null), onStop: this.onStop.bind(this, null)};
     const menuItems = [
       {title: 'Home', link: ''},
       {title: 'Archive', link: 'archive'},
@@ -163,7 +164,9 @@ export default class SiteWrapper extends Component {
               {searching && <div>
                 {loading && <div>loading</div>}
                 { !loading && <div style={{background: '#fff', border: '1px solid #ccc', height: 200, width: '100%', overflowY: 'auto'}}> {(search && search[siteId] && search[siteId].length ? <div style={{fontSize: 10, padding: 10, fontWeight: '500'}}>
-                {search[siteId].map((result, index) => <div onTouchTap={this.changeLink.bind(this, result._id)} key={index} style={{borderBottom: '1px solid #ccc', cursor: 'pointer'}}>{result._source.meta.title}</div>)}
+                {search[siteId].map((result, index) =>
+                <Link to={`/news-site/${siteId}/${result._id}/`} key={index} style={{borderBottom: '1px solid #ccc', cursor: 'pointer', display: 'block', margin: 5, padding: 5, textDecoration: 'none'}}>{result._source.meta.title}
+                </Link>)}
                 </div> : <div>no results</div>)} </div>}
               </div>}
             </div>}
@@ -172,18 +175,21 @@ export default class SiteWrapper extends Component {
       <div style={{...styles.flexWrapper}}>
 
         <div style={styles.flexLayoutWrapper} className={css.changeWidthMobile}>
-
-            <div style={{...styles.logo, minWidth: 183, minHeight: 30}}>
-              {(user && user.globalPermissions.admin) ? <Draggable bounds="parent" axis="x" {...drags}>
-              <div>
-              <UploadBlob
-                accept=".jpg,.png,.jpeg,.gif"
-                dimensionsW={'183px'}
-                dimensionsH={'30px'}
-                events={{onChange: this.onLogoChange.bind(this, null), value: { logo: settings['newsSite' + siteId + 'logoUrl'] }}}
-                fileKey="logo" />
-                </div>
-              </Draggable> : <img src={`${settings['newsSite' + siteId + 'logoUrl']}`} alt="logo"/>}
+            <div style={{...styles.logo, minWidth: 183, minHeight: 30, position: 'relative'}}>
+              {(user && user.globalPermissions.admin) ?
+                <Draggable axis="x" {...drags}>
+                <div style={{position: 'absolute', left: dragSet || this.setting('logoPosX', 0)}}>
+                <UploadBlob
+                  accept=".jpg,.png,.jpeg,.gif"
+                  dimensionsW={'183px'}
+                  dimensionsH={'30px'}
+                  events={{onChange: this.onLogoChange.bind(this, null), value: { logo: settings['newsSite' + siteId + 'logoUrl'] }}}
+                  fileKey="logo" />
+                  </div>
+                  </Draggable>
+               : <div style={{position: 'absolute', left: this.setting('logoPosX', 0)}}>
+                  <img src={`${settings['newsSite' + siteId + 'logoUrl']}`} alt="logo"/>
+                </div>}
             </div>
           <div style={styles.menuBar}>
             <ul style={{...styles.menu}}>
