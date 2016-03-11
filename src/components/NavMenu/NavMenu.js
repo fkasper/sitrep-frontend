@@ -16,8 +16,7 @@ import { notify } from 'redux/modules/notifications';
   state => ({
     menu: state.menu,
     user: state.auth.user,
-    settings: state.permissions.data,
-    minimal: state.menu.minimal
+    settings: state.permissions.data
   }), {
     ...menuActions,
     pushState,
@@ -27,37 +26,39 @@ export default class NavMenu extends Component {
   static propTypes = {
     menu: PropTypes.object,
     pushState: PropTypes.func.isRequired,
-    open: PropTypes.bool,
     user: PropTypes.object,
     logoutHandler: PropTypes.func,
     settings: PropTypes.object,
-    minimal: PropTypes.bool,
     notify: PropTypes.func.isRequired
   }
 
   componentWillMount() {
-    this.setState({open: false, docked: false, height: 400, ttvis: false});
+    this.setState({ttvis: false});
   }
+
   componentDidMount() {
     if (window) {
-      window.addEventListener('resize', this.getHeight.bind(this, null));
+      if (this._timedEvent) {
+        clearTimeout(this._timedEvent);
+      }
+      this._timedEvent = setTimeout(() => {
+        window.addEventListener('resize', this.getHeight.bind(this, null));
+      }, 100);
       this.getHeight();
     }
   }
+
   componentWillUnmount() {
-    if (window) window.removeEventListener('resize', this.getHeight.bind(this, null));
+    if (window) {
+      if (this._timedEvent) {
+        clearTimeout(this._timedEvent);
+      }
+      window.removeEventListener('resize', this.getHeight.bind(this, null));
+    }
   }
 
   getHeight() {
-    if (window) this.setState({height: window.innerHeight, width: window.innerWidth});
-  }
-
-  showPrevMenu = () => {
-    this.showMoreMenu(this.props.menu.last);
-  }
-
-  openMenu(target, evnt) {
-    this.setState({open: true, anchorEl: evnt.currentTarget});
+    if (window) this.setState({height: window.innerHeight});
   }
 
   action(menu, evnt) {
@@ -70,13 +71,10 @@ export default class NavMenu extends Component {
       } else {
         this.props.pushState(null, menu.target);
       }
-    } else if (menu.hoverMenu) {
-      this.openMenu(menu.hoverMenu, evnt);
     }
   }
 
   showTooltip(tip, evt) {
-    if (!this.props.minimal) return;
     const target = evt.target;
     const rect = target.getBoundingClientRect();
     const calculated = rect.top + (rect.height / 2) - 16;
@@ -89,9 +87,8 @@ export default class NavMenu extends Component {
 
   render() {
     // const { activateMenu, minimal, settings, user, menu: { active, last, items } } = this.props;
-    const { minimal, user, menu: { items, disabled } } = this.props;
-    const { height, width, ttvis, rect, ttext } = this.state;
-    const internalMinimal = minimal || (width <= 768);
+    const { user, menu: { items, disabled } } = this.props;
+    const { height, ttvis, rect, ttext } = this.state;
     const styles = require('./NavMenu.scss');
     const logoEmbed = require('./logo.png');
     const style = {
@@ -137,7 +134,7 @@ export default class NavMenu extends Component {
         display: 'flex',
         flexWrap: 'wrap',
         cursor: 'pointer',
-        justifyContent: (internalMinimal) ? 'space-around' : 'flex-start',
+        justifyContent: 'space-around'
         // borderBottom: (minimal) ? '0' : '1px solid #dedede'
       },
       icon: {
@@ -176,9 +173,10 @@ export default class NavMenu extends Component {
         visibility: (ttvis) ? 'visible' : 'hidden'
       }
     };
+    console.log(user);
     const findOne = (haystack, arr) => arr.some( (vol) => haystack.indexOf(vol) >= 0);
     return (
-      <div className={`${styles.leftNav} ${user || styles.navinVis} ${internalMinimal && styles.minimal}`} style={style.menuWrapper}> {user &&
+      <div className={`${styles.leftNav} ${styles.minimal}`} style={style.menuWrapper}> {user &&
         <div style={style.fixedLeft}>
           <div style={style.body}>
             {items && items.map((menu, index) => ((menu.onlyIfHasRole && (user.globalPermissions && user.globalPermissions.length && !findOne(menu.onlyIfHasRole, user.globalPermissions)) || !user.globalPermissions) ? <div key={index}></div> : <div
@@ -187,9 +185,7 @@ export default class NavMenu extends Component {
               onMouseLeave={this.hideTooltip.bind(this, null)}
               onTouchTap={this.action.bind(this, menu)}
               style={style.menu} className={styles.menu}>
-              <div
-              className="material-icons" style={style.icon}>{menu && menu.icon}</div>
-              {internalMinimal || <div style={style.menuText}>{menu && menu.text}</div>}
+              <div className="material-icons" style={style.icon}>{menu && menu.icon}</div>
             </div>))}
           </div>
           <div style={style.support} onTouchTap={() => this.props.pushState(null, '/exercise-support')}><img src={logoEmbed} style={{maxWidth: '80%', maxHeight: '80%', display: 'block', marginTop: 5}}/></div>
