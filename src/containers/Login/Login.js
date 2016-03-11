@@ -70,8 +70,8 @@ export default class Login extends Component {
             <img src="https://storage.googleapis.com/sitrep-static-assets/assets/components/sitrep-logo-dark.png" style={{width: '100%'}} />
           </div>
           <div style={{textAlign: 'center'}}>
-            <h2 style={{fontSize: 18, fontWeight: 400, marginBottom: 20}}>
-            Please login
+            <h2 style={{fontSize: 14, fontWeight: 500, marginBottom: 20}}>
+            Site is secured using <i className="material-icons" style={{verticalAlign: 'sub'}}>https</i> https
             </h2>
           </div>
           <div className={styles.card} style={{position: 'relative', opacity: (loading ? 0.3 : 1)}}>

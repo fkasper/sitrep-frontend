@@ -40,7 +40,7 @@ export default class IndexDashboard extends Component {
       <div className={css.flexBox}>
         <div style={{minWidth: '50%'}}>
         <div className={css.header}>
-          <h1>Contact</h1>
+          <h1>Contact for technical support</h1>
         </div>
           <ContactForm formKey={'contact'} sKey={''} initialValues={{}} />
         </div>

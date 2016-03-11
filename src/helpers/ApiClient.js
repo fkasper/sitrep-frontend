@@ -6,10 +6,6 @@ const methods = ['get', 'post', 'put', 'patch', 'del'];
 
 function formatUrl(path) {
   const adjustedPath = path[0] !== '/' ? '/' + path : path;
-  if (__DEVELOPMENT__) {
-    // return `http://${config.apiHost}:${7101}/apis/authentication${adjustedPath}`;
-    return `http://demo-apis.sitrep-vatcinc.com${adjustedPath}`;
-  }
   return `${config.apiBaseUrl}${adjustedPath}`;
 }
 

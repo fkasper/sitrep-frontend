@@ -69,18 +69,6 @@ export default class Intellipedia extends Component {
     this.props.loadArticle(articleId);
   }
 
-  longTouchStart(articleId) {
-    if (this.props.user && this.props.user.globalPermissions.admin) {
-      this.touchTimer = setTimeout(() => {
-        this.props.updateSettings('intellipediaDefaultPageId', articleId);
-      }, 1000);
-    }
-  }
-
-  longTouchEnd() {
-    clearTimeout(this.touchTimer);
-  }
-
   render() {
     // const { article, user: {globalPermissions: { admin } } } = this.props;
     const { article, settings } = this.props;

@@ -12,10 +12,10 @@ const environment = {
 module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
   port: process.env.PORT,
-  apiHost: process.env.APIHOST || 'demo-apis.sitrep-vatcinc.com',
-  apiPort: process.env.API_PORT || 80,
-  apiProtocol: process.env.API_PROTO || 'http',
-  apiBaseUrl: process.env.APIBASE || 'http://demo-apis.sitrep-vatcinc.com',
+  apiHost: process.env.APIHOST || 'graph.sitrep-vatcinc.com',
+  apiPort: process.env.API_PORT || 443,
+  apiProtocol: process.env.API_PROTO || 'https',
+  apiBaseUrl: process.env.APIBASE || 'https://graph.sitrep-vatcinc.com',
   apiPrefix: '',
   app: {
     title: 'SITREP',
