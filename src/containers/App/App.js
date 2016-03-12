@@ -59,12 +59,13 @@ const muiTheme = getMuiTheme({
 @themeDecorator(muiTheme)
 @connectData(fetchData)
 @connect(
-  state => ({user: state.auth.user, disabled: state.menu.disabled}),
+  state => ({jwt: state.auth.data ,user: state.auth.user, disabled: state.menu.disabled}),
   {logout, pushState, notify})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
+    jwt: PropTypes.object,
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
@@ -78,7 +79,7 @@ export default class App extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
-      this.setStore(nextProps.user);
+      this.setStore(nextProps.jwt);
       this.props.notify('You have successfully signed in!', true, false);
       this.props.pushState(null, '/');
     } else if (this.props.user && !nextProps.user) {
