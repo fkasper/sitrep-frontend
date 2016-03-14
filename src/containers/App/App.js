@@ -59,7 +59,7 @@ const muiTheme = getMuiTheme({
 @themeDecorator(muiTheme)
 @connectData(fetchData)
 @connect(
-  state => ({jwt: state.auth.data ,user: state.auth.user, disabled: state.menu.disabled}),
+  state => ({jwt: state.auth.data, user: state.auth.user, disabled: state.menu.disabled}),
   {logout, pushState, notify})
 export default class App extends Component {
   static propTypes = {
@@ -90,7 +90,10 @@ export default class App extends Component {
 
   setStore(nextUser) {
     if (nextUser.access_token) {
-      Cookie.set('sid', nextUser.access_token);
+      if (typeof(Storage) !== 'undefined') {
+        localStorage.setItem('sitrep_ex_id', nextUser.access_token);
+      }
+      Cookie.set('sid', nextUser.access_token, { secure: true });
     }
   }
 

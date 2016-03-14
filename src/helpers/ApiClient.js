@@ -26,8 +26,10 @@ class _ApiClient {
         }
         if (typeof document !== 'undefined') {
           const cookie = Cookie.get('sid');
+          console.log(cookie);
 
           if (cookie) {
+            console.log(cookie);
             request.set('Authorization', `Bearer ${cookie}`);
           }
           const ckie = Cookie.get('ex_id');
