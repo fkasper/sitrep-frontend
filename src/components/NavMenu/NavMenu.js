@@ -173,7 +173,6 @@ export default class NavMenu extends Component {
         visibility: (ttvis) ? 'visible' : 'hidden'
       }
     };
-    console.log(user);
     const findOne = (haystack, arr) => arr.some( (vol) => haystack.indexOf(vol) >= 0);
     return (
       <div className={`${styles.leftNav} ${styles.minimal}`} style={style.menuWrapper}> {user &&

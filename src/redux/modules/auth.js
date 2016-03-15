@@ -12,7 +12,9 @@ const LOGOUT_FAIL = 'sitrep-auth/auth/LOGOUT_FAIL';
 const CREATE = 'sitrep-auth/auth/CREATE';
 const CREATE_SUCCESS = 'sitrep-auth/auth/CREATE_SUCCESS';
 const CREATE_FAIL = 'sitrep-auth/auth/CREATE_FAIL';
-
+const UPDATE = 'sitrep-auth/auth/UPDATE';
+const UPDATE_SUCCESS = 'sitrep-auth/auth/UPDATE_SUCCESS';
+const UPDATE_FAIL = 'sitrep-auth/auth/UPDATE_FAIL';
 
 const initialState = {
   loaded: false
@@ -89,6 +91,20 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         saveError: action.error
       };
+    case UPDATE:
+      return state; // 'saving' flag handled by redux-form
+    case UPDATE_SUCCESS:
+      return {
+        ...state,
+        user: action.result,
+        editing: false,
+        saveError: null
+      };
+    case UPDATE_FAIL:
+      return {
+        ...state,
+        saveError: action.error
+      };
     default:
       return state;
   }
@@ -136,6 +152,15 @@ export function createUser(user) {
     types: [CREATE, CREATE_SUCCESS, CREATE_FAIL],
     id: user.email,
     promise: (client) => client.post('/apis/authentication/users', {
+      data: user
+    })
+  };
+}
+
+export function update(user) {
+  return {
+    types: [UPDATE, UPDATE_SUCCESS, UPDATE_FAIL],
+    promise: (client) => client.put('/apis/authentication/me', {
       data: user
     })
   };

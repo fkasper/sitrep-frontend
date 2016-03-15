@@ -93,7 +93,11 @@ export default class App extends Component {
       if (typeof(Storage) !== 'undefined') {
         localStorage.setItem('sitrep_ex_id', nextUser.access_token);
       }
-      Cookie.set('sid', nextUser.access_token, { secure: true });
+      if (__DEVELOPMENT__) {
+        Cookie.set('sid', nextUser.access_token);
+      } else {
+        Cookie.set('sid', nextUser.access_token, { secure: true });
+      }
     }
   }
 
@@ -108,13 +112,13 @@ export default class App extends Component {
 
   render() {
     const styles = require('./App.scss');
-    const bgCenter = require('containers/Biographies/bg_center.png');
+    // const bgCenter = require('containers/Biographies/bg_center.png');, backgroundImage: `url(${bgCenter})`
     const {disabled} = this.props;
     return (
       <div className={styles.app}>
         <Helmet {...config.app.head}/>
         <NavMenu open logoutHandler={this.handleLogout}/>
-        <div className={styles.appContent} style={{marginLeft: (disabled ? 0 : 55), backgroundImage: `url(${bgCenter})`}}>
+        <div className={styles.appContent} style={{marginLeft: (disabled ? 0 : 55)}}>
           {this.props.children}
           <NotificationCenter />
         </div>

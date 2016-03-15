@@ -23,3 +23,8 @@ export ContactForm from './ContactForm/ContactForm';
 export EditableIntellipediaPage from './IntellipediaPagesEditForm/EditableIntellipediaPage';
 export PAIForm from './PAIForm/PAIForm';
 export UsersEditForm from './CreateUserForm/UsersEditForm';
+
+export TwitterNavBar from './Twitter/TwitterNavBar';
+export TwitterTrending from './Twitter/TwitterTrending';
+export TwitterFollow from './Twitter/TwitterFollow';
+export UserHandleEditorForm from './Twitter/UserHandleEditorForm';

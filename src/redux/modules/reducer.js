@@ -21,7 +21,7 @@ import contact from './contact';
 import pai from './pai';
 import analytics from './analytics';
 import search from './search';
-
+import tweets from './tweets';
 export default combineReducers({
   router: routerStateReducer,
   analytics,
@@ -42,7 +42,8 @@ export default combineReducers({
   notifications,
   uploads,
   contact,
-  pai
+  pai,
+  tweets
   // specifics: multireducer({
   //   biographies
   // })

@@ -28,10 +28,15 @@ export NewsSiteContact from './NewsSite/SiteContact';
 export NewsSiteAbout from './NewsSite/SiteAbout';
 
 export ExerciseSupportText from './Cms/Exercise/Support';
-
 export IndexDashboard from './Cms/Dashboard/IndexDashboard';
 
 export IntellipediaWrapper from './Intellipedia/Wrapper';
 export Intellipedia from './Intellipedia/Intellipedia';
 export IntellipediaShow from './Intellipedia/Show';
 export IntellipediaNew from './Intellipedia/New';
+
+export TwitterWrapper from './Twitter/Wrapper';
+export TwitterIndex from './Twitter/Index';
+export TwitterShowUserDetails from './Twitter/Show';
+export TwitterShowCategoryDetails from './Twitter/Show';
+export TwitterNewHandle from './Twitter/New';

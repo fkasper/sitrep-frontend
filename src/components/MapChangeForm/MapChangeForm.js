@@ -38,6 +38,11 @@ export default class MapChangeForm extends Component {
     // const { onChange, open } = this.props;
     const styles = require('containers/Login/Login.scss');
     const actions = [
+      // https://vatc.maps.arcgis.com/apps/webappviewer/index.html?id=6baf8f96bb71483095cc3d810c8fc293
+      <FlatButton
+        label="Atropian Basemap"
+        secondary
+        onTouchTap={() => mapLocation.onChange({value: 'https://vatc.maps.arcgis.com/apps/webappviewer/index.html?id=6baf8f96bb71483095cc3d810c8fc293'})} />,
       <FlatButton
         label="Cancel"
         secondary

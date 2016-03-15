@@ -25,16 +25,19 @@ class _ApiClient {
           request.query(params);
         }
         if (typeof document !== 'undefined') {
-          const cookie = Cookie.get('sid');
-          console.log(cookie);
+          if (typeof(Storage) !== 'undefined') {
+            const auth = localStorage.getItem('sitrep_ex_id');
+            request.set('Authorization', `Bearer ${auth}`);
+          } else {
+            const cookie = Cookie.get('sid');
 
-          if (cookie) {
-            console.log(cookie);
-            request.set('Authorization', `Bearer ${cookie}`);
-          }
-          const ckie = Cookie.get('ex_id');
-          if (ckie) {
-            request.set('X-EXERCISE-ID', `${ckie}`);
+            if (cookie) {
+              request.set('Authorization', `Bearer ${cookie}`);
+            }
+            const ckie = Cookie.get('ex_id');
+            if (ckie) {
+              request.set('X-EXERCISE-ID', `${ckie}`);
+            }
           }
         }
 

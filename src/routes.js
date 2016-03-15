@@ -29,7 +29,12 @@ import {
     IntellipediaShow,
     IndexDashboard,
     IntellipediaNew,
-    ExerciseSupportText
+    ExerciseSupportText,
+    TwitterWrapper,
+    TwitterIndex,
+    TwitterNewHandle,
+    TwitterShowCategoryDetails,
+    TwitterShowUserDetails
   } from 'containers';
 
 export default (store) => {
@@ -85,6 +90,13 @@ export default (store) => {
           <Route path=":storyId" component={IntellipediaShow} />
           <Route path="new" component={IntellipediaNew} />
           <IndexRoute component={Intellipedia}/>
+        </Route>
+
+        <Route path="twitter" component={TwitterWrapper}>
+          <Route path="user/:userId" component={TwitterShowUserDetails} />
+          <Route path="category/:userId" component={TwitterShowCategoryDetails} />
+          <Route path="create-handle" component={TwitterNewHandle} />
+          <IndexRoute component={TwitterIndex}/>
         </Route>
 
         <Route path="/news-site/:siteId/" component={NewsSiteWrapper}>
