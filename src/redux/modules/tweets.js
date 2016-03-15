@@ -1,3 +1,4 @@
+import {generateUUID} from 'utils/uuidutil';
 const LOAD = 'sitrep-auth/tweets/LOAD';
 const LOAD_SUCCESS = 'sitrep-auth/tweets/LOAD_SUCCESS';
 const LOAD_FAIL = 'sitrep-auth/tweets/LOAD_FAIL';
@@ -97,11 +98,8 @@ export default function reducer(state = initialState, action = {}) {
     case SAVE:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
-      const data = [...state.data];
-      data[action.result.Subject] = action.result;
       return {
         ...state,
-        data: data,
         editing: {
           ...state.editing,
           [action.id]: false
@@ -143,6 +141,51 @@ export function load(start, size) {
         size: size || 50,
         'sort': { 'id': { 'order': 'desc' }}
       }
+    }) // params not used, just shown as demonstration
+  };
+}
+
+function defaultUserParameters(user) {
+  return {
+    id: user.email,
+    name: user.realName,
+    screen_name: user.twitterName,
+    lang: 'en',
+    profile_image_url_https: `https://placeholdit.imgix.net/~text?txtsize=19&txt=${user.realName}&w=200&h=200&bgcolor=transparent`
+  };
+}
+
+export function retweet(tweet, user) {
+  const newTweet = tweet;
+  const oldTweetId = tweet.id;
+  newTweet.user = defaultUserParameters(user);
+  newTweet.retweeted_status = tweet;
+  newTweet.id = generateUUID();
+  return {
+    types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
+    promise: (client) => {
+      const promises = [];
+      promises.push(client.post(`/exercise-data/tweet/${newTweet.id}`, {
+        data: newTweet
+      }));
+      promises.push(client.post(`/exercise-data/tweet/${oldTweetId}/_update`, {
+        data: {
+          script: 'ctx._source.retweet_count+=1'
+        }
+      }));
+      return Promise.all(promises);
+    } // params not used, just shown as demonstration
+  };
+}
+
+export function postTweet(tweet, user) {
+  const newTweet = tweet;
+  newTweet.user = defaultUserParameters(user);
+  newTweet.retweeted_status = tweet;
+  return {
+    types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
+    promise: (client) => client.post(`/exercise-data/tweet/${generateUUID()}`, {
+      data: newTweet
     }) // params not used, just shown as demonstration
   };
 }

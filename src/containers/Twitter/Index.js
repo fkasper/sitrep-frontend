@@ -5,6 +5,8 @@ import {isLoaded, load as loadTweets} from 'redux/modules/tweets';
 import Helmet from 'react-helmet';
 import {changeMenuMode} from 'redux/modules/menu';
 import { updateSettings } from 'redux/modules/permissions';
+import { notify } from 'redux/modules/notifications';
+
 import * as twitterActions from 'redux/modules/tweets';
 
 import { pushState } from 'redux-router';
@@ -28,7 +30,7 @@ function fetchDataDeferred(getState, dispatch) {
     trending: state.tweets.trending,
     settings: state.permissions.data
   }),
-  {...twitterActions, updateSettings, pushState}
+  {...twitterActions, updateSettings, notify, pushState}
 )
 export default class Index extends Component {
   static propTypes = {
@@ -37,6 +39,8 @@ export default class Index extends Component {
     trending: PropTypes.array,
     updateSettings: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    retweet: PropTypes.func.isRequired,
     settings: PropTypes.object,
     load: PropTypes.func.isRequired
   }
@@ -63,6 +67,11 @@ export default class Index extends Component {
     const topVisible = coords.top > 0 && coords.top < 0;
     const bottomVisible = coords.bottom < shift && coords.bottom > 0;
     return topVisible || bottomVisible;
+  }
+
+  retweet(tweet) {
+    const { user } = this.props;
+    this.props.retweet(tweet, user).then(this.props.notify('Retweet successful. It will take a while to show up!', true, false));
   }
 
   render() {
@@ -111,7 +120,7 @@ export default class Index extends Component {
                             </button>
                           </div>
                           <div className={`${css['ProfileTweet-action']} ${css['ProfileTweet-action--retweet']}`}>
-                            <button className={`${css['ProfileTweet-actionButton']} ${css['u-textUserColorHover']}`}>
+                            <button className={`${css['ProfileTweet-actionButton']} ${css['u-textUserColorHover']}`} onClick={this.retweet.bind(this, tweet)}>
                               <div className={css.IconContainer}>
                                 <span className={`${css.Icon} ${css['Icon--retweet']}`}></span>
                               </div>
